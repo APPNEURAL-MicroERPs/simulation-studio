@@ -1,0 +1,173 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "simulation-studio",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-15",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "routes": [
+    {
+      "pattern": "simulation.erp.appneural.com",
+      "custom_domain": true
+    }
+  ],
+
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.05 }
+  },
+
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+
+  "vars": {
+    "SIMULATION_ORG_ID": "appneural",
+    "SIMULATION_TENANT_ID": "TEN-SIM-001",
+    "SIMULATION_DEFAULT_SEED": "company-simulation-2026-v1",
+    "SIMULATION_DEFAULT_TIME": "2026-02-01T08:00:00.000+05:30"
+  },
+
+  "secrets": {
+    "required": ["STUDIO_ADMIN_TOKEN", "EVENT_SIGNING_SECRET", "SIMULATION_AUTH_SECRET"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "simulation-studio",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "services": [
+    {
+      "binding": "ORGANIZATION_SERVICE",
+      "service": "organization-microerp"
+    },
+    {
+      "binding": "ATTENDANCE_SERVICE",
+      "service": "attendance-microerp"
+    },
+    {
+      "binding": "RESOURCE_SERVICE",
+      "service": "resource-microerp"
+    },
+    {
+      "binding": "RECRUITMENT_SERVICE",
+      "service": "recruitment-microerp"
+    },
+    {
+      "binding": "CRM_SERVICE",
+      "service": "crm-microerp"
+    },
+    {
+      "binding": "HR_SERVICE",
+      "service": "hr-microerp"
+    },
+    {
+      "binding": "FINANCE_SERVICE",
+      "service": "finance-microerp"
+    },
+    {
+      "binding": "PROCUREMENT_SERVICE",
+      "service": "procurement-microerp"
+    },
+    {
+      "binding": "ADMINISTRATION_SERVICE",
+      "service": "administration-microerp"
+    },
+    {
+      "binding": "SECURITY_SERVICE",
+      "service": "security-microerp"
+    },
+    {
+      "binding": "ASSET_SERVICE",
+      "service": "asset-microerp"
+    },
+    {
+      "binding": "AUDIT_SERVICE",
+      "service": "audit-microerp"
+    },
+    {
+      "binding": "BILLING_SERVICE",
+      "service": "billing-microerp"
+    },
+    {
+      "binding": "COMPLIANCE_SERVICE",
+      "service": "compliance-microerp"
+    },
+    {
+      "binding": "CONTRACT_SERVICE",
+      "service": "contract-microerp"
+    },
+    {
+      "binding": "CUSTOMER_SERVICE",
+      "service": "customer-microerp"
+    },
+    {
+      "binding": "DEVOPS_SERVICE",
+      "service": "devops-microerp"
+    },
+    {
+      "binding": "EXPENSE_SERVICE",
+      "service": "expense-microerp"
+    },
+    {
+      "binding": "INVENTORY_SERVICE",
+      "service": "inventory-microerp"
+    },
+    {
+      "binding": "LEARNING_SERVICE",
+      "service": "learning-microerp"
+    },
+    {
+      "binding": "LEGAL_SERVICE",
+      "service": "legal-microerp"
+    },
+    {
+      "binding": "PAYROLL_SERVICE",
+      "service": "payroll-microerp"
+    },
+    {
+      "binding": "PERFORMANCE_SERVICE",
+      "service": "performance-microerp"
+    },
+    {
+      "binding": "PRESALES_SERVICE",
+      "service": "presales-microerp"
+    },
+    {
+      "binding": "PROJECT_SERVICE",
+      "service": "project-microerp"
+    },
+    {
+      "binding": "QA_SERVICE",
+      "service": "qa-microerp"
+    },
+    {
+      "binding": "SDLC_SERVICE",
+      "service": "sdlc-microerp"
+    },
+    {
+      "binding": "SUPPORT_SERVICE",
+      "service": "support-microerp"
+    },
+    {
+      "binding": "VENDOR_SERVICE",
+      "service": "vendor-microerp"
+    },
+    {
+      "binding": "RISK_SERVICE",
+      "service": "risk-microerp"
+    }
+  ]
+}

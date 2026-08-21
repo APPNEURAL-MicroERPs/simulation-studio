@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>Simulation Studio · APPNEURAL</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="studio-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#overview" aria-label="Simulation Studio home">
+          <span class="brand-mark">A</span>
+          <span><b>APPNEURAL</b><small>Simulation Studio</small></span>
+        </a>
+        <nav id="nav" aria-label="Studio navigation">
+          <a class="active" href="#overview" data-view="overview"><span>⌁</span>Overview</a>
+          <a href="#timeline" data-view="timeline"><span>◷</span>Timeline</a>
+          <a href="#actors" data-view="actors"><span>♙</span>Actors</a>
+          <a href="#scenarios" data-view="scenarios"><span>⌘</span>Scenarios</a>
+          <a href="#workflows" data-view="workflows"><span>⇶</span>Workflows</a>
+          <a href="#events" data-view="events"><span>↯</span>Events</a>
+          <a href="#company" data-view="company"><span>◫</span>Company state</a>
+          <a href="#failures" data-view="failures"><span>⚠</span>Failures</a>
+          <a href="#reconciliation" data-view="reconciliation"><span>◇</span>Reconciliation</a>
+          <a href="#replay" data-view="replay"><span>⟳</span>Replay</a>
+          <a href="#observability" data-view="observability"><span>◉</span>Observability</a>
+          <a href="#causal-graph" data-view="causal-graph"><span>⤟</span>Causal graph</a>
+          <a href="#explorer" data-view="explorer"><span>⊞</span>Story explorer</a>
+          <a href="#executive" data-view="executive"><span>★</span>Executive</a>
+          <a href="#year1" data-view="year1"><span>▶</span>Year 1</a>
+          <a href="#api-operations" data-view="api-operations"><span>⇄</span>API operations</a>
+          <a href="#quality" data-view="quality"><span>✓</span>Data quality</a>
+        </nav>
+        <div class="sidebar-foot">
+          <span class="pulse-dot"></span>
+          <div><b id="connectionLabel">Locked</b><small>Developer environment</small></div>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">COMPANY DIGITAL TWIN</div>
+            <h1 id="pageTitle">Simulation overview</h1>
+          </div>
+          <div class="top-actions">
+            <div class="clock-chip"><span>Company time</span><b id="companyClock">—</b></div>
+            <button class="icon-button" id="refreshButton" title="Refresh" aria-label="Refresh">↻</button>
+            <button class="avatar" id="lockButton" title="Lock Studio">AP</button>
+          </div>
+        </header>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <section id="content" class="content" aria-live="polite">
+          <div class="loading-card"><span class="loader"></span><p>Waiting for Studio access…</p></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="authDialog" class="auth-dialog">
+      <form id="authForm" method="dialog">
+        <span class="brand-mark large">A</span>
+        <div class="eyebrow">DEVELOPER-ONLY ENVIRONMENT</div>
+        <h2>Unlock Simulation Studio</h2>
+        <p>Enter the Cloudflare Worker admin token. It stays in this browser tab and is never persisted by the Studio.</p>
+        <label>Admin token<input id="tokenInput" type="password" autocomplete="off" required placeholder="••••••••••••••••" /></label>
+        <p id="authError" class="form-error"></p>
+        <button class="button primary wide" type="submit">Unlock Studio</button>
+      </form>
+    </dialog>
+
+    <dialog id="runDialog" class="panel-dialog">
+      <form id="runForm" method="dialog">
+        <div class="dialog-head"><div><div class="eyebrow">REPRODUCIBLE RUNTIME</div><h2>Start company simulation</h2></div><button class="icon-button close" value="cancel" formmethod="dialog">×</button></div>
+        <div class="form-grid">
+          <label class="span-2">Seed<input name="seed" value="company-simulation-2026-v1" maxlength="160" required /></label>
+          <label>Mode<select name="mode"><option value="accelerated">Accelerated</option><option value="fast">FAST</option><option value="live">Live</option><option value="replay">Replay</option><option value="scenario">Scenario</option></select></label>
+          <label>Speed<select name="speed"><option value="10">10×</option><option value="1">1×</option><option value="60">60×</option></select></label>
+          <label class="span-2">Company date & time<input name="companyTime" type="datetime-local" value="2026-02-01T08:00" required /></label>
+        </div>
+        <div class="callout warning"><b>Non-destructive reset</b><span>Starting a new run completes the current run but keeps its snapshots and audit history.</span></div>
+        <div class="dialog-actions"><button class="button secondary" value="cancel" formmethod="dialog">Cancel</button><button class="button primary" type="submit">Create runtime</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="eventDialog" class="panel-dialog event-dialog">
+      <div id="eventDialogContent"></div>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

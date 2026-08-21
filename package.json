@@ -1,0 +1,29 @@
+{
+  "name": "simulation-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Developer-only Synthetic Company Runtime for the APPNEURAL MicroERP suite.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/**/*.test.ts",
+    "cf-typegen": "wrangler types --include-runtime false",
+    "db:local": "wrangler d1 migrations apply simulation-studio --local",
+    "db:remote": "wrangler d1 migrations apply simulation-studio --remote"
+  },
+  "dependencies": {
+    "@appneural/erp-core": "link:../erp-core"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260815.1",
+    "@types/node": "^24.10.1",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.120.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
