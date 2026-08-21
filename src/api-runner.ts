@@ -70,7 +70,7 @@ function service(env: Env, module: ExecutableModule): Fetcher {
   return map[module];
 }
 
-function entityId(payload: unknown): string | null {
+export function entityId(payload: unknown): string | null {
   if (!payload || typeof payload !== "object") return null;
   const data = (payload as { data?: unknown }).data;
   if (!data || typeof data !== "object" || Array.isArray(data)) return null;
@@ -79,7 +79,7 @@ function entityId(payload: unknown): string | null {
 }
 
 /** Recursively replaces "$PREV.createdId" string values in an object with the actual ID. */
-function substitutePrevRefs(body: Record<string, unknown>, prevId: string): Record<string, unknown> {
+export function substitutePrevRefs(body: Record<string, unknown>, prevId: string): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(body)) {
     if (value === "$PREV.createdId") {

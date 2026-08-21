@@ -8,7 +8,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/**/*.test.ts",
+    "test": "tsx --test src/api-stories.test.ts src/api-runner.test.ts src/runtime.test.ts src/year2/probability.test.ts src/year2/business-rules.test.ts src/year2/generators.test.ts",
     "cf-typegen": "wrangler types --include-runtime false",
     "db:local": "wrangler d1 migrations apply simulation-studio --local",
     "db:remote": "wrangler d1 migrations apply simulation-studio --remote"
