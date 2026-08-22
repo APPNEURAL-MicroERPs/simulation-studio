@@ -5,7 +5,7 @@
  * audit evidence, risk register updates, and legal matters.
  */
 
-import type { ApiStory } from "../api-stories";
+import type { ApiStory } from "../../api-stories";
 import type { GeneratorContext } from "../types";
 import { step, generatedAssertions } from "../types";
 import { randomDateTimeInMonth } from "../probability";

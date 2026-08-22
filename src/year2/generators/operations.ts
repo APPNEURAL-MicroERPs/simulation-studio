@@ -5,7 +5,7 @@
  * asset management, administration, inventory, and support tickets.
  */
 
-import type { ApiStory } from "../api-stories";
+import type { ApiStory } from "../../api-stories";
 import type { GeneratorContext } from "../types";
 import { step, generatedAssertions } from "../types";
 import {

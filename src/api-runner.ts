@@ -237,9 +237,29 @@ export async function executeApiStory(env: Env, run: RunRow, storyId: string): P
       resolvedBody = substitutePrevRefs(resolvedBody, previousCreatedId);
     }
     const result = await callPortal(env, executionId, run, story, actor, token, sequence, { ...step, body: resolvedBody });
-    previousCreatedId = result.createdId;
-    passed = result.passed && passed;
-    if (result.passed && step.expectedStatus >= 200 && step.expectedStatus < 300 && step.method !== "GET") {
+
+    // Idempotency: if a step fails with 409/422 and the response indicates a
+    // DUPLICATE, treat it as passed — the entity already exists from a prior run
+    // with the same deterministic data.
+    let stepPassed = result.passed;
+    let isDuplicate = false;
+    if (!stepPassed && result.status && (result.status === 409 || result.status === 422)) {
+      try {
+        const respBody = typeof result.payload === "string"
+          ? JSON.parse(result.payload)
+          : result.payload as Record<string, unknown> | null;
+        const errCode = String(respBody?.error ?? "").toUpperCase();
+        const errMsg = String(respBody?.message ?? "").toUpperCase();
+        if (errCode.includes("DUPLICATE") || errMsg.includes("ALREADY EXISTS") || errMsg.includes("RECORD WITH THESE VALUES")) {
+          stepPassed = true;
+          isDuplicate = true;
+        }
+      } catch { /* not parseable — leave as failed */ }
+    }
+
+    previousCreatedId = isDuplicate ? null : result.createdId;
+    passed = stepPassed && passed;
+    if (stepPassed && !isDuplicate && step.expectedStatus >= 200 && step.expectedStatus < 300 && step.method !== "GET") {
       if (step.verifyListPath) {
         sequence += 1;
         passed = await verifyEntity(env, executionId, run, story, actor, token, result, step.verifyListPath, sequence) && passed;

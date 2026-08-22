@@ -5,7 +5,7 @@
  * expenses, and month-end close entries.
  */
 
-import type { ApiStory } from "../api-stories";
+import type { ApiStory } from "../../api-stories";
 import type { GeneratorContext } from "../types";
 import { step, generatedAssertions } from "../types";
 import { randomDateTimeInMonth, nextJournalCode, nextExpenseCode, nextInvoiceCode } from "../probability";

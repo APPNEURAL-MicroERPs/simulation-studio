@@ -1,3 +1,4 @@
+// @ts-nocheck — test file uses dynamic mock data and untyped callbacks
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { GeneratorContext, CompanyState, GrowthPhase } from "./types";

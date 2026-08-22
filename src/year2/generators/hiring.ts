@@ -5,7 +5,7 @@
  * offers, and new employee joins. Volume scales with company phase.
  */
 
-import type { ApiStory } from "../api-stories";
+import type { ApiStory } from "../../api-stories";
 import type { GeneratorContext } from "../types";
 import { step, generatedAssertions } from "../types";
 import {

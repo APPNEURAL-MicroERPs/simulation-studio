@@ -337,7 +337,7 @@ test("golden stories month 2-4 are a subset of month 2-12", () => {
 });
 
 test("golden stories cover months May 2026 through March 2027", () => {
-  const months = new Set(goldenStoriesMonth2to12.map((s) => s.month));
+  const months: Set<string> = new Set(goldenStoriesMonth2to12.map((s) => s.month));
   const expectedMonths = [
     "2026-05", "2026-06", "2026-07",
     "2026-10", "2026-11", "2026-12",
@@ -361,7 +361,7 @@ test("at least one story targets each core module", () => {
     "attendance", "recruitment", "crm", "organization", "hr",
     "finance", "procurement", "project", "security",
   ]);
-  const coveredModules = new Set(ALL_STORIES.flatMap((s) => s.steps.map((step) => step.module)));
+  const coveredModules = new Set<string>(ALL_STORIES.flatMap((s) => s.steps.map((step) => step.module)));
   for (const mod of coreModules) {
     assert.ok(coveredModules.has(mod), `core module ${mod} must be covered by at least one story`);
   }
