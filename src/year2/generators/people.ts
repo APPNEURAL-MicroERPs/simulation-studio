@@ -224,7 +224,7 @@ function generatePerformanceStories(ctx: GeneratorContext): ApiStory[] {
       step("performance", "POST", "/api/goals", 201, {
         title: `Q${quarterNum} ${rng.pick(["Deliver project milestones", "Improve code quality metrics", "Reduce incident response time", "Complete compliance training", "Achieve customer satisfaction target"])}`,
         description: `Performance goal for Q${quarterNum} aligned with department objectives.`,
-        goalType: rng.pick(["objective", "key_result", "kpi"]),
+        goalType: rng.pick(["company", "department", "team", "individual", "development"]),
         level: rng.pick(["individual", "team", "department"]),
         ownerCode: goalEmp.employeeCode,
         cycle: "$PREV.createdId",

@@ -52,7 +52,7 @@ function generateSecurityStories(ctx: GeneratorContext): ApiStory[] {
       ...(findings > 0 ? [{
         module: "security" as const,
         method: "POST" as const,
-        path: "/api/findings",
+        path: "/api/security-findings",
         expectedStatus: 201,
         body: {
           findingCode: `SF-Y2-${String(ctx.sequence).padStart(3, "0")}`,
@@ -68,7 +68,7 @@ function generateSecurityStories(ctx: GeneratorContext): ApiStory[] {
           detectedOn: randomDateTimeInMonth(rng, month, 5, 15).slice(0, 10),
           slaDays: 30,
         },
-        verifyListPath: "/api/findings?pageSize=200",
+        verifyListPath: "/api/security-findings?pageSize=200",
       }] : []),
     ],
     expectedState: [`Security review completed: ${review.name}`, ...(findings > 0 ? [`Security finding documented`] : [])],

@@ -287,8 +287,8 @@ test("finance generator produces invoice + payment stories", () => {
 
   for (const story of billingStories) {
     assert.equal(story.steps[0]!.path, "/api/invoices");
-    assert.equal(story.steps[1]!.path, "/api/payments");
-    assert.equal(story.steps[1]!.body?.invoiceRef, "$PREV.createdId", "payment must reference parent invoice");
+    assert.equal(story.steps[1]!.path, "/api/receipts");
+    assert.equal(story.steps[1]!.body?.customerId, "$PREV.createdId", "receipt must reference parent invoice via customerId");
   }
 });
 
@@ -390,7 +390,7 @@ test("governance generator produces security review + finding stories", () => {
     const stories = generateGovernanceStories(ctx);
     const secStories = stories.filter((s) => s.module === "security" && s.steps.some((step) => step.path === "/api/reviews"));
     for (const story of secStories) {
-      const findingStep = story.steps.find((s) => s.path === "/api/findings");
+      const findingStep = story.steps.find((s) => s.path === "/api/security-findings");
       if (findingStep) {
         assert.equal(findingStep.body?.reviewId, "$PREV.createdId", "finding must reference parent review");
         foundFindings = true;

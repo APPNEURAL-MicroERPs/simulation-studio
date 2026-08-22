@@ -62,7 +62,7 @@ function generateProcurementStories(ctx: GeneratorContext): ApiStory[] {
         }, "/api/requests?pageSize=200"),
         step("procurement", "POST", "/api/purchase-orders", 201, {
           poNumber: `PO-Y2-${String(ctx.sequence).padStart(3, "0")}`,
-          vendor: vendor ? vendor.displayName : "Default Vendor",
+          vendor: vendor ? (vendor.displayName || (vendor as any).name || "Default Vendor") : "Default Vendor",
           requestRef: "$PREV.createdId",
           category: cat.category,
           itemSummary: cat.title,

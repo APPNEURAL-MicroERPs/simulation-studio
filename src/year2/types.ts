@@ -115,7 +115,8 @@ export interface ProjectSummary {
 
 export interface VendorSummary {
   id: string;
-  displayName: string;
+  displayName?: string;
+  name?: string;
   code: string;
   status: string;
 }
