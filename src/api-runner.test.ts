@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { substitutePrevRefs, entityId } from "./api-runner";
+import { substitutePrevRefs, entityId, isDuplicateConflict } from "./api-runner";
 
 // ─── substitutePrevRefs ──────────────────────────────────────────────────────
 
@@ -110,6 +110,32 @@ test("entityId returns null when id is not a string", () => {
 test("entityId handles nested data object correctly", () => {
   const payload = { data: { id: "nested-entity", nested: { id: "should-not-extract" } } };
   assert.equal(entityId(payload), "nested-entity");
+});
+
+// ─── Idempotent Replay Detection ─────────────────────────────────────────────
+
+test("isDuplicateConflict recognizes nested duplicate error envelopes", () => {
+  assert.equal(isDuplicateConflict({
+    error: {
+      code: "DUPLICATE_EMPLOYEE",
+      message: "a employee with key 'EMP-Y2-009' already exists in this tenant",
+    },
+  }, 422), true);
+});
+
+test("isDuplicateConflict recognizes nested conflict messages", () => {
+  assert.equal(isDuplicateConflict({
+    error: { code: "conflict", message: "A record with these values already exists" },
+  }, 409), true);
+});
+
+test("isDuplicateConflict recognizes legacy flat error envelopes", () => {
+  assert.equal(isDuplicateConflict({ error: "DUPLICATE_PURCHASE_ORDER", message: "Already exists" }, 422), true);
+});
+
+test("isDuplicateConflict rejects validation errors and non-conflict statuses", () => {
+  assert.equal(isDuplicateConflict({ error: { code: "VALIDATION_ERROR", message: "A field is required" } }, 422), false);
+  assert.equal(isDuplicateConflict({ error: { code: "DUPLICATE_EMPLOYEE" } }, 500), false);
 });
 
 // ─── Execution Order Invariants ──────────────────────────────────────────────

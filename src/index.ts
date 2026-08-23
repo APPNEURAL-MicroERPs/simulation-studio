@@ -175,6 +175,24 @@ async function api(request: Request, env: Env, ctx: ExecutionContext): Promise<R
     const result = await retryYear2Quarter(env, run, "Q1", seed);
     return json({ data: { ...result, operations: await listApiOperations(env, run) } }, { status: 202 });
   }
+  if (url.pathname === "/api/api-stories/retry-year2-q2" && request.method === "POST") {
+    const run = await requireRun(env);
+    const seed = run.seed || "year2-default";
+    const result = await retryYear2Quarter(env, run, "Q2", seed);
+    return json({ data: { ...result, operations: await listApiOperations(env, run) } }, { status: 202 });
+  }
+  if (url.pathname === "/api/api-stories/retry-year2-q3" && request.method === "POST") {
+    const run = await requireRun(env);
+    const seed = run.seed || "year2-default";
+    const result = await retryYear2Quarter(env, run, "Q3", seed);
+    return json({ data: { ...result, operations: await listApiOperations(env, run) } }, { status: 202 });
+  }
+  if (url.pathname === "/api/api-stories/retry-year2-q4" && request.method === "POST") {
+    const run = await requireRun(env);
+    const seed = run.seed || "year2-default";
+    const result = await retryYear2Quarter(env, run, "Q4", seed);
+    return json({ data: { ...result, operations: await listApiOperations(env, run) } }, { status: 202 });
+  }
   if (url.pathname.startsWith("/api/api-operations/") && request.method === "GET") {
     return json({ data: await apiExecutionDetail(env, decodeURIComponent(url.pathname.slice("/api/api-operations/".length))) });
   }

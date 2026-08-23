@@ -14,6 +14,7 @@ export interface EmployeeRow {
 export interface OperationResult {
   id: string;
   passed: boolean;
+  duplicate: boolean;
   status: number;
   payload: unknown;
   createdId: string | null;
@@ -76,6 +77,28 @@ export function entityId(payload: unknown): string | null {
   if (!data || typeof data !== "object" || Array.isArray(data)) return null;
   const id = (data as { id?: unknown }).id;
   return typeof id === "string" && id ? id : null;
+}
+
+/** Returns true when an API response represents a safe idempotent replay. */
+export function isDuplicateConflict(payload: unknown, status: number): boolean {
+  if (status !== 409 && status !== 422) return false;
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return false;
+
+  const response = payload as Record<string, unknown>;
+  const nestedError = response.error && typeof response.error === "object" && !Array.isArray(response.error)
+    ? response.error as Record<string, unknown>
+    : undefined;
+  const evidence = [
+    typeof response.error === "string" ? response.error : undefined,
+    response.code,
+    response.message,
+    nestedError?.code,
+    nestedError?.message,
+  ].filter((value): value is string => typeof value === "string").join(" ").toUpperCase();
+
+  return evidence.includes("DUPLICATE")
+    || evidence.includes("ALREADY EXISTS")
+    || evidence.includes("RECORD WITH THESE VALUES");
 }
 
 /** Recursively replaces "$PREV.createdId" string values in an object with the actual ID. */
@@ -159,21 +182,34 @@ export async function callPortal(
       body: input.body ? JSON.stringify(input.body) : undefined,
     }));
     const payload = await responsePayload(response);
-    const passed = response.status === input.expectedStatus;
+    const duplicate = input.expectedStatus >= 200
+      && input.expectedStatus < 300
+      && isDuplicateConflict(payload, response.status);
+    const passed = response.status === input.expectedStatus || duplicate;
     await env.DB.prepare(`UPDATE api_operations SET actual_status = ?, response_json = ?, status = ?, duration_ms = ?, completed_at = ? WHERE id = ?`)
       .bind(response.status, JSON.stringify(payload), passed ? "passed" : "failed", Date.now() - began, nowIso(), operationId).run();
-    await addAssertion(env, executionId, operationId, "api_response", `${input.method} ${input.path} returns the contract status`, passed ? "passed" : "failed", { status: input.expectedStatus }, { status: response.status, payload });
+    await addAssertion(
+      env,
+      executionId,
+      operationId,
+      "api_response",
+      `${input.method} ${input.path} returns the contract status`,
+      passed ? "passed" : "failed",
+      { status: input.expectedStatus },
+      { status: response.status, payload, idempotentReplay: duplicate },
+      duplicate ? "The target already contains this deterministic entity; the replay is idempotently satisfied." : undefined,
+    );
     if (input.expectedStatus === 403) {
       await addAssertion(env, executionId, operationId, "permission", "Unauthorized actor is denied", passed ? "passed" : "failed", { status: 403 }, { status: response.status });
     }
     console.log(JSON.stringify({ message: "simulation API operation completed", runId: run.id, storyId: story.id, operationId, actorId: employee.employee_id, module: input.module, path: input.path, expectedStatus: input.expectedStatus, actualStatus: response.status, passed }));
-    return { id: operationId, passed, status: response.status, payload, createdId: entityId(payload) };
+    return { id: operationId, passed, duplicate, status: response.status, payload, createdId: entityId(payload) };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Portal API call failed";
     await env.DB.prepare(`UPDATE api_operations SET status = 'failed', duration_ms = ?, completed_at = ?, error = ? WHERE id = ?`)
       .bind(Date.now() - began, nowIso(), message.slice(0, 1_000), operationId).run();
     await addAssertion(env, executionId, operationId, "api_response", `${input.method} ${input.path} is reachable`, "failed", { status: input.expectedStatus }, { error: message });
-    return { id: operationId, passed: false, status: 0, payload: { error: message }, createdId: null };
+    return { id: operationId, passed: false, duplicate: false, status: 0, payload: { error: message }, createdId: null };
   }
 }
 
@@ -238,24 +274,8 @@ export async function executeApiStory(env: Env, run: RunRow, storyId: string): P
     }
     const result = await callPortal(env, executionId, run, story, actor, token, sequence, { ...step, body: resolvedBody });
 
-    // Idempotency: if a step fails with 409/422 and the response indicates a
-    // DUPLICATE, treat it as passed — the entity already exists from a prior run
-    // with the same deterministic data.
-    let stepPassed = result.passed;
-    let isDuplicate = false;
-    if (!stepPassed && result.status && (result.status === 409 || result.status === 422)) {
-      try {
-        const respBody = typeof result.payload === "string"
-          ? JSON.parse(result.payload)
-          : result.payload as Record<string, unknown> | null;
-        const errCode = String(respBody?.error ?? "").toUpperCase();
-        const errMsg = String(respBody?.message ?? "").toUpperCase();
-        if (errCode.includes("DUPLICATE") || errMsg.includes("ALREADY EXISTS") || errMsg.includes("RECORD WITH THESE VALUES")) {
-          stepPassed = true;
-          isDuplicate = true;
-        }
-      } catch { /* not parseable — leave as failed */ }
-    }
+    const stepPassed = result.passed;
+    const isDuplicate = result.duplicate;
 
     previousCreatedId = isDuplicate ? null : result.createdId;
     passed = stepPassed && passed;
