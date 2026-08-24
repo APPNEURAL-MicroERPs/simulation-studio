@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-046",
+    "month": "2027-04",
+    "companyTime": "2027-04-16T14:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Orbit Digital — Y2-OPP-106 (discovery).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Orbit Digital — Analytics Suite",
+          "code": "Y2-OPP-106",
+          "amount": 4300000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 30,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-04-26",
+          "businessNeed": "Orbit Digital needs scalable platform",
+          "nextAction": "Contract review",
+          "nextActionOn": "2027-04-24"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-106 created at discovery stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "lHyrjPtpeXZ83QFk8xjq4RPoEb3fYhjdsSr8mlKUqV8"
+}

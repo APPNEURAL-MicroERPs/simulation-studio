@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-053",
+      "month": "2027-04",
+      "companyTime": "2027-04-20T11:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "legal",
+      "preconditions": [
+        "Legal department operational"
+      ],
+      "intent": "Legal matter: Contract dispute resolution.",
+      "steps": [
+        {
+          "module": "legal",
+          "method": "POST",
+          "path": "/api/settlements",
+          "expectedStatus": 201,
+          "body": {
+            "matterRef": "MAT-Y2-066",
+            "amount": 181360,
+            "currency": "INR",
+            "nonMonetaryTerms": "Contract dispute resolution. Managed by legal team. Phase: DISCUSSION.",
+            "phase": "DISCUSSION",
+            "status": "PROPOSED"
+          },
+          "verifyListPath": "/api/settlements?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Legal matter documented: Contract dispute resolution"
+      ],
+      "crossEvents": [
+        "legal.matter-recorded"
+      ],
+      "notifications": [
+        "Legal team and management notified"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "FVkjjHhfctDd-EIIxValMIBLUy1GvMoCzMs7jROZCGU"
+  }
+}

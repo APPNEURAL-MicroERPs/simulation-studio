@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-058",
+    "month": "2027-04",
+    "companyTime": "2027-04-21T13:55:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Aditya Kapoor",
+      "Business Analyst requisition filled"
+    ],
+    "intent": "Register new employee Aditya Kapoor joining as Senior Analyst.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-008",
+          "fullName": "Aditya Kapoor",
+          "email": "aditya.kapoor@example.com",
+          "designation": "Senior Analyst",
+          "department": "Product",
+          "location": "Gurugram",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-04-21"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Aditya Kapoor registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "OXX6ZQyeqIazegMFEk4Dpf_ldasu0XsL0nZP46Rm0cY"
+}

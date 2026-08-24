@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-054",
+    "month": "2027-04",
+    "companyTime": "2027-04-20T13:05:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-103 exists"
+    ],
+    "intent": "Add candidate Harsh Shah for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Harsh Shah",
+          "email": "harsh.shah@example.com",
+          "phone": "+91-9678969226",
+          "locationName": "Chennai",
+          "currentTitle": "Trainee Engineer",
+          "totalExperienceMonths": 29,
+          "skills": "Rust, GCP, Python, Account Management, Cypress",
+          "source": "inbound",
+          "noticePeriodDays": 30,
+          "expectedCtc": 600000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Harsh Shah added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "7IUlfpU4Ur1wxRagX8Eme1GLOfCIur_628Qp080Hcs8"
+}

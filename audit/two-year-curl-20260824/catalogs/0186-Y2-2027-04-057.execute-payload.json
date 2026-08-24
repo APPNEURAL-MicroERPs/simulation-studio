@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-057",
+    "month": "2027-04",
+    "companyTime": "2027-04-21T12:45:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-104 exists"
+    ],
+    "intent": "Add candidate Yash Agarwal for Senior QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Yash Agarwal",
+          "email": "yash.agarwal@example.com",
+          "phone": "+91-9564029171",
+          "locationName": "Mumbai",
+          "currentTitle": "Principal Engineer",
+          "totalExperienceMonths": 69,
+          "skills": "AWS, Accounting, Cypress, GCP, Confluence",
+          "source": "inbound",
+          "noticePeriodDays": 30,
+          "expectedCtc": 2350000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior QA Engineer — Y2-REQ-104"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Yash Agarwal added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "5hYbsKTbjv1LnzhXPO78gxPaFa_3uq4hRt6F1FxcSik"
+}

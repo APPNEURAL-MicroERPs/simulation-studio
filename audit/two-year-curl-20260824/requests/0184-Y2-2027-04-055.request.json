@@ -1,0 +1,54 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-055",
+      "month": "2027-04",
+      "companyTime": "2027-04-20T15:40:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "customer",
+      "preconditions": [
+        "Deal won in CRM",
+        "Customer ready for onboarding"
+      ],
+      "intent": "New customer onboarded: Aurora Services.",
+      "steps": [
+        {
+          "module": "customer",
+          "method": "POST",
+          "path": "/api/customers",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Aurora Services",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "tier": "growth",
+            "description": "New customer acquired through inbound lead. Contract signed for ERP implementation."
+          },
+          "verifyListPath": "/api/customers?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Customer Aurora Services onboarded"
+      ],
+      "crossEvents": [
+        "customer.onboarded"
+      ],
+      "notifications": [
+        "Customer success manager assigned"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "RDkFU-9DMKltksfnZdKAKl-aSvMCC4uzvYBZUMoV10w"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-048",
+    "month": "2027-04",
+    "companyTime": "2027-04-17T14:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-103 exists"
+    ],
+    "intent": "Add candidate Nisha Sinha for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Nisha Sinha",
+          "email": "nisha.sinha@example.com",
+          "phone": "+91-9046155943",
+          "locationName": "Chennai",
+          "currentTitle": "Associate Engineer",
+          "totalExperienceMonths": 102,
+          "skills": "Power BI, Compliance, Confluence, Training, Node.js",
+          "source": "referral",
+          "noticePeriodDays": 30,
+          "expectedCtc": 750000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Nisha Sinha added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "-igUThuTapqpdTC4J2vg4vg5p6CD-8vGxEIOg0zcUIY"
+}

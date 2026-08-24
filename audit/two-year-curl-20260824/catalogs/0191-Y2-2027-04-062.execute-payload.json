@@ -1,0 +1,81 @@
+{
+  "story": {
+    "id": "Y2-2027-04-062",
+    "month": "2027-04",
+    "companyTime": "2027-04-22T17:45:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "attendance",
+    "preconditions": [
+      "3 employees active",
+      "Week 5 of 2027-04"
+    ],
+    "intent": "Record weekly attendance for 3 employees (Week 5).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/attendance",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1008",
+          "employeeEmail": "karan.malhotra@nexora.example",
+          "workDate": "2027-04-21",
+          "shift": "General",
+          "checkIn": "10:10",
+          "checkOut": "18:30",
+          "location": "Gurugram",
+          "status": "present"
+        },
+        "verifyListPath": "/api/attendance?pageSize=200"
+      },
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/attendance",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1007",
+          "employeeEmail": "vikram.shah@nexora.example",
+          "workDate": "2027-04-22",
+          "shift": "General",
+          "checkIn": "08:00",
+          "checkOut": "19:00",
+          "location": "Udaipur",
+          "status": "present"
+        },
+        "verifyListPath": "/api/attendance?pageSize=200"
+      },
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/attendance",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "workDate": "2027-04-22",
+          "shift": "General",
+          "checkIn": "09:20",
+          "checkOut": "19:15",
+          "location": "Udaipur",
+          "status": "present"
+        },
+        "verifyListPath": "/api/attendance?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "3 attendance records for week 5"
+    ],
+    "crossEvents": [
+      "attendance.recorded"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "n3mPsSnsjrhZ7y3eFyfJ6m69JHQq2_e2z8e4HTC1a4I"
+}

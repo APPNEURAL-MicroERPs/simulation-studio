@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-064",
+      "month": "2027-04",
+      "companyTime": "2027-04-24T16:50:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "risk",
+      "preconditions": [
+        "18 risks in register"
+      ],
+      "intent": "Risk registered: Project delivery delay risk.",
+      "steps": [
+        {
+          "module": "risk",
+          "method": "POST",
+          "path": "/api/risks",
+          "expectedStatus": 201,
+          "body": {
+            "riskRef": "RISK-Y2-065",
+            "title": "Project delivery delay risk",
+            "category": "delivery",
+            "description": "Project delivery delay risk. Identified during 2027-04 risk assessment. Likelihood: 3/5, Impact: 3/5. Treatment plan: avoid.",
+            "ownerEmail": "vikram.shah@nexora.example",
+            "likelihood": 3,
+            "impact": 3,
+            "treatment": "transfer",
+            "status": "assessed",
+            "reviewDue": "2027-04-28"
+          },
+          "verifyListPath": "/api/risks?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Risk registered: Project delivery delay risk"
+      ],
+      "crossEvents": [
+        "risk.registered"
+      ],
+      "notifications": [
+        "Risk owner notified for treatment plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "guCc75hA9cXFBThVj085G1RXu_vv_F54rVyEiH2PnEI"
+  }
+}

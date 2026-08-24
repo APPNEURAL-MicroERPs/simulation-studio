@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-056",
+      "month": "2027-04",
+      "companyTime": "2027-04-20T17:10:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-104 exists"
+      ],
+      "intent": "Add candidate Aarti Bose for Senior QA Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Aarti Bose",
+            "email": "aarti.bose@example.com",
+            "phone": "+91-9635480728",
+            "locationName": "Mumbai",
+            "currentTitle": "Manager",
+            "totalExperienceMonths": 48,
+            "skills": "Azure, Payroll, Accounting, Recruitment, Tableau",
+            "source": "campus",
+            "noticePeriodDays": 60,
+            "expectedCtc": 2900000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Senior QA Engineer — Y2-REQ-104"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Aarti Bose added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "1t5T4b2Ko53Yn3j1xOM6ScJGaxiAUp70zItkOleyL0U"
+  }
+}

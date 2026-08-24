@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-04-050",
+    "month": "2027-04",
+    "companyTime": "2027-04-19T11:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Atlas Dynamics (Logistics) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Atlas Dynamics",
+          "contactName": "Pradeep Pillai",
+          "title": "COO",
+          "email": "pradeep.pillai@example.com",
+          "phone": "+91-9676497029",
+          "source": "referral",
+          "country": "India",
+          "industry": "Logistics",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 4540000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Atlas Dynamics — Digital Transformation",
+          "code": "Y2-OPP-104",
+          "amount": 4540000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-04-27",
+          "businessNeed": "Atlas Dynamics needs data analytics",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-04-25"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Atlas Dynamics",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "22SUAkzbdXG1opG_mCOwWBPHCnh9NVUfb1SnnF2BhxQ"
+}
