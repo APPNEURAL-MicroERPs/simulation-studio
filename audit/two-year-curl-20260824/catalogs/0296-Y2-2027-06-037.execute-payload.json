@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-06-037",
+    "month": "2027-06",
+    "companyTime": "2027-06-14T11:00:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel applies for sick leave (13-14 2027-06).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1012",
+          "employeeCode": "EMP-1012",
+          "leaveTypeId": "sick",
+          "fromDate": "2027-06-13",
+          "toDate": "2027-06-14",
+          "duration": "full_day",
+          "reason": "Sick leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "sick leave approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "0eeIL3Yoo-EWQMYFNHp8O_7kbQ8nteGfOu_RaVkdX_A"
+}

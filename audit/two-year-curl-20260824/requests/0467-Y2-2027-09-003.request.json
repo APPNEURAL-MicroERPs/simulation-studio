@@ -1,0 +1,79 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-003",
+      "month": "2027-09",
+      "companyTime": "2027-09-01T13:15:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "performance",
+      "preconditions": [
+        "4 employees active",
+        "Q3 review due"
+      ],
+      "intent": "Q3 performance cycle opened with first goal.",
+      "steps": [
+        {
+          "module": "performance",
+          "method": "POST",
+          "path": "/api/cycles",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Q3 Review 2027",
+            "cycleType": "custom",
+            "startsOn": "2027-09-01",
+            "endsOn": "2027-09-28",
+            "ownerEmail": "priya.sharma@nexora.example",
+            "minimumServiceDays": 90
+          },
+          "verifyListPath": "/api/cycles?pageSize=200"
+        },
+        {
+          "module": "performance",
+          "method": "POST",
+          "path": "/api/goals",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Q3 Reduce incident response time",
+            "description": "Performance goal for Q3 aligned with department objectives.",
+            "goalType": "team",
+            "level": "team",
+            "ownerCode": "EMP-1007",
+            "cycle": "$PREV.createdId",
+            "weightPercent": 26,
+            "progressPercent": 0,
+            "startsOn": "2027-09-01",
+            "dueDate": "2027-09-28",
+            "status": "active"
+          },
+          "verifyListPath": "/api/goals?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Q3 performance cycle opened",
+        "Goal created for Vikram Shah"
+      ],
+      "crossEvents": [
+        "performance.cycle-opened",
+        "performance.goal-created"
+      ],
+      "notifications": [
+        "All managers notified to begin reviews",
+        "Vikram Shah notified of new goal"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Ne4iDiSw1bNdlJ4TEwRpeek1FEfCAT1GjEu9N97skyY"
+  }
+}

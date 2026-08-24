@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2027-07-038",
+    "month": "2027-07",
+    "companyTime": "2027-07-14T16:30:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: IT Equipment — Laptops → PO (150K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-703",
+          "title": "IT Equipment — Laptops",
+          "category": "IT Hardware",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Administration",
+          "estimatedCost": 150472,
+          "neededBy": "2027-08-15",
+          "justification": "Operational need: IT Equipment — Laptops. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-061",
+          "vendor": "OfficeMart India",
+          "requestRef": "$PREV.createdId",
+          "category": "IT Hardware",
+          "itemSummary": "IT Equipment — Laptops",
+          "amount": 150472,
+          "costCenter": "CC-FIN",
+          "orderDate": "2027-07-19",
+          "expectedDate": "2027-09-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-703 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "YBOrpqx3BydLXQ0iR39ChhRbjB-6u0Fr0dfexvsamHc"
+}

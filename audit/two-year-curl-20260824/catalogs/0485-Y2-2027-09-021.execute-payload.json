@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-021",
+    "month": "2027-09",
+    "companyTime": "2027-09-08T10:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Vortex Analytics — Y2-OPP-2108 (lost).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Vortex Analytics — Analytics Suite",
+          "code": "Y2-OPP-2108",
+          "amount": 2940000,
+          "currency": "INR",
+          "stage": "lost",
+          "probability": 0,
+          "forecastCategory": "omitted",
+          "expectedCloseOn": "2027-09-28",
+          "businessNeed": "Vortex Analytics needs process automation",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-09-13"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-2108 created at lost stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "YZxwrHD4v1NlKqPew0QnzjeizrASzAGWE_HYzWZjG0E"
+}

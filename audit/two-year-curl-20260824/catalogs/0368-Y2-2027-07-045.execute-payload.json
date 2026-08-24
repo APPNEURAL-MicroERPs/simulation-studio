@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-07-045",
+    "month": "2027-07",
+    "companyTime": "2027-07-16T12:20:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-702 exists"
+    ],
+    "intent": "Add candidate Nikhil Reddy for Financial Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Nikhil Reddy",
+          "email": "nikhil.reddy@example.com",
+          "phone": "+91-9847121886",
+          "locationName": "Pune",
+          "currentTitle": "Senior Engineer",
+          "totalExperienceMonths": 49,
+          "skills": "Power BI, Cypress, Terraform, Oracle, GCP, Jest",
+          "source": "referral",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1600000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Financial Analyst — Y2-REQ-702"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Nikhil Reddy added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Ypjg8dHPlmJ4Xx84FsmuyVpI7O2VWs5TWrvrc8ccG68"
+}

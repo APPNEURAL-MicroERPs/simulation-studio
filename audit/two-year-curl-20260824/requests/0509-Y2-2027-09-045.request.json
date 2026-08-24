@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-045",
+      "month": "2027-09",
+      "companyTime": "2027-09-15T15:10:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Business Analyst in Product and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Business Analyst — Noida",
+            "reason": "new",
+            "departmentName": "Product",
+            "locationName": "Noida",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "priya.sharma@nexora.example",
+            "recruiterEmail": "priya.sharma@nexora.example",
+            "targetStartOn": "2027-10-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Product.",
+            "budgetMin": 1000000,
+            "budgetMax": 1800000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Business Analyst — Noida",
+            "summary": "Join our Product team as a Business Analyst.",
+            "responsibilities": "Deliver high-quality work in Product; collaborate with cross-functional stakeholders.",
+            "requirements": "Requirements, User Stories, Data Analysis; 7+ years relevant experience.",
+            "skills": "Requirements, User Stories, Data Analysis",
+            "locationName": "Noida",
+            "workMode": "remote",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "campus"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-1104 created for Business Analyst",
+        "Job posted for Business Analyst"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Business Analyst role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "olUNH86S1mvnad4uOHJIRj2OQcZJMAMUfkvA3JNXoVY"
+  }
+}

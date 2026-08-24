@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2027-06-012",
+    "month": "2027-06",
+    "companyTime": "2027-06-05T10:25:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: Furniture — New Hires → PO (87K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-501",
+          "title": "Furniture — New Hires",
+          "category": "Furniture",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Administration",
+          "estimatedCost": 86745,
+          "neededBy": "2027-08-15",
+          "justification": "Operational need: Furniture — New Hires. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-052",
+          "vendor": "TechEquip India Pvt Ltd",
+          "requestRef": "$PREV.createdId",
+          "category": "Furniture",
+          "itemSummary": "Furniture — New Hires",
+          "amount": 86745,
+          "costCenter": "CC-ENG",
+          "orderDate": "2027-06-11",
+          "expectedDate": "2027-08-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-501 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "zN1bE72eSWAnhFcNW5nrALBs5B-EHHjp1ika3TOZ-RI"
+}

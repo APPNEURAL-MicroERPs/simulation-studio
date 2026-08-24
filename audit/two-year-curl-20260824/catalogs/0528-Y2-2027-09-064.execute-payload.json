@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-064",
+    "month": "2027-09",
+    "companyTime": "2027-09-21T16:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Nexus Services — Y2-OPP-2111 (qualified).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Nexus Services — Digital Transformation",
+          "code": "Y2-OPP-2111",
+          "amount": 4590000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-09-25",
+          "businessNeed": "Nexus Services needs scalable platform",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2027-09-25"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-2111 created at qualified stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "jTQriQEv-fTmlCf3Eq-7JDAshIh8HX774EMWsGWzxzc"
+}

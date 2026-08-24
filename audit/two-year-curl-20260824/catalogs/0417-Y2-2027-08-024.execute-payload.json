@@ -1,0 +1,67 @@
+{
+  "story": {
+    "id": "Y2-2027-08-024",
+    "month": "2027-08",
+    "companyTime": "2027-08-10T11:35:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "billing",
+    "preconditions": [
+      "Customer Prism Group has active contract"
+    ],
+    "intent": "Generate invoice for Prism Group (13L) and record payment.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-Y2-2431",
+          "billingAccount": "BA-PRI-057",
+          "customer": "Prism Group",
+          "amount": 1319226,
+          "currency": "inr",
+          "issueDate": "2027-08-10",
+          "dueDate": "2027-08-27",
+          "status": "draft",
+          "description": "Professional services for 2027-08. Milestone-based billing."
+        },
+        "verifyListPath": "/api/invoices?pageSize=200"
+      },
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/receipts",
+        "expectedStatus": 201,
+        "body": {
+          "customerId": "$PREV.createdId",
+          "amount": 1319226,
+          "currency": "INR",
+          "receivedDate": "2027-08-21",
+          "externalReference": "REC-Y2-057",
+          "method": "upi"
+        },
+        "verifyListPath": "/api/receipts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Invoice generated for Prism Group",
+      "Payment recorded against invoice"
+    ],
+    "crossEvents": [
+      "billing.invoice-generated",
+      "billing.payment-recorded"
+    ],
+    "notifications": [
+      "Invoice sent to customer",
+      "Finance team notified of payment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "g0MsbTeKNihUFS3xGP6SdTameUIbErE7t6nRDc3P4fU"
+}

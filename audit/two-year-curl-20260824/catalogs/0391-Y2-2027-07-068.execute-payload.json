@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-07-068",
+    "month": "2027-07",
+    "companyTime": "2027-07-26T15:40:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-704 exists"
+    ],
+    "intent": "Add candidate Pradeep Patel for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Pradeep Patel",
+          "email": "pradeep.patel@example.com",
+          "phone": "+91-9514331567",
+          "locationName": "Noida",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 64,
+          "skills": "Compliance, Terraform, Training",
+          "source": "inbound",
+          "noticePeriodDays": 15,
+          "expectedCtc": 1150000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-704"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Pradeep Patel added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "ql_rmtrq167AH7VZ2F6m6jCYfO40TG7wgi_2CAIedTs"
+}

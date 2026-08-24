@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-050",
+    "month": "2027-05",
+    "companyTime": "2027-05-20T09:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-305 exists"
+    ],
+    "intent": "Add candidate Riya Saxena for QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Riya Saxena",
+          "email": "riya.saxena@example.com",
+          "phone": "+91-9780162654",
+          "locationName": "Udaipur",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 60,
+          "skills": "Training, REST, Compliance, Confluence, Docker, Terraform",
+          "source": "linkedin",
+          "noticePeriodDays": 60,
+          "expectedCtc": 1100000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for QA Engineer — Y2-REQ-305"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Riya Saxena added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "PSYfjhgl6KGDJsT88WFC8K7K5MVARLDCe_5Llin2SRM"
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-032",
+    "month": "2027-05",
+    "companyTime": "2027-05-12T12:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-302 exists"
+    ],
+    "intent": "Add candidate Shreya Pillai for Senior QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Shreya Pillai",
+          "email": "shreya.pillai@example.com",
+          "phone": "+91-9799473134",
+          "locationName": "Bengaluru",
+          "currentTitle": "Senior Manager",
+          "totalExperienceMonths": 109,
+          "skills": "Azure, Jest, Tax",
+          "source": "linkedin",
+          "noticePeriodDays": 90,
+          "expectedCtc": 1850000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior QA Engineer — Y2-REQ-302"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Shreya Pillai added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "28ecUz5pUd-r1F3MedlhM3sPCRnlViqyzjykwfNaJWM"
+}

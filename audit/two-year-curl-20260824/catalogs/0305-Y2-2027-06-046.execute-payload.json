@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-06-046",
+    "month": "2027-06",
+    "companyTime": "2027-06-16T12:15:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "audit",
+    "preconditions": [
+      "0 prior audit campaigns"
+    ],
+    "intent": "Collect audit evidence for quarterly review.",
+    "steps": [
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/evidence",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-Y2-Q2",
+          "name": "Quarterly Audit Evidence Collection — 2027-06. Scope: Finance, HR, Procurement, Security, Projects. Samples reviewed: 39 transactions.",
+          "obtainedOn": "2027-06-18",
+          "obtainedBy": "vikram.shah@nexora.example",
+          "source": "Internal audit fieldwork — cross-ERP evidence collection",
+          "status": "accepted"
+        },
+        "verifyListPath": "/api/evidence?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Audit evidence collected and accepted"
+    ],
+    "crossEvents": [
+      "audit.evidence-collected"
+    ],
+    "notifications": [
+      "Audit findings shared with management"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "S2txc93aG5l86q7OBcE_2d1tRChylZKOq7uEike7X80"
+}

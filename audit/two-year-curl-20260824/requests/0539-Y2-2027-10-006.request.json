@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-006",
+      "month": "2027-10",
+      "companyTime": "2027-10-03T12:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "4 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Zenith Networks (Hospitality) via campaign — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Zenith Networks",
+            "contactName": "Lakshmi Reddy",
+            "title": "Head of IT",
+            "email": "lakshmi.reddy@example.com",
+            "phone": "+91-9074788645",
+            "source": "campaign",
+            "country": "India",
+            "industry": "Hospitality",
+            "companySize": "201-1000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 3030000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Zenith Networks — Platform Development",
+            "code": "Y2-OPP-2502",
+            "amount": 3030000,
+            "currency": "INR",
+            "stage": "qualified",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-10-26",
+            "businessNeed": "Zenith Networks needs system modernization",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-10-10"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Zenith Networks",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "zmkLS_H-Tky-kh6RpcRnk0wv7eq4dMsX4zLBg8WtS4M"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-05-013",
+    "month": "2027-05",
+    "companyTime": "2027-05-05T12:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra submits expense: Client site visit travel (9K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-1501",
+          "employeeCode": "EMP-1008",
+          "employeeEmail": "karan.malhotra@nexora.example",
+          "category": "travel",
+          "amount": 9427,
+          "expenseDate": "2027-05-01",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-1501 approved for Karan Malhotra"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "sJtCA2KO021W7rfUfM4VqKCuFMbOkFC_-q_XjM-tQsY"
+}

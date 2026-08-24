@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2027-06-035",
+    "month": "2027-06",
+    "companyTime": "2027-06-13T15:50:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: IT Equipment — Laptops → PO (103K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-503",
+          "title": "IT Equipment — Laptops",
+          "category": "IT Hardware",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Finance",
+          "estimatedCost": 103267,
+          "neededBy": "2027-08-15",
+          "justification": "Operational need: IT Equipment — Laptops. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-054",
+          "vendor": "TechSupply Co",
+          "requestRef": "$PREV.createdId",
+          "category": "IT Hardware",
+          "itemSummary": "IT Equipment — Laptops",
+          "amount": 103267,
+          "costCenter": "CC-ENG",
+          "orderDate": "2027-06-20",
+          "expectedDate": "2027-08-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-503 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "XDSU2jdn8XLdMV0rFUVtRaH5A6SyiiFRfuzKbdrkLLc"
+}

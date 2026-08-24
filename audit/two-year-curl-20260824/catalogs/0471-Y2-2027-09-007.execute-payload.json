@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-09-007",
+    "month": "2027-09",
+    "companyTime": "2027-09-03T15:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "support",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp has active contract"
+    ],
+    "intent": "Support ticket: Data export request from ABC Manufacturing Corp.",
+    "steps": [
+      {
+        "module": "support",
+        "method": "POST",
+        "path": "/api/tickets",
+        "expectedStatus": 201,
+        "body": {
+          "ticketNo": "Y2-TKT-2301",
+          "subject": "Data export request",
+          "description": "Data export request reported by ABC Manufacturing Corp. Priority: low. Category: data.",
+          "priority": "low",
+          "category": "data",
+          "customerName": "ABC Manufacturing Corp",
+          "raisedBy": "support.abc.manufacturing.corp@example.com",
+          "assignedTo": "karan.malhotra@nexora.example",
+          "status": "resolved"
+        },
+        "verifyListPath": "/api/tickets?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Ticket Y2-TKT-2301 resolved"
+    ],
+    "crossEvents": [
+      "support.ticket-resolved"
+    ],
+    "notifications": [
+      "Customer notified of resolution"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Z-RBF4xlYGzjSQBJcanuHi3NlSI0rAVlfyaxEn0lYXk"
+}

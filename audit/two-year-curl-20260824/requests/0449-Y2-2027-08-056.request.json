@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-056",
+      "month": "2027-08",
+      "companyTime": "2027-08-18T16:10:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-904 exists"
+      ],
+      "intent": "Add candidate Nandini Dubey for DevOps Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Nandini Dubey",
+            "email": "nandini.dubey@example.com",
+            "phone": "+91-9712347488",
+            "locationName": "Mumbai",
+            "currentTitle": "Senior Consultant",
+            "totalExperienceMonths": 76,
+            "skills": "PostgreSQL, Sketch, Terraform, React, Kubernetes",
+            "source": "careers_site",
+            "noticePeriodDays": 60,
+            "expectedCtc": 1450000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for DevOps Engineer — Y2-REQ-904"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Nandini Dubey added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "-Ld2Pi4INxV5UD4dEhjv0ILNovEnZjiJUVEKpbIfYTg"
+  }
+}

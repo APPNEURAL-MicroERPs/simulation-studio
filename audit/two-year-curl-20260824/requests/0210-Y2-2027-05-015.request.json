@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-015",
+      "month": "2027-05",
+      "companyTime": "2027-05-06T15:45:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Senior QA Engineer in QA and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Senior QA Engineer — Bengaluru",
+            "reason": "new",
+            "departmentName": "QA",
+            "locationName": "Bengaluru",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "karan.malhotra@nexora.example",
+            "recruiterEmail": "karan.malhotra@nexora.example",
+            "targetStartOn": "2027-06-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: QA.",
+            "budgetMin": 1800000,
+            "budgetMax": 2800000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Senior QA Engineer — Bengaluru",
+            "summary": "Join our QA team as a Senior QA Engineer.",
+            "responsibilities": "Deliver high-quality work in QA; collaborate with cross-functional stakeholders.",
+            "requirements": "Test Automation, CI/CD, Performance Testing; 4+ years relevant experience.",
+            "skills": "Test Automation, CI/CD, Performance Testing",
+            "locationName": "Bengaluru",
+            "workMode": "remote",
+            "experienceMinYears": 6,
+            "experienceMaxYears": 15,
+            "channel": "agency"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-302 created for Senior QA Engineer",
+        "Job posted for Senior QA Engineer"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Senior QA Engineer role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "-oxsEtu7orOgMuG9qn0HZaOxg5tdR8BzR12GKF6_APM"
+  }
+}

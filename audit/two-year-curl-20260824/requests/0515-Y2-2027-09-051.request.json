@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-051",
+      "month": "2027-09",
+      "companyTime": "2027-09-17T16:10:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "4 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Stellar Digital (Mining) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Stellar Digital",
+            "contactName": "Rahul Tiwari",
+            "title": "Head of IT",
+            "email": "rahul.tiwari@example.com",
+            "phone": "+91-9073128449",
+            "source": "website",
+            "country": "India",
+            "industry": "Mining",
+            "companySize": "201-1000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 1090000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Stellar Digital — ERP Implementation",
+            "code": "Y2-OPP-2106",
+            "amount": 1090000,
+            "currency": "INR",
+            "stage": "new",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-09-26",
+            "businessNeed": "Stellar Digital needs process automation",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-09-26"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Stellar Digital",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "LMX73Mz1f8DG0do_X7HFMQCkobFcMctLkloQi8qVJ1I"
+  }
+}

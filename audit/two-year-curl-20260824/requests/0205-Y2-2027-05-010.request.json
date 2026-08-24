@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-010",
+      "month": "2027-05",
+      "companyTime": "2027-05-04T13:25:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Delta Ventures — Y2-OPP-509 (new).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Delta Ventures — Analytics Suite",
+            "code": "Y2-OPP-509",
+            "amount": 4810000,
+            "currency": "INR",
+            "stage": "new",
+            "probability": 10,
+            "forecastCategory": "pipeline",
+            "expectedCloseOn": "2027-05-28",
+            "businessNeed": "Delta Ventures needs scalable platform",
+            "nextAction": "Pricing discussion",
+            "nextActionOn": "2027-05-12"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-509 created at new stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "PBHBpDw6Nw-p2MnVpBL68jFEUMhnwkkSq6zkYc2uDx8"
+  }
+}

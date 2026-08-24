@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-009",
+    "month": "2027-05",
+    "companyTime": "2027-05-04T12:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-301 exists"
+    ],
+    "intent": "Add candidate Ashish Chauhan for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Ashish Chauhan",
+          "email": "ashish.chauhan@example.com",
+          "phone": "+91-9718546125",
+          "locationName": "Udaipur",
+          "currentTitle": "Tech Lead",
+          "totalExperienceMonths": 67,
+          "skills": "HR Operations, Terraform, Payroll, Jest, Selenium",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 3200000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-301"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Ashish Chauhan added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "i-p3Vo8_AfU09gh6X2qkbtHEIAs6XjF6dlPPND5RNGw"
+}

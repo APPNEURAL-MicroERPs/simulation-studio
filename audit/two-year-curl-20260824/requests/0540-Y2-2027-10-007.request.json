@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-007",
+      "month": "2027-10",
+      "companyTime": "2027-10-03T16:35:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "resource",
+      "preconditions": [
+        "Vikram Shah is active",
+        "Project Y2-PRJ-1011 is active"
+      ],
+      "intent": "Allocate Vikram Shah to Y2-PRJ-1011 at 50%.",
+      "steps": [
+        {
+          "module": "resource",
+          "method": "POST",
+          "path": "/api/allocations",
+          "expectedStatus": 201,
+          "body": {
+            "allocationNo": "Y2-ALLOC-2411",
+            "resourceId": "RES-EMP-1007",
+            "employeeCode": "EMP-1007",
+            "projectId": "Y2-PRJ-1011",
+            "role": "Product Designer",
+            "allocationPercent": 50,
+            "startDate": "2027-10-01",
+            "endDate": "2028-04-15"
+          },
+          "verifyListPath": "/api/allocations?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Vikram Shah allocated to Y2-PRJ-1011 at 50%"
+      ],
+      "crossEvents": [
+        "resource.allocation-created"
+      ],
+      "notifications": [
+        "Employee and manager notified of allocation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "a5mfzeeeHJ_mliwmI6r5qMcjK5zXwGzgH7Ul_Do-utU"
+  }
+}

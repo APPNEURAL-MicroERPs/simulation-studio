@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-006",
+    "month": "2027-05",
+    "companyTime": "2027-05-03T15:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Stellar Software (Technology) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Stellar Software",
+          "contactName": "Deepak Chauhan",
+          "title": "VP Operations",
+          "email": "deepak.chauhan@example.com",
+          "phone": "+91-9681299051",
+          "source": "referral",
+          "country": "India",
+          "industry": "Technology",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3950000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Stellar Software — ERP Implementation",
+          "code": "Y2-OPP-501",
+          "amount": 3950000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-25",
+          "businessNeed": "Stellar Software needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-05-13"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Stellar Software",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "xBpXsXxob_0sh7mrdVUFXlAZhSHifothmtuFr7hKMrQ"
+}

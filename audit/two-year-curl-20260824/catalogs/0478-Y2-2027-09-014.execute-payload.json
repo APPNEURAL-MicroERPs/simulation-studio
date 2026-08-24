@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-014",
+    "month": "2027-09",
+    "companyTime": "2027-09-05T17:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1101 exists"
+    ],
+    "intent": "Add candidate Naveen Mishra for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Naveen Mishra",
+          "email": "naveen.mishra@example.com",
+          "phone": "+91-9057994970",
+          "locationName": "Gurugram",
+          "currentTitle": "Tech Lead",
+          "totalExperienceMonths": 91,
+          "skills": "Account Management, Terraform, Sketch, Excel, Azure, Audit",
+          "source": "campus",
+          "noticePeriodDays": 15,
+          "expectedCtc": 2900000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-1101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Naveen Mishra added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4b7Hoco0rn7FL2_CRbgj-ktxWgJTDxvlsEk-BSIDfiU"
+}

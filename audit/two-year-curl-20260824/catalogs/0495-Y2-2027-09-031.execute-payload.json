@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-031",
+    "month": "2027-09",
+    "companyTime": "2027-09-11T16:50:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1102 exists"
+    ],
+    "intent": "Add candidate Swati Saxena for Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Swati Saxena",
+          "email": "swati.saxena@example.com",
+          "phone": "+91-9548312183",
+          "locationName": "Pune",
+          "currentTitle": "Engineer",
+          "totalExperienceMonths": 49,
+          "skills": "Financial Modeling, CI/CD, React",
+          "source": "inbound",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1150000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Software Engineer — Y2-REQ-1102"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Swati Saxena added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "rCQzXlEHhV8ATcKx5IU5XH1lbzmNASHvAy-9JqulzlQ"
+}

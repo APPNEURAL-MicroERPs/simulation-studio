@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-053",
+      "month": "2027-07",
+      "companyTime": "2027-07-19T09:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-704 exists"
+      ],
+      "intent": "Add candidate Radhika Jain for Business Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Radhika Jain",
+            "email": "radhika.jain@example.com",
+            "phone": "+91-9825959510",
+            "locationName": "Noida",
+            "currentTitle": "Engineer",
+            "totalExperienceMonths": 110,
+            "skills": "Go, Terraform, Rust, MongoDB, Azure",
+            "source": "linkedin",
+            "noticePeriodDays": 60,
+            "expectedCtc": 1750000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Business Analyst — Y2-REQ-704"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Radhika Jain added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "r2gr3cqCm0OUAJHhYzVaN1dXqvL4dkHHMeEUsTy6hI4"
+  }
+}

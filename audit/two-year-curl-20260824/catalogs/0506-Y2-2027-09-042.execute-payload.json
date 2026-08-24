@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-042",
+    "month": "2027-09",
+    "companyTime": "2027-09-15T11:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1103 exists"
+    ],
+    "intent": "Add candidate Aarti Patel for DevOps Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Aarti Patel",
+          "email": "aarti.patel@example.com",
+          "phone": "+91-9584185212",
+          "locationName": "Hyderabad",
+          "currentTitle": "Senior Engineer",
+          "totalExperienceMonths": 38,
+          "skills": "Jest, GCP, Playwright",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 850000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for DevOps Engineer — Y2-REQ-1103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Aarti Patel added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "c65hDD97B_BhZYLycz81BUela1DWSPxnUbLuj825Pj8"
+}

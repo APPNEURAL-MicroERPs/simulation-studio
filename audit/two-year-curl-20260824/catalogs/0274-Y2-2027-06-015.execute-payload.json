@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-06-015",
+    "month": "2027-06",
+    "companyTime": "2027-06-05T17:55:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma submits expense: Laptop accessories / peripherals (12K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-2501",
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "category": "hardware",
+          "amount": 12328,
+          "expenseDate": "2027-06-03",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-2501 approved for Priya Sharma"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LGhctS-PLJf_az_kWzFFzvg1JF8FDmAuqTPY-TZSCdk"
+}

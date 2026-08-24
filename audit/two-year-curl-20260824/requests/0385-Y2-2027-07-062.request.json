@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-062",
+      "month": "2027-07",
+      "companyTime": "2027-07-22T13:55:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Siddharth Joshi",
+        "DevOps Engineer requisition filled"
+      ],
+      "intent": "Register new employee Siddharth Joshi joining as Senior Consultant.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-013",
+            "fullName": "Siddharth Joshi",
+            "email": "siddharth.joshi@example.com",
+            "designation": "Senior Consultant",
+            "department": "DevOps",
+            "location": "Mumbai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-07-22"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Siddharth Joshi registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "zuCaRPFiEmBdmC_8eHfHGztoqZcfdYrQQ9rt_vm1WOY"
+  }
+}

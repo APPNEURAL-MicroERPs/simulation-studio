@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-038",
+      "month": "2027-06",
+      "companyTime": "2027-06-14T15:45:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Atlas Labs (Pharma) via referral — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Atlas Labs",
+            "contactName": "Anil Joshi",
+            "title": "Director",
+            "email": "anil.joshi@example.com",
+            "phone": "+91-9819098486",
+            "source": "referral",
+            "country": "India",
+            "industry": "Pharma",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 2450000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Atlas Labs — Cloud Migration",
+            "code": "Y2-OPP-906",
+            "amount": 2450000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-06-25",
+            "businessNeed": "Atlas Labs needs scalable platform",
+            "nextAction": "Discovery call",
+            "nextActionOn": "2027-06-27"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Atlas Labs",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "mlR4Hv2nvBW75bVpT7z1aJjOvv_gfj43Vr_HdgGxcKc"
+  }
+}

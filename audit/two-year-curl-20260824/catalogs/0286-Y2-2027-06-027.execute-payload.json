@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-06-027",
+    "month": "2027-06",
+    "companyTime": "2027-06-10T15:05:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "support",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp has active contract"
+    ],
+    "intent": "Support ticket: Report generation failure from ABC Manufacturing Corp.",
+    "steps": [
+      {
+        "module": "support",
+        "method": "POST",
+        "path": "/api/tickets",
+        "expectedStatus": 201,
+        "body": {
+          "ticketNo": "Y2-TKT-1102",
+          "subject": "Report generation failure",
+          "description": "Report generation failure reported by ABC Manufacturing Corp. Priority: medium. Category: bug.",
+          "priority": "medium",
+          "category": "bug",
+          "customerName": "ABC Manufacturing Corp",
+          "raisedBy": "support.abc.manufacturing.corp@example.com",
+          "assignedTo": "priya.sharma@nexora.example",
+          "status": "resolved"
+        },
+        "verifyListPath": "/api/tickets?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Ticket Y2-TKT-1102 resolved"
+    ],
+    "crossEvents": [
+      "support.ticket-resolved"
+    ],
+    "notifications": [
+      "Customer notified of resolution"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "1Zk8Paer8JGTm0NAZxjv2EPD2Ku5_MLVggztfwt-_K8"
+}

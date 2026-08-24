@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-012",
+      "month": "2027-07",
+      "companyTime": "2027-07-06T15:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign MacBook Pro 16-inch to Karan Malhotra.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-LAPTOP-Y2-AST-801",
+            "name": "MacBook Pro 16-inch",
+            "serialNumber": "SN-LAPTOP-Y2-0064",
+            "category": "laptop",
+            "model": "MacBook Pro 16-inch",
+            "status": "assigned",
+            "assignedTo": "karan.malhotra@nexora.example",
+            "location": "Gurugram",
+            "purchaseDate": "2027-07-04",
+            "purchaseCost": 199637
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-LAPTOP-Y2-AST-801 assigned to Karan Malhotra"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "vxWYZ6wg-ZH5QCefhOafmasblPtpxj3ErMfAsJITS5Y"
+  }
+}

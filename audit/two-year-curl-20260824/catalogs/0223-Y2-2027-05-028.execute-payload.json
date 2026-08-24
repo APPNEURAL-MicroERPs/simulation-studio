@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-05-028",
+    "month": "2027-05",
+    "companyTime": "2027-05-10T17:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "24 prior compliance findings"
+    ],
+    "intent": "Compliance finding: Data retention policy compliance check.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "COMP-Y2-063",
+          "title": "Data retention policy compliance check",
+          "severity": "medium",
+          "ownerEmail": "sandeep.patel@nexora.example",
+          "description": "Data retention policy compliance check. Assessed during 2027-05 compliance review cycle. Status: documented and tracked for remediation.",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Compliance finding documented"
+    ],
+    "crossEvents": [
+      "compliance.finding-raised"
+    ],
+    "notifications": [
+      "Finding owner notified for remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "CUuOArD62mhvhav8Pjy8vFS0tVyPmUsBXJcnfcD41_c"
+}

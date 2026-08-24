@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-026",
+    "month": "2027-09",
+    "companyTime": "2027-09-08T16:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1101 exists"
+    ],
+    "intent": "Add candidate Yash Jain for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Yash Jain",
+          "email": "yash.jain@example.com",
+          "phone": "+91-9552997881",
+          "locationName": "Gurugram",
+          "currentTitle": "Senior Manager",
+          "totalExperienceMonths": 48,
+          "skills": "Figma, Payroll, Technical Support, Terraform, REST",
+          "source": "agency",
+          "noticePeriodDays": 90,
+          "expectedCtc": 3400000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-1101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Yash Jain added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_u4HPE-cEcwcu2LwVLfbw04HU1Rh_iI9o3NpSiIBk0c"
+}

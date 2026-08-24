@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-024",
+      "month": "2027-06",
+      "companyTime": "2027-06-10T10:40:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Zenith Industries — Y2-OPP-910 (proposal).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Zenith Industries — Custom Software",
+            "code": "Y2-OPP-910",
+            "amount": 4620000,
+            "currency": "INR",
+            "stage": "proposal",
+            "probability": 55,
+            "forecastCategory": "best_case",
+            "expectedCloseOn": "2027-06-26",
+            "businessNeed": "Zenith Industries needs system modernization",
+            "nextAction": "Technical demo",
+            "nextActionOn": "2027-06-23"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-910 created at proposal stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "toLyyiboZpIFO9R4cwro06Fn8BMRCmMfwJRKgULfvjs"
+  }
+}

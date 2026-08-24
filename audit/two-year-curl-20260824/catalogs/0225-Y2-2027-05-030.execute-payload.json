@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-030",
+    "month": "2027-05",
+    "companyTime": "2027-05-11T13:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Helios Labs (Logistics) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Helios Labs",
+          "contactName": "Radhika Patel",
+          "title": "COO",
+          "email": "radhika.patel@example.com",
+          "phone": "+91-9798892214",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Logistics",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1740000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Helios Labs — Cloud Migration",
+          "code": "Y2-OPP-504",
+          "amount": 1740000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-26",
+          "businessNeed": "Helios Labs needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-05-16"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Helios Labs",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "pqPMirKh9k1hIjHSNhOH8o596MLW_n6GGFYO28mfg7o"
+}

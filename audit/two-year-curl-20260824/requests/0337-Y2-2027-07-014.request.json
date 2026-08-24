@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-014",
+      "month": "2027-07",
+      "companyTime": "2027-07-06T17:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "4 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Omega Ventures (Logistics) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Omega Ventures",
+            "contactName": "Gaurav Kapoor",
+            "title": "VP Operations",
+            "email": "gaurav.kapoor@example.com",
+            "phone": "+91-9881699229",
+            "source": "website",
+            "country": "India",
+            "industry": "Logistics",
+            "companySize": "201-1000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 1890000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Omega Ventures — Platform Development",
+            "code": "Y2-OPP-1302",
+            "amount": 1890000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-07-27",
+            "businessNeed": "Omega Ventures needs system modernization",
+            "nextAction": "Discovery call",
+            "nextActionOn": "2027-07-12"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Omega Ventures",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "fVh7njipYyks7S4KDOPtaUUeqmua2ami5Fa_cSPmWkQ"
+  }
+}

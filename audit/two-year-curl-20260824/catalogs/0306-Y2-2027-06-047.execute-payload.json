@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-047",
+    "month": "2027-06",
+    "companyTime": "2027-06-16T15:50:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-502 exists"
+    ],
+    "intent": "Add candidate Tara Rastogi for Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Tara Rastogi",
+          "email": "tara.rastogi@example.com",
+          "phone": "+91-9525598194",
+          "locationName": "Gurugram",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 22,
+          "skills": "PostgreSQL, CI/CD, Docker, Recruitment, REST, Tax",
+          "source": "inbound",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1700000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Software Engineer — Y2-REQ-502"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Tara Rastogi added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "QCkYOtWJbxVcA1tMn8HiBwkhhYa9kCbkSkLSj8fS6Bo"
+}

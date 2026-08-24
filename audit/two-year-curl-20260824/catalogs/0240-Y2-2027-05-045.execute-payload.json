@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-045",
+    "month": "2027-05",
+    "companyTime": "2027-05-17T14:00:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for QA Engineer in QA and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "QA Engineer — Udaipur",
+          "reason": "new",
+          "departmentName": "QA",
+          "locationName": "Udaipur",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "sandeep.patel@nexora.example",
+          "recruiterEmail": "sandeep.patel@nexora.example",
+          "targetStartOn": "2027-06-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: QA.",
+          "budgetMin": 1000000,
+          "budgetMax": 1800000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "QA Engineer — Udaipur",
+          "summary": "Join our QA team as a QA Engineer.",
+          "responsibilities": "Deliver high-quality work in QA; collaborate with cross-functional stakeholders.",
+          "requirements": "Selenium, Cypress, TypeScript; 4+ years relevant experience.",
+          "skills": "Selenium, Cypress, TypeScript",
+          "locationName": "Udaipur",
+          "workMode": "onsite",
+          "experienceMinYears": 3,
+          "experienceMaxYears": 8,
+          "channel": "campus"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-305 created for QA Engineer",
+      "Job posted for QA Engineer"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for QA Engineer role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "oahWmPYeZcbQG1_OIzm5uwVDHHg_-D8BtkJ5gXQjuh0"
+}

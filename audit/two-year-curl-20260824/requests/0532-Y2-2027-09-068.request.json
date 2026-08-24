@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-068",
+      "month": "2027-09",
+      "companyTime": "2027-09-26T10:50:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Deepak Dubey",
+        "Business Analyst requisition filled"
+      ],
+      "intent": "Register new employee Deepak Dubey joining as Senior Consultant.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-019",
+            "fullName": "Deepak Dubey",
+            "email": "deepak.dubey@example.com",
+            "designation": "Senior Consultant",
+            "department": "Product",
+            "location": "Noida",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-09-26"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Deepak Dubey registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "yRUn843f8_iV70g0oa0FyspmESbbNVFGTBPtbMH_EaE"
+  }
+}

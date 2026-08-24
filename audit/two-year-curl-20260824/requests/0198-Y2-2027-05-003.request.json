@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-003",
+      "month": "2027-05",
+      "companyTime": "2027-05-02T15:30:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "resource",
+      "preconditions": [
+        "Karan Malhotra is active",
+        "Project Y2-PRJ-1811 is active"
+      ],
+      "intent": "Allocate Karan Malhotra to Y2-PRJ-1811 at 25%.",
+      "steps": [
+        {
+          "module": "resource",
+          "method": "POST",
+          "path": "/api/allocations",
+          "expectedStatus": 201,
+          "body": {
+            "allocationNo": "Y2-ALLOC-411",
+            "resourceId": "RES-EMP-1008",
+            "employeeCode": "EMP-1008",
+            "projectId": "Y2-PRJ-1811",
+            "role": "QA Engineer",
+            "allocationPercent": 25,
+            "startDate": "2027-05-01",
+            "endDate": "2027-07-15"
+          },
+          "verifyListPath": "/api/allocations?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Karan Malhotra allocated to Y2-PRJ-1811 at 25%"
+      ],
+      "crossEvents": [
+        "resource.allocation-created"
+      ],
+      "notifications": [
+        "Employee and manager notified of allocation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "55idKDFjdyQ2FosGnMwW-Umg2ANKOTdWaR6JuC9zPT8"
+  }
+}

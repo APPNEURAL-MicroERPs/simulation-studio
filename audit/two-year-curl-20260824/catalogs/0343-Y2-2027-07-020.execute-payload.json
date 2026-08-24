@@ -1,0 +1,52 @@
+{
+  "story": {
+    "id": "Y2-2027-07-020",
+    "month": "2027-07",
+    "companyTime": "2027-07-09T14:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "contract",
+    "preconditions": [
+      "Customer Aurora Services exists"
+    ],
+    "intent": "Create Renewal contract with Aurora Services (value: 25L).",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "CTR-Y2-042",
+          "title": "Renewal — Aurora Services",
+          "counterpartyName": "Aurora Services",
+          "counterpartyType": "customer",
+          "contractType": "amendment",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "2469750",
+          "currency": "INR",
+          "startOn": "2027-07-01",
+          "endOn": "2028-05-15",
+          "status": "draft",
+          "description": "Renewal for software development with Aurora Services."
+        },
+        "verifyListPath": "/api/contracts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Renewal contract created with Aurora Services"
+    ],
+    "crossEvents": [
+      "contract.created"
+    ],
+    "notifications": [
+      "Legal and finance notified for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "RCBvYTLvAOyXj9WRLx3Iww2eIf1pNr9zZQykqs6ArWE"
+}

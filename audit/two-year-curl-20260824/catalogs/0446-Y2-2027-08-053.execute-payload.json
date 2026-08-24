@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-08-053",
+    "month": "2027-08",
+    "companyTime": "2027-08-17T16:45:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Orbit Dynamics (Technology) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Orbit Dynamics",
+          "contactName": "Nikhil Yadav",
+          "title": "VP Engineering",
+          "email": "nikhil.yadav@example.com",
+          "phone": "+91-9680482489",
+          "source": "referral",
+          "country": "India",
+          "industry": "Technology",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 4510000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Orbit Dynamics — Analytics Suite",
+          "code": "Y2-OPP-1706",
+          "amount": 4510000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-08-26",
+          "businessNeed": "Orbit Dynamics needs process automation",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-08-28"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Orbit Dynamics",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Vl_anLg7DHxH8ql_tZFQKXfEE5YqggF-1ssT5bK5GQs"
+}

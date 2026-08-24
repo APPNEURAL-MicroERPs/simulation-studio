@@ -1,0 +1,76 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-031",
+      "month": "2027-07",
+      "companyTime": "2027-07-12T13:55:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "billing",
+      "preconditions": [
+        "Customer Prism Group has active contract"
+      ],
+      "intent": "Generate invoice for Prism Group (12L) and record payment.",
+      "steps": [
+        {
+          "module": "billing",
+          "method": "POST",
+          "path": "/api/invoices",
+          "expectedStatus": 201,
+          "body": {
+            "invoiceNo": "INV-Y2-1831",
+            "billingAccount": "BA-PRI-056",
+            "customer": "Prism Group",
+            "amount": 1241404,
+            "currency": "inr",
+            "issueDate": "2027-07-19",
+            "dueDate": "2027-07-26",
+            "status": "draft",
+            "description": "Professional services for 2027-07. Milestone-based billing."
+          },
+          "verifyListPath": "/api/invoices?pageSize=200"
+        },
+        {
+          "module": "billing",
+          "method": "POST",
+          "path": "/api/receipts",
+          "expectedStatus": 201,
+          "body": {
+            "customerId": "$PREV.createdId",
+            "amount": 1241404,
+            "currency": "INR",
+            "receivedDate": "2027-07-24",
+            "externalReference": "REC-Y2-056",
+            "method": "cheque"
+          },
+          "verifyListPath": "/api/receipts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Invoice generated for Prism Group",
+        "Payment recorded against invoice"
+      ],
+      "crossEvents": [
+        "billing.invoice-generated",
+        "billing.payment-recorded"
+      ],
+      "notifications": [
+        "Invoice sent to customer",
+        "Finance team notified of payment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "r1W-YeZdGP-Ri-xE26wRUTBTB_CbUlo0CWmcToF1ReY"
+  }
+}

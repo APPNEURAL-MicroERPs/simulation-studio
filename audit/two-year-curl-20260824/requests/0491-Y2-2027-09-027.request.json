@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-027",
+      "month": "2027-09",
+      "companyTime": "2027-09-10T09:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "member",
+      "module": "learning",
+      "preconditions": [
+        "Karan Malhotra is an active employee"
+      ],
+      "intent": "Karan Malhotra enrolled in \"Microservices Architecture\".",
+      "steps": [
+        {
+          "module": "learning",
+          "method": "POST",
+          "path": "/api/development-plans",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1008",
+            "title": "Microservices Architecture",
+            "description": "Professional development: Microservices Architecture. Aligned with role growth and company needs.",
+            "source": "career_path",
+            "startsOn": "2027-09-01",
+            "completesBy": "2027-11-28"
+          },
+          "verifyListPath": "/api/development-plans?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Karan Malhotra enrolled in Microservices Architecture"
+      ],
+      "crossEvents": [
+        "learning.enrollment-created"
+      ],
+      "notifications": [
+        "Manager notified of learning assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Y1jgDxGzF8THWHeBXHPPoRyBkN2GBQoeW29p7IPeKuo"
+  }
+}

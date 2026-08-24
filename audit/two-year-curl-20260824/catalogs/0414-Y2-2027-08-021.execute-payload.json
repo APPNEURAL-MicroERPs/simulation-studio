@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-08-021",
+    "month": "2027-08",
+    "companyTime": "2027-08-08T13:05:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra submits expense: Laptop accessories / peripherals (9K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-4502",
+          "employeeCode": "EMP-1008",
+          "employeeEmail": "karan.malhotra@nexora.example",
+          "category": "hardware",
+          "amount": 9195,
+          "expenseDate": "2027-08-05",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-4502 approved for Karan Malhotra"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "s22Yo5rUzZ0HXEnKfXSzwsWzltXsKXAmSdTafDTVq2Y"
+}

@@ -1,0 +1,50 @@
+{
+  "story": {
+    "id": "Y2-2027-07-061",
+    "month": "2027-07",
+    "companyTime": "2027-07-22T13:15:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "risk",
+    "preconditions": [
+      "21 risks in register"
+    ],
+    "intent": "Risk registered: Regulatory change impact.",
+    "steps": [
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-Y2-070",
+          "title": "Regulatory change impact",
+          "category": "compliance",
+          "description": "Regulatory change impact. Identified during 2027-07 risk assessment. Likelihood: 2/5, Impact: 4/5. Treatment plan: transfer.",
+          "ownerEmail": "vikram.shah@nexora.example",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "transfer",
+          "status": "assessed",
+          "reviewDue": "2027-07-25"
+        },
+        "verifyListPath": "/api/risks?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Risk registered: Regulatory change impact"
+    ],
+    "crossEvents": [
+      "risk.registered"
+    ],
+    "notifications": [
+      "Risk owner notified for treatment plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "-k5Iup5JT_Bsr3kUOL1vWr8vdz1gMlhmHQHkhKIkCVQ"
+}

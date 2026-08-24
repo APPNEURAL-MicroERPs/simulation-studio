@@ -1,0 +1,66 @@
+{
+  "story": {
+    "id": "Y2-2027-08-002",
+    "month": "2027-08",
+    "companyTime": "2027-08-02T16:40:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "project",
+    "preconditions": [
+      "14 active projects",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "New project: Y2-PRJ-811 — Platform Development for ABC Manufacturing Corp with kickoff milestone.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/projects",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ABC Manufacturing Corp — Platform Development",
+          "code": "Y2-PRJ-811",
+          "client": "ABC Manufacturing Corp",
+          "managerEmail": "sandeep.patel@nexora.example",
+          "startDate": "2027-08-08",
+          "endDate": "2027-12-15",
+          "budget": 5065442,
+          "status": "active"
+        },
+        "verifyListPath": "/api/projects?pageSize=200"
+      },
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/milestones",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "$PREV.createdId",
+          "name": "Kickoff — Sprint 0 setup",
+          "baselineDate": "2027-08-11",
+          "forecastDate": "2027-08-08",
+          "isBillingTrigger": false
+        },
+        "verifyListPath": "/api/milestones?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Project Y2-PRJ-811 created for ABC Manufacturing Corp",
+      "Kickoff milestone created"
+    ],
+    "crossEvents": [
+      "project.created",
+      "project.milestone-created"
+    ],
+    "notifications": [
+      "Project manager receives kickoff task",
+      "Milestone added to project plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "hAUy8qClGs7jyhfFa4TbQ7H5vGTFo3q5xx8jLD0s_Pw"
+}

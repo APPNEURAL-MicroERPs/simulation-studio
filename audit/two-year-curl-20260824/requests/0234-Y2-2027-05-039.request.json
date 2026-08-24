@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-039",
+      "month": "2027-05",
+      "companyTime": "2027-05-14T15:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Atlas Digital (Media) via campaign — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Atlas Digital",
+            "contactName": "Deepak Bose",
+            "title": "VP Operations",
+            "email": "deepak.bose@example.com",
+            "phone": "+91-9617759166",
+            "source": "campaign",
+            "country": "India",
+            "industry": "Media",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 4520000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Atlas Digital — ERP Implementation",
+            "code": "Y2-OPP-505",
+            "amount": 4520000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-05-27",
+            "businessNeed": "Atlas Digital needs system modernization",
+            "nextAction": "Technical demo",
+            "nextActionOn": "2027-05-23"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Atlas Digital",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "WeHhJB0-pDqM7pD13u6ew9qzTlS88GWH-DgOJOWPixk"
+  }
+}

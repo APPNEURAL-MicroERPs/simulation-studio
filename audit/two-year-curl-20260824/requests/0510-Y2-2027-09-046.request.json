@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-046",
+      "month": "2027-09",
+      "companyTime": "2027-09-15T17:40:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "4 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Stellar Labs (Aerospace) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Stellar Labs",
+            "contactName": "Sachin Agarwal",
+            "title": "Head of IT",
+            "email": "sachin.agarwal@example.com",
+            "phone": "+91-9543430179",
+            "source": "website",
+            "country": "India",
+            "industry": "Aerospace",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 1740000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Stellar Labs — Cloud Migration",
+            "code": "Y2-OPP-2105",
+            "amount": 1740000,
+            "currency": "INR",
+            "stage": "qualified",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-09-27",
+            "businessNeed": "Stellar Labs needs process automation",
+            "nextAction": "Technical demo",
+            "nextActionOn": "2027-09-24"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Stellar Labs",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "HT6wedko5LnSSiHprPsyJctWjcjpo4Qj4EGiwRrrOUA"
+  }
+}

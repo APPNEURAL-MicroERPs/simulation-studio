@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-09-001",
+    "month": "2027-09",
+    "companyTime": "2027-09-01T09:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Omega Infotech (Agriculture) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Omega Infotech",
+          "contactName": "Harsh Shah",
+          "title": "COO",
+          "email": "harsh.shah@example.com",
+          "phone": "+91-9689505307",
+          "source": "website",
+          "country": "India",
+          "industry": "Agriculture",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1440000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Omega Infotech — Analytics Suite",
+          "code": "Y2-OPP-2101",
+          "amount": 1440000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-09-27",
+          "businessNeed": "Omega Infotech needs scalable platform",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-09-10"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Omega Infotech",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "bHVOQ8XVOeJgJWkW-IJnCIdejuUDn-RUk_0ovrUZDlE"
+}

@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-07-027",
+    "month": "2027-07",
+    "companyTime": "2027-07-10T14:45:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel enrolled in \"Security Best Practices for Developers\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1012",
+          "title": "Security Best Practices for Developers",
+          "description": "Professional development: Security Best Practices for Developers. Aligned with role growth and company needs.",
+          "source": "manager_recommendation",
+          "startsOn": "2027-07-01",
+          "completesBy": "2027-09-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Sandeep Patel enrolled in Security Best Practices for Developers"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "plym5wZ5XF2jqG6ID7VQ2l6TO5oyt84XtnvtyAyTqbI"
+}

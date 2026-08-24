@@ -1,0 +1,67 @@
+{
+  "story": {
+    "id": "Y2-2027-07-058",
+    "month": "2027-07",
+    "companyTime": "2027-07-20T16:55:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "billing",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp has active contract"
+    ],
+    "intent": "Generate invoice for ABC Manufacturing Corp (4L) and record payment.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-Y2-1833",
+          "billingAccount": "BA-ABC-058",
+          "customer": "ABC Manufacturing Corp",
+          "amount": 364527,
+          "currency": "inr",
+          "issueDate": "2027-07-19",
+          "dueDate": "2027-07-28",
+          "status": "draft",
+          "description": "Professional services for 2027-07. Milestone-based billing."
+        },
+        "verifyListPath": "/api/invoices?pageSize=200"
+      },
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/receipts",
+        "expectedStatus": 201,
+        "body": {
+          "customerId": "$PREV.createdId",
+          "amount": 364527,
+          "currency": "INR",
+          "receivedDate": "2027-07-22",
+          "externalReference": "REC-Y2-058",
+          "method": "cheque"
+        },
+        "verifyListPath": "/api/receipts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Invoice generated for ABC Manufacturing Corp",
+      "Payment recorded against invoice"
+    ],
+    "crossEvents": [
+      "billing.invoice-generated",
+      "billing.payment-recorded"
+    ],
+    "notifications": [
+      "Invoice sent to customer",
+      "Finance team notified of payment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "AsjdyBJVvC7ItPcY_dwzrl13cR4s0YvZAKjVnL3T75k"
+}

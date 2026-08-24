@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-052",
+      "month": "2027-08",
+      "companyTime": "2027-08-17T11:15:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-904 exists"
+      ],
+      "intent": "Add candidate Tanvi Desai for DevOps Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Tanvi Desai",
+            "email": "tanvi.desai@example.com",
+            "phone": "+91-9548541923",
+            "locationName": "Mumbai",
+            "currentTitle": "Analyst",
+            "totalExperienceMonths": 111,
+            "skills": "Playwright, REST, Recruitment, Selenium, AWS",
+            "source": "linkedin",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1300000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for DevOps Engineer — Y2-REQ-904"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Tanvi Desai added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "qBlvoWO9rpB_fyfstcQINDE5lK9pvjTNsFEYP9obEEc"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-062",
+      "month": "2027-08",
+      "companyTime": "2027-08-21T10:25:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Arun Shah",
+        "Financial Analyst requisition filled"
+      ],
+      "intent": "Register new employee Arun Shah joining as Consultant.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-010",
+            "fullName": "Arun Shah",
+            "email": "arun.shah@example.com",
+            "designation": "Consultant",
+            "department": "Finance",
+            "location": "Chennai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-08-21"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Arun Shah registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "JZhXCwZuhFTpzrv9Fs1zt3i3N64lJT-QE58Mp1r5WHk"
+  }
+}

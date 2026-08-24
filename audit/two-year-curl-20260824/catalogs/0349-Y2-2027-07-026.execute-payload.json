@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2027-07-026",
+    "month": "2027-07",
+    "companyTime": "2027-07-10T14:05:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: Cloud Infrastructure → PO (55K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-702",
+          "title": "Cloud Infrastructure",
+          "category": "Cloud Services",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Finance",
+          "estimatedCost": 55043,
+          "neededBy": "2027-08-15",
+          "justification": "Operational need: Cloud Infrastructure. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-060",
+          "vendor": "LearnPro Solutions",
+          "requestRef": "$PREV.createdId",
+          "category": "Cloud Services",
+          "itemSummary": "Cloud Infrastructure",
+          "amount": 55043,
+          "costCenter": "CC-FIN",
+          "orderDate": "2027-07-15",
+          "expectedDate": "2027-10-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-702 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "tB2Cl4fSmdQkksMRQq5hioaDezIKMhXrTC6UOnBxH8Y"
+}

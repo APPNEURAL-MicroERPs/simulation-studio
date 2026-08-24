@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-08-008",
+    "month": "2027-08",
+    "companyTime": "2027-08-04T11:10:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Sandeep Patel is active",
+      "Project Y2-PRJ-611 is active"
+    ],
+    "intent": "Allocate Sandeep Patel to Y2-PRJ-611 at 25%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-1612",
+          "resourceId": "RES-EMP-1012",
+          "employeeCode": "EMP-1012",
+          "projectId": "Y2-PRJ-611",
+          "role": "QA Engineer",
+          "allocationPercent": 25,
+          "startDate": "2027-08-01",
+          "endDate": "2028-01-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Sandeep Patel allocated to Y2-PRJ-611 at 25%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "nRcJmWCHJtwcEUYwKN5JE9OsC4NsLzfWIJjlll6CDHo"
+}

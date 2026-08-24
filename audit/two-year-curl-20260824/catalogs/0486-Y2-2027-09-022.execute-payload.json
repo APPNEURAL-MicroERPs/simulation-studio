@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-022",
+    "month": "2027-09",
+    "companyTime": "2027-09-08T11:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Quantum Group — Y2-OPP-2109 (negotiation).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Quantum Group — Analytics Suite",
+          "code": "Y2-OPP-2109",
+          "amount": 3990000,
+          "currency": "INR",
+          "stage": "negotiation",
+          "probability": 75,
+          "forecastCategory": "commit",
+          "expectedCloseOn": "2027-09-25",
+          "businessNeed": "Quantum Group needs process automation",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2027-09-17"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-2109 created at negotiation stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Gx1b3CDPG3v0lA6ejdPlS-Ia8J3v8vpk_UHdquISoRE"
+}

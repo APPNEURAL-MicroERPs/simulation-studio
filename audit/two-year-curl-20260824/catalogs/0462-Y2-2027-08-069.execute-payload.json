@@ -1,0 +1,50 @@
+{
+  "story": {
+    "id": "Y2-2027-08-069",
+    "month": "2027-08",
+    "companyTime": "2027-08-25T16:40:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "risk",
+    "preconditions": [
+      "21 risks in register"
+    ],
+    "intent": "Risk registered: Vendor lock-in risk.",
+    "steps": [
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-Y2-071",
+          "title": "Vendor lock-in risk",
+          "category": "operational",
+          "description": "Vendor lock-in risk. Identified during 2027-08 risk assessment. Likelihood: 2/5, Impact: 3/5. Treatment plan: transfer.",
+          "ownerEmail": "vikram.shah@nexora.example",
+          "likelihood": 2,
+          "impact": 3,
+          "treatment": "mitigate",
+          "status": "assessed",
+          "reviewDue": "2027-08-25"
+        },
+        "verifyListPath": "/api/risks?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Risk registered: Vendor lock-in risk"
+    ],
+    "crossEvents": [
+      "risk.registered"
+    ],
+    "notifications": [
+      "Risk owner notified for treatment plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Kipbi4EAVUnZCyAvMhPp8gNwn74OM4cdoBlgbK149TY"
+}

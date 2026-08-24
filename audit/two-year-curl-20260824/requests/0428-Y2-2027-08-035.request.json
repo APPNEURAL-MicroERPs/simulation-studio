@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-035",
+      "month": "2027-08",
+      "companyTime": "2027-08-12T16:45:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Financial Analyst in Finance and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Financial Analyst — Chennai",
+            "reason": "new",
+            "departmentName": "Finance",
+            "locationName": "Chennai",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "priya.sharma@nexora.example",
+            "recruiterEmail": "priya.sharma@nexora.example",
+            "targetStartOn": "2027-09-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Finance.",
+            "budgetMin": 1000000,
+            "budgetMax": 1800000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Financial Analyst — Chennai",
+            "summary": "Join our Finance team as a Financial Analyst.",
+            "responsibilities": "Deliver high-quality work in Finance; collaborate with cross-functional stakeholders.",
+            "requirements": "Financial Modeling, Excel, Accounting; 5+ years relevant experience.",
+            "skills": "Financial Modeling, Excel, Accounting",
+            "locationName": "Chennai",
+            "workMode": "remote",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "careers_site"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-903 created for Financial Analyst",
+        "Job posted for Financial Analyst"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Financial Analyst role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Xmk7qmuRLs8iKJ1d7v3AmkkANMZUCIy14RRve8mz5hU"
+  }
+}

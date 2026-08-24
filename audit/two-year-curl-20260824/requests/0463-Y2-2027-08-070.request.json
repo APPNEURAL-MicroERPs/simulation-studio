@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-070",
+      "month": "2027-08",
+      "companyTime": "2027-08-26T11:00:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Swati Das",
+        "DevOps Engineer requisition filled"
+      ],
+      "intent": "Register new employee Swati Das joining as Consultant.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-015",
+            "fullName": "Swati Das",
+            "email": "swati.das@example.com",
+            "designation": "Consultant",
+            "department": "DevOps",
+            "location": "Mumbai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-08-26"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Swati Das registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "TwH6MPOK2TmMU2ale3-oeZph5H_3JyeapCqgXmjUytc"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-036",
+      "month": "2027-08",
+      "companyTime": "2027-08-12T16:45:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "member",
+      "module": "learning",
+      "preconditions": [
+        "Karan Malhotra is an active employee"
+      ],
+      "intent": "Karan Malhotra enrolled in \"Data Privacy and GDPR Compliance\".",
+      "steps": [
+        {
+          "module": "learning",
+          "method": "POST",
+          "path": "/api/development-plans",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1008",
+            "title": "Data Privacy and GDPR Compliance",
+            "description": "Professional development: Data Privacy and GDPR Compliance. Aligned with role growth and company needs.",
+            "source": "compliance_required",
+            "startsOn": "2027-08-01",
+            "completesBy": "2027-10-28"
+          },
+          "verifyListPath": "/api/development-plans?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Karan Malhotra enrolled in Data Privacy and GDPR Compliance"
+      ],
+      "crossEvents": [
+        "learning.enrollment-created"
+      ],
+      "notifications": [
+        "Manager notified of learning assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "h1XPj3zVJSpKQYOa5LUsMm5TtQt0YuM44GepE7yw7Bk"
+  }
+}

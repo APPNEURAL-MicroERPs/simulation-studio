@@ -1,0 +1,76 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-050",
+      "month": "2027-06",
+      "companyTime": "2027-06-18T09:00:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "billing",
+      "preconditions": [
+        "Customer ABC Manufacturing Corp has active contract"
+      ],
+      "intent": "Generate invoice for ABC Manufacturing Corp (11L) and record payment.",
+      "steps": [
+        {
+          "module": "billing",
+          "method": "POST",
+          "path": "/api/invoices",
+          "expectedStatus": 201,
+          "body": {
+            "invoiceNo": "INV-Y2-1232",
+            "billingAccount": "BA-ABC-049",
+            "customer": "ABC Manufacturing Corp",
+            "amount": 1120839,
+            "currency": "inr",
+            "issueDate": "2027-06-12",
+            "dueDate": "2027-06-25",
+            "status": "draft",
+            "description": "Professional services for 2027-06. Milestone-based billing."
+          },
+          "verifyListPath": "/api/invoices?pageSize=200"
+        },
+        {
+          "module": "billing",
+          "method": "POST",
+          "path": "/api/receipts",
+          "expectedStatus": 201,
+          "body": {
+            "customerId": "$PREV.createdId",
+            "amount": 1120839,
+            "currency": "INR",
+            "receivedDate": "2027-06-20",
+            "externalReference": "REC-Y2-049",
+            "method": "bank_transfer"
+          },
+          "verifyListPath": "/api/receipts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Invoice generated for ABC Manufacturing Corp",
+        "Payment recorded against invoice"
+      ],
+      "crossEvents": [
+        "billing.invoice-generated",
+        "billing.payment-recorded"
+      ],
+      "notifications": [
+        "Invoice sent to customer",
+        "Finance team notified of payment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "zwW8EO6wC2oA60kawsxDQ7rCzZQ7Eqoj_EheYxe8y9U"
+  }
+}

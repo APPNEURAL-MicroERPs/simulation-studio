@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-062",
+    "month": "2027-09",
+    "companyTime": "2027-09-21T09:55:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1105 exists"
+    ],
+    "intent": "Add candidate Nitin Yadav for Data Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Nitin Yadav",
+          "email": "nitin.yadav@example.com",
+          "phone": "+91-9042722442",
+          "locationName": "Mumbai",
+          "currentTitle": "Consultant",
+          "totalExperienceMonths": 25,
+          "skills": "Training, Go, Tax, HR Operations, MongoDB",
+          "source": "campus",
+          "noticePeriodDays": 0,
+          "expectedCtc": 1200000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Data Engineer — Y2-REQ-1105"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Nitin Yadav added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "v0Hx48bcP3ShZUgN2VAjM1iKlvz3YWhppziz34GE2CM"
+}

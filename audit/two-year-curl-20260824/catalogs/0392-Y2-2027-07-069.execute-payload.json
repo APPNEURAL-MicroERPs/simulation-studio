@@ -1,0 +1,71 @@
+{
+  "story": {
+    "id": "Y2-2027-07-069",
+    "month": "2027-07",
+    "companyTime": "2027-07-27T13:30:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "payroll",
+    "preconditions": [
+      "Monthly payroll batch created"
+    ],
+    "intent": "Variable pay / bonus for 3 employees.",
+    "steps": [
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-07",
+          "employeeCode": "EMP-1012",
+          "kind": "bonus",
+          "amount": 12335,
+          "remarks": "Performance bonus for 2027-07",
+          "status": "draft"
+        }
+      },
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-07",
+          "employeeCode": "EMP-1007",
+          "kind": "bonus",
+          "amount": 71435,
+          "remarks": "Performance bonus for 2027-07",
+          "status": "draft"
+        }
+      },
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-07",
+          "employeeCode": "EMP-1001",
+          "kind": "bonus",
+          "amount": 29932,
+          "remarks": "Performance bonus for 2027-07",
+          "status": "draft"
+        }
+      }
+    ],
+    "expectedState": [
+      "3 bonus inputs created"
+    ],
+    "crossEvents": [
+      "payroll.bonus-input-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "gg2k751mKd_nIuNk3olV7IoH8AOBSsJmr3RKJ5AdhIM"
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-048",
+    "month": "2027-09",
+    "companyTime": "2027-09-16T10:50:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1104 exists"
+    ],
+    "intent": "Add candidate Amit Tiwari for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Amit Tiwari",
+          "email": "amit.tiwari@example.com",
+          "phone": "+91-9675862127",
+          "locationName": "Noida",
+          "currentTitle": "Engineer",
+          "totalExperienceMonths": 64,
+          "skills": "Power BI, Technical Support, CI/CD, REST, Accounting, Jira",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1050000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-1104"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Amit Tiwari added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "DQHPBz4KmIrCF_Cm-Ne3udEOc4XvYPjtJqUManPNEP4"
+}

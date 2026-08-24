@@ -1,0 +1,90 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-041",
+      "month": "2027-07",
+      "companyTime": "2027-07-15T15:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "attendance",
+      "preconditions": [
+        "3 employees active",
+        "Week 3 of 2027-07"
+      ],
+      "intent": "Record weekly attendance for 3 employees (Week 3).",
+      "steps": [
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1007",
+            "employeeEmail": "vikram.shah@nexora.example",
+            "workDate": "2027-07-11",
+            "shift": "General",
+            "checkIn": "10:15",
+            "checkOut": "18:15",
+            "location": "Udaipur",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        },
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1001",
+            "employeeEmail": "priya.sharma@nexora.example",
+            "workDate": "2027-07-12",
+            "shift": "General",
+            "checkIn": "10:30",
+            "checkOut": "19:15",
+            "location": "Udaipur",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        },
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1012",
+            "employeeEmail": "sandeep.patel@nexora.example",
+            "workDate": "2027-07-13",
+            "shift": "General",
+            "checkIn": "09:00",
+            "checkOut": "19:45",
+            "location": "Bengaluru",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "3 attendance records for week 3"
+      ],
+      "crossEvents": [
+        "attendance.recorded"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "CNwXDujDs0TuSbDVEJNAaIwttM5XvXYHiWI4BkFYwN4"
+  }
+}

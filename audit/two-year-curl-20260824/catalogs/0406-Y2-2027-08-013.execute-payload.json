@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-08-013",
+    "month": "2027-08",
+    "companyTime": "2027-08-05T12:40:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel enrolled in \"Customer Success Methodology\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1012",
+          "title": "Customer Success Methodology",
+          "description": "Professional development: Customer Success Methodology. Aligned with role growth and company needs.",
+          "source": "compliance_required",
+          "startsOn": "2027-08-01",
+          "completesBy": "2027-10-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Sandeep Patel enrolled in Customer Success Methodology"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "GO74BIoMFqH1G_x3h0E2xzdQynIMC0sJteM099-x3yc"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-046",
+      "month": "2027-08",
+      "companyTime": "2027-08-15T11:55:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-902 exists"
+      ],
+      "intent": "Add candidate Harsh Shah for Senior Software Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Harsh Shah",
+            "email": "harsh.shah@example.com",
+            "phone": "+91-9015532704",
+            "locationName": "Bengaluru",
+            "currentTitle": "Principal Engineer",
+            "totalExperienceMonths": 97,
+            "skills": "Kubernetes, Jira, Sketch, Adobe XD",
+            "source": "agency",
+            "noticePeriodDays": 0,
+            "expectedCtc": 2150000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Senior Software Engineer — Y2-REQ-902"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Harsh Shah added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "rybW-1DcmUxpmZjPpZwrp7k8kDMf3SrDYaBEOY9l774"
+  }
+}

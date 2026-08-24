@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-08-032",
+    "month": "2027-08",
+    "companyTime": "2027-08-11T15:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Crest Corp — Y2-OPP-1709 (proposal).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Crest Corp — Platform Development",
+          "code": "Y2-OPP-1709",
+          "amount": 2300000,
+          "currency": "INR",
+          "stage": "proposal",
+          "probability": 55,
+          "forecastCategory": "best_case",
+          "expectedCloseOn": "2027-08-28",
+          "businessNeed": "Crest Corp needs system modernization",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2027-08-19"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-1709 created at proposal stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "VgMx9KQq_jGy7HHeaizPPVa88XFAjK95T8k05H_EUps"
+}

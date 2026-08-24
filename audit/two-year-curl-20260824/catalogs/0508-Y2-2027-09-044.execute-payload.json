@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-09-044",
+    "month": "2027-09",
+    "companyTime": "2027-09-15T13:55:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra applies for casual leave (15-15 2027-09).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1008",
+          "employeeCode": "EMP-1008",
+          "leaveTypeId": "casual",
+          "fromDate": "2027-09-15",
+          "toDate": "2027-09-15",
+          "duration": "full_day",
+          "reason": "Casual leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "casual leave approved for Karan Malhotra"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "glV_Hek-mOs6rEwozhKPvAQtQ-wavMaOLZr-2UD9Bks"
+}

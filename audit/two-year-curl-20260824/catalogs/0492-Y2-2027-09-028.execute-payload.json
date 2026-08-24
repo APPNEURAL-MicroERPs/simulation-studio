@@ -1,0 +1,52 @@
+{
+  "story": {
+    "id": "Y2-2027-09-028",
+    "month": "2027-09",
+    "companyTime": "2027-09-10T12:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "contract",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp exists"
+    ],
+    "intent": "Create Renewal contract with ABC Manufacturing Corp (value: 54L).",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "CTR-Y2-048",
+          "title": "Renewal — ABC Manufacturing Corp",
+          "counterpartyName": "ABC Manufacturing Corp",
+          "counterpartyType": "customer",
+          "contractType": "amendment",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "5395140",
+          "currency": "INR",
+          "startOn": "2027-09-01",
+          "endOn": "2028-08-15",
+          "status": "draft",
+          "description": "Renewal for software development with ABC Manufacturing Corp."
+        },
+        "verifyListPath": "/api/contracts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Renewal contract created with ABC Manufacturing Corp"
+    ],
+    "crossEvents": [
+      "contract.created"
+    ],
+    "notifications": [
+      "Legal and finance notified for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "ixFU1Z3eIxWcAgaqZDYtSKRBYov23Baop7JD88z4Rm8"
+}

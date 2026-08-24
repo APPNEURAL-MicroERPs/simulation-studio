@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-047",
+      "month": "2027-08",
+      "companyTime": "2027-08-15T16:15:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "expense",
+      "preconditions": [
+        "Vikram Shah is an active employee"
+      ],
+      "intent": "Vikram Shah submits expense: Team lunch / client meeting (1K).",
+      "steps": [
+        {
+          "module": "expense",
+          "method": "POST",
+          "path": "/api/claims",
+          "expectedStatus": 201,
+          "body": {
+            "claimNo": "Y2-EXP-4505",
+            "employeeCode": "EMP-1007",
+            "employeeEmail": "vikram.shah@nexora.example",
+            "category": "meals",
+            "amount": 542,
+            "expenseDate": "2027-08-13",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/claims?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Expense Y2-EXP-4505 approved for Vikram Shah"
+      ],
+      "crossEvents": [
+        "expense.approved"
+      ],
+      "notifications": [
+        "Finance notified for reimbursement"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "UcLZQ9H3xoHSvmKhX7964QzIxa0SSbkWxMhOqyNWCDY"
+  }
+}

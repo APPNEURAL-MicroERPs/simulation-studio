@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-035",
+      "month": "2027-09",
+      "companyTime": "2027-09-12T13:35:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "support",
+      "preconditions": [
+        "Customer Aurora Services has active contract"
+      ],
+      "intent": "Support ticket: Login authentication failure from Aurora Services.",
+      "steps": [
+        {
+          "module": "support",
+          "method": "POST",
+          "path": "/api/tickets",
+          "expectedStatus": 201,
+          "body": {
+            "ticketNo": "Y2-TKT-2302",
+            "subject": "Login authentication failure",
+            "description": "Login authentication failure reported by Aurora Services. Priority: high. Category: access.",
+            "priority": "high",
+            "category": "access",
+            "customerName": "Aurora Services",
+            "raisedBy": "support.aurora.services@example.com",
+            "assignedTo": "vikram.shah@nexora.example",
+            "status": "resolved"
+          },
+          "verifyListPath": "/api/tickets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Ticket Y2-TKT-2302 resolved"
+      ],
+      "crossEvents": [
+        "support.ticket-resolved"
+      ],
+      "notifications": [
+        "Customer notified of resolution"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "YIPEo2umyS8nDgE38erA95FSlq0mfBpw1pQrrU1dkvw"
+  }
+}

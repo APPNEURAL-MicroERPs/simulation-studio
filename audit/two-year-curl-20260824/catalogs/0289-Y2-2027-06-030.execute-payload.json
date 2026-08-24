@@ -1,0 +1,66 @@
+{
+  "story": {
+    "id": "Y2-2027-06-030",
+    "month": "2027-06",
+    "companyTime": "2027-06-11T15:00:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "project",
+    "preconditions": [
+      "13 active projects",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "New project: Y2-PRJ-412 — Digital Transformation for ABC Manufacturing Corp with kickoff milestone.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/projects",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ABC Manufacturing Corp — System Modernization",
+          "code": "Y2-PRJ-412",
+          "client": "ABC Manufacturing Corp",
+          "managerEmail": "sandeep.patel@nexora.example",
+          "startDate": "2027-06-11",
+          "endDate": "2027-12-15",
+          "budget": 826204,
+          "status": "planning"
+        },
+        "verifyListPath": "/api/projects?pageSize=200"
+      },
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/milestones",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "$PREV.createdId",
+          "name": "Kickoff — Requirements gathering",
+          "baselineDate": "2027-06-20",
+          "forecastDate": "2027-06-23",
+          "isBillingTrigger": false
+        },
+        "verifyListPath": "/api/milestones?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Project Y2-PRJ-412 created for ABC Manufacturing Corp",
+      "Kickoff milestone created"
+    ],
+    "crossEvents": [
+      "project.created",
+      "project.milestone-created"
+    ],
+    "notifications": [
+      "Project manager receives kickoff task",
+      "Milestone added to project plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "5Yse5CARLH0l_ziOjO8GIAkUvWRO16RbpUrJaocBVPM"
+}

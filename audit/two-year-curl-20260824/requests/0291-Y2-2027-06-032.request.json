@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-032",
+      "month": "2027-06",
+      "companyTime": "2027-06-12T16:55:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "vendor",
+      "preconditions": [
+        "Vendor undefined is active"
+      ],
+      "intent": "Evaluate vendor: undefined.",
+      "steps": [
+        {
+          "module": "vendor",
+          "method": "POST",
+          "path": "/api/vendor-scorecards",
+          "expectedStatus": 201,
+          "body": {
+            "vendorId": "1a018496-8f50-4ba4-88b6-4a4334f65ebb",
+            "period": "2027-06",
+            "deliveryScore": 6,
+            "qualityScore": 9,
+            "commercialScore": 6,
+            "serviceScore": 7,
+            "complianceScore": 10,
+            "overallScore": 8,
+            "band": "Preferred",
+            "modelVersion": "v2"
+          },
+          "verifyListPath": "/api/vendor-scorecards?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Vendor scorecard created for undefined"
+      ],
+      "crossEvents": [
+        "vendor.evaluation-completed"
+      ],
+      "notifications": [
+        "Procurement team receives vendor evaluation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "DWqxeoDdx3GuVEp5GKBg2f0OtkIZCG-c8k3FvQRMN4c"
+  }
+}

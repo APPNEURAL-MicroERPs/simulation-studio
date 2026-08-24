@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-033",
+    "month": "2027-05",
+    "companyTime": "2027-05-12T13:05:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for Security Engineer in Governance and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Security Engineer — Hyderabad",
+          "reason": "new",
+          "departmentName": "Governance",
+          "locationName": "Hyderabad",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "priya.sharma@nexora.example",
+          "recruiterEmail": "priya.sharma@nexora.example",
+          "targetStartOn": "2027-06-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Governance.",
+          "budgetMin": 1500000,
+          "budgetMax": 2800000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "Security Engineer — Hyderabad",
+          "summary": "Join our Governance team as a Security Engineer.",
+          "responsibilities": "Deliver high-quality work in Governance; collaborate with cross-functional stakeholders.",
+          "requirements": "Penetration Testing, SIEM, Compliance; 8+ years relevant experience.",
+          "skills": "Penetration Testing, SIEM, Compliance",
+          "locationName": "Hyderabad",
+          "workMode": "remote",
+          "experienceMinYears": 3,
+          "experienceMaxYears": 8,
+          "channel": "referral_only"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-303 created for Security Engineer",
+      "Job posted for Security Engineer"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for Security Engineer role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "rBbA8ag6oFQVe09WmLv3HcbfaZkTfCLoKJ6gBDQapsA"
+}

@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-037",
+      "month": "2027-08",
+      "companyTime": "2027-08-12T16:50:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign MacBook Pro 16-inch to Vikram Shah.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-LAPTOP-Y2-AST-1002",
+            "name": "MacBook Pro 16-inch",
+            "serialNumber": "SN-LAPTOP-Y2-0066",
+            "category": "laptop",
+            "model": "MacBook Pro 16-inch",
+            "status": "assigned",
+            "assignedTo": "vikram.shah@nexora.example",
+            "location": "Udaipur",
+            "purchaseDate": "2027-08-01",
+            "purchaseCost": 248461
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-LAPTOP-Y2-AST-1002 assigned to Vikram Shah"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "cftMlZ0xTuGcgmLsTTthKS_e4fYwKxqfPu8QUeO429E"
+  }
+}

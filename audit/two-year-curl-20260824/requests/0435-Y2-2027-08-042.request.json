@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-042",
+      "month": "2027-08",
+      "companyTime": "2027-08-14T09:10:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-903 exists"
+      ],
+      "intent": "Add candidate Vivek Kapoor for Financial Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Vivek Kapoor",
+            "email": "vivek.kapoor@example.com",
+            "phone": "+91-9868842674",
+            "locationName": "Chennai",
+            "currentTitle": "Senior Consultant",
+            "totalExperienceMonths": 78,
+            "skills": "Customer Success, Jira, Cypress, Redis, Node.js, GitHub Actions",
+            "source": "linkedin",
+            "noticePeriodDays": 0,
+            "expectedCtc": 1600000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Financial Analyst — Y2-REQ-903"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Vivek Kapoor added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "aQw-RuBC_ARc3RzUAIZHDSpl88XHbQGNvnT6AOpcenw"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-07-018",
+    "month": "2027-07",
+    "companyTime": "2027-07-09T12:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-702 exists"
+    ],
+    "intent": "Add candidate Nikhil Patel for Financial Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Nikhil Patel",
+          "email": "nikhil.patel@example.com",
+          "phone": "+91-9772414894",
+          "locationName": "Pune",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 39,
+          "skills": "Confluence, Node.js, Azure",
+          "source": "careers_site",
+          "noticePeriodDays": 90,
+          "expectedCtc": 850000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Financial Analyst — Y2-REQ-702"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Nikhil Patel added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_ClJ9Fi1X1DgOw2cr6hgMtsra83vdifbDHiqV7wXZCw"
+}

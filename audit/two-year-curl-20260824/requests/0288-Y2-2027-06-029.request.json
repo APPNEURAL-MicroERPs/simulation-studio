@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-029",
+      "month": "2027-06",
+      "companyTime": "2027-06-11T12:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Delta Software (Education) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Delta Software",
+            "contactName": "Gaurav Reddy",
+            "title": "VP Operations",
+            "email": "gaurav.reddy@example.com",
+            "phone": "+91-9639123591",
+            "source": "website",
+            "country": "India",
+            "industry": "Education",
+            "companySize": "201-1000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 1170000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Delta Software — Cloud Migration",
+            "code": "Y2-OPP-904",
+            "amount": 1170000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-06-25",
+            "businessNeed": "Delta Software needs scalable platform",
+            "nextAction": "Discovery call",
+            "nextActionOn": "2027-06-21"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Delta Software",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "doW4sBcC1AzDcBCabAz1Z1TSUqDA8KPhycwv8PSYrSg"
+  }
+}

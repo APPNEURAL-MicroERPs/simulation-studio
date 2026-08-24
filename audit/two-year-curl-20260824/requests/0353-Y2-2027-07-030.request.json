@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-030",
+      "month": "2027-07",
+      "companyTime": "2027-07-11T14:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "4 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Zenith Services (Energy) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Zenith Services",
+            "contactName": "Meera Jain",
+            "title": "VP Engineering",
+            "email": "meera.jain@example.com",
+            "phone": "+91-9648388521",
+            "source": "website",
+            "country": "India",
+            "industry": "Energy",
+            "companySize": "201-1000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 590000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Zenith Services — ERP Implementation",
+            "code": "Y2-OPP-1304",
+            "amount": 590000,
+            "currency": "INR",
+            "stage": "new",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-07-28",
+            "businessNeed": "Zenith Services needs system modernization",
+            "nextAction": "Technical demo",
+            "nextActionOn": "2027-07-20"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Zenith Services",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "yatOuwANk-3dFEUegyv7kjcKL0-4W823fI_16s2Zkts"
+  }
+}

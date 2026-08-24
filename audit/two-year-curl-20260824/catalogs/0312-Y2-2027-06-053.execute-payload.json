@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-053",
+    "month": "2027-06",
+    "companyTime": "2027-06-18T13:55:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Arun Chauhan",
+      "Business Analyst requisition filled"
+    ],
+    "intent": "Register new employee Arun Chauhan joining as Senior Consultant.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-003",
+          "fullName": "Arun Chauhan",
+          "email": "arun.chauhan@example.com",
+          "designation": "Senior Consultant",
+          "department": "Product",
+          "location": "Hyderabad",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-06-18"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Arun Chauhan registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "APnPQjhOvo9bKwtgS1qIa5QxPeJHC240MINxBTZJWRE"
+}

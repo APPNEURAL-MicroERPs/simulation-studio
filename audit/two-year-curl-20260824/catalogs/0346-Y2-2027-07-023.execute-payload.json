@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-07-023",
+    "month": "2027-07",
+    "companyTime": "2027-07-09T17:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Pinnacle Cloud (Pharma) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Pinnacle Cloud",
+          "contactName": "Deepak Bhat",
+          "title": "COO",
+          "email": "deepak.bhat@example.com",
+          "phone": "+91-9821480746",
+          "source": "referral",
+          "country": "India",
+          "industry": "Pharma",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2600000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Pinnacle Cloud — Cloud Migration",
+          "code": "Y2-OPP-1303",
+          "amount": 2600000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-07-25",
+          "businessNeed": "Pinnacle Cloud needs system modernization",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-07-17"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Pinnacle Cloud",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "qd0HRVzsKHw3aKSLbZn5ACnIqEVMSPwd7bBNS2a2ylc"
+}

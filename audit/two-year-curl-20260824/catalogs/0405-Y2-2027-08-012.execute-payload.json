@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-08-012",
+    "month": "2027-08",
+    "companyTime": "2027-08-05T10:50:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-901 exists"
+    ],
+    "intent": "Add candidate Nikhil Verma for HR Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Nikhil Verma",
+          "email": "nikhil.verma@example.com",
+          "phone": "+91-9695370132",
+          "locationName": "Mumbai",
+          "currentTitle": "Associate Engineer",
+          "totalExperienceMonths": 46,
+          "skills": "Recruitment, Salesforce, Customer Success, Payroll, Rust, Docker",
+          "source": "referral",
+          "noticePeriodDays": 15,
+          "expectedCtc": 450000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for HR Executive — Y2-REQ-901"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Nikhil Verma added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "kxBooZeln1B1h0p3f7UxOSAV83YdRTKCRpoTDSX5ARs"
+}

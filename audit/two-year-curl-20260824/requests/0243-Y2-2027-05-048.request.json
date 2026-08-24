@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-048",
+      "month": "2027-05",
+      "companyTime": "2027-05-19T12:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Titan Data (Telecom) via referral — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Titan Data",
+            "contactName": "Arjun Chauhan",
+            "title": "Head of IT",
+            "email": "arjun.chauhan@example.com",
+            "phone": "+91-9646535130",
+            "source": "referral",
+            "country": "India",
+            "industry": "Telecom",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 2760000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Titan Data — Digital Transformation",
+            "code": "Y2-OPP-507",
+            "amount": 2760000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-05-26",
+            "businessNeed": "Titan Data needs scalable platform",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-05-27"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Titan Data",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "t2k_OPGTbRa4RZU9QDfcVI-GgeHp2sEvb6-j9xPXOvk"
+  }
+}

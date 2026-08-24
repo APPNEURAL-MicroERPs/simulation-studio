@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-08-009",
+    "month": "2027-08",
+    "companyTime": "2027-08-04T12:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Phoenix Networks (Energy) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Phoenix Networks",
+          "contactName": "Amit Verma",
+          "title": "VP Operations",
+          "email": "amit.verma@example.com",
+          "phone": "+91-9813134367",
+          "source": "referral",
+          "country": "India",
+          "industry": "Energy",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3600000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Phoenix Networks — Cloud Migration",
+          "code": "Y2-OPP-1702",
+          "amount": 3600000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-08-28",
+          "businessNeed": "Phoenix Networks needs data analytics",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-08-14"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Phoenix Networks",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "WVz4nQ-VNubRpsR66d5emVe_R1VAp22lCb6qivBp0zk"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-065",
+      "month": "2027-08",
+      "companyTime": "2027-08-22T14:35:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-904 exists"
+      ],
+      "intent": "Add candidate Aditya Tiwari for DevOps Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Aditya Tiwari",
+            "email": "aditya.tiwari@example.com",
+            "phone": "+91-9741589632",
+            "locationName": "Mumbai",
+            "currentTitle": "Senior Engineer",
+            "totalExperienceMonths": 52,
+            "skills": "Go, AWS, Salesforce",
+            "source": "referral",
+            "noticePeriodDays": 90,
+            "expectedCtc": 1700000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for DevOps Engineer — Y2-REQ-904"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Aditya Tiwari added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "vB6vgbM2-TI8Y4XGgTzV0-AgKyxyOAxgK4PeQuRCuq8"
+  }
+}

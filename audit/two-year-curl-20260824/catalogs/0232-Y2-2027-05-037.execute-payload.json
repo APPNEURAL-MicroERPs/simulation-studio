@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-037",
+    "month": "2027-05",
+    "companyTime": "2027-05-14T13:15:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Nova Dynamics (Media) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Nova Dynamics",
+          "contactName": "Rohan Bhat",
+          "title": "CEO",
+          "email": "rohan.bhat@example.com",
+          "phone": "+91-9817194334",
+          "source": "website",
+          "country": "India",
+          "industry": "Media",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 600000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Nova Dynamics — Analytics Suite",
+          "code": "Y2-OPP-506",
+          "amount": 600000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-26",
+          "businessNeed": "Nova Dynamics needs system modernization",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-05-24"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Nova Dynamics",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "FwjwSDCm_UJAr3MCWcNYeqIEtRhyKiapn0kBWAMK_ws"
+}

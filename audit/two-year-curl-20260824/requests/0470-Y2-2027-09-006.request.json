@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-006",
+      "month": "2027-09",
+      "companyTime": "2027-09-02T17:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "finance",
+      "preconditions": [
+        "Quarterly budget planning cycle"
+      ],
+      "intent": "Set quarterly department budget.",
+      "steps": [
+        {
+          "module": "finance",
+          "method": "POST",
+          "path": "/api/budgets",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Department Budget 2027-09",
+            "amount": 6218965,
+            "currency": "INR",
+            "period": "2027-Q3",
+            "costCenter": "CC-DELIVERY",
+            "status": "approved",
+            "description": "Quarterly budget allocation for 2027-09. Approved by Finance Controller."
+          },
+          "verifyListPath": "/api/budgets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Quarterly budget set and approved"
+      ],
+      "crossEvents": [
+        "finance.budget-set"
+      ],
+      "notifications": [
+        "Department heads notified of budget allocation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "zdZSJcbWzmPlvJ7g8STwwBoFKWT8XCjw-tevAgrT-2c"
+  }
+}

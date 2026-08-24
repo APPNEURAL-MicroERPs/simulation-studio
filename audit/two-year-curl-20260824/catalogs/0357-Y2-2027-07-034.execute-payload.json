@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-07-034",
+    "month": "2027-07",
+    "companyTime": "2027-07-14T11:55:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-703 exists"
+    ],
+    "intent": "Add candidate Mohan Reddy for DevOps Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Mohan Reddy",
+          "email": "mohan.reddy@example.com",
+          "phone": "+91-9895741912",
+          "locationName": "Mumbai",
+          "currentTitle": "Senior Engineer",
+          "totalExperienceMonths": 115,
+          "skills": "Power BI, Tableau, Docker",
+          "source": "campus",
+          "noticePeriodDays": 15,
+          "expectedCtc": 1500000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for DevOps Engineer — Y2-REQ-703"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Mohan Reddy added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "L9GdIxH6YLtDq11UMQ_lo_I0CLR_H-CnKKiW_jjgxyQ"
+}

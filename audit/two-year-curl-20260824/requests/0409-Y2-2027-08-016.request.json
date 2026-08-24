@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-016",
+      "month": "2027-08",
+      "companyTime": "2027-08-07T09:15:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "contract",
+      "preconditions": [
+        "Customer ABC Manufacturing Corp exists"
+      ],
+      "intent": "Create SOW contract with ABC Manufacturing Corp (value: 66L).",
+      "steps": [
+        {
+          "module": "contract",
+          "method": "POST",
+          "path": "/api/contracts",
+          "expectedStatus": 201,
+          "body": {
+            "contractNo": "CTR-Y2-043",
+            "title": "SOW — ABC Manufacturing Corp",
+            "counterpartyName": "ABC Manufacturing Corp",
+            "counterpartyType": "customer",
+            "contractType": "sow",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": "6635206",
+            "currency": "INR",
+            "startOn": "2027-08-01",
+            "endOn": "2028-12-15",
+            "status": "draft",
+            "description": "SOW for software development with ABC Manufacturing Corp."
+          },
+          "verifyListPath": "/api/contracts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "SOW contract created with ABC Manufacturing Corp"
+      ],
+      "crossEvents": [
+        "contract.created"
+      ],
+      "notifications": [
+        "Legal and finance notified for review"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "VmoIVFaNdgbqFUboVpINEIibl5EaV1K65UYECWcibFM"
+  }
+}

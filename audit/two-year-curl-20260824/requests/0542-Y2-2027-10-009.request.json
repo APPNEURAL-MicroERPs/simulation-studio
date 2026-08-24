@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-009",
+      "month": "2027-10",
+      "companyTime": "2027-10-04T14:55:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Pinnacle Group — Y2-OPP-2509 (discovery).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Pinnacle Group — Digital Transformation",
+            "code": "Y2-OPP-2509",
+            "amount": 4860000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 30,
+            "forecastCategory": "pipeline",
+            "expectedCloseOn": "2027-10-25",
+            "businessNeed": "Pinnacle Group needs system modernization",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-10-14"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-2509 created at discovery stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "aGEwb2IcirOpMJwpZsBVeBtaO9acFzXqwqzYR_7OJHQ"
+  }
+}

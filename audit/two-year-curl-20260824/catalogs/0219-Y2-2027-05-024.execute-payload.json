@@ -1,0 +1,48 @@
+{
+  "story": {
+    "id": "Y2-2027-05-024",
+    "month": "2027-05",
+    "companyTime": "2027-05-09T17:10:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "4 employees",
+      "18 prior security reviews"
+    ],
+    "intent": "Security review: Architecture Security Review. 0 findings raised and documented.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/reviews",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Architecture Security Review — 2027-05",
+          "kind": "architecture_review",
+          "scope": "4 employees, 13 active projects, cloud infrastructure",
+          "performedOn": "2027-05-15",
+          "reviewerEmail": "sandeep.patel@nexora.example",
+          "findingsRaised": 0,
+          "status": "completed"
+        },
+        "verifyListPath": "/api/reviews?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Security review completed: Architecture Security Review"
+    ],
+    "crossEvents": [
+      "security.review-completed"
+    ],
+    "notifications": [
+      "No critical findings"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "187ga67eMW-I2vKP7ow1aK8FcplIqeqf3J0LnoJ12Tw"
+}

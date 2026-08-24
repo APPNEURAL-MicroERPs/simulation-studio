@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-011",
+    "month": "2027-05",
+    "companyTime": "2027-05-04T17:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Omega Infotech (Education) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Omega Infotech",
+          "contactName": "Rahul Shah",
+          "title": "Head of IT",
+          "email": "rahul.shah@example.com",
+          "phone": "+91-9719767584",
+          "source": "website",
+          "country": "India",
+          "industry": "Education",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1100000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Omega Infotech — Analytics Suite",
+          "code": "Y2-OPP-502",
+          "amount": 1100000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-25",
+          "businessNeed": "Omega Infotech needs system modernization",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2027-05-14"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Omega Infotech",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4F4p8PnNSBDXQ04Y7X7-4Kmcsg6tgl3vU_jgsHRxyAQ"
+}

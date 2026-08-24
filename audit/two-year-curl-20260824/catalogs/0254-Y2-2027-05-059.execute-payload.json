@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-059",
+    "month": "2027-05",
+    "companyTime": "2027-05-22T13:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Vertex Software (Insurance) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Vertex Software",
+          "contactName": "Anil Mehta",
+          "title": "VP Operations",
+          "email": "anil.mehta@example.com",
+          "phone": "+91-9798213537",
+          "source": "website",
+          "country": "India",
+          "industry": "Insurance",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 620000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Vertex Software — Digital Transformation",
+          "code": "Y2-OPP-508",
+          "amount": 620000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-27",
+          "businessNeed": "Vertex Software needs process automation",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2027-05-26"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Vertex Software",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "lbcuxVHlH3tYD0NuJQDLhZ9rMHdgAvhoQhpOdeHUMKg"
+}

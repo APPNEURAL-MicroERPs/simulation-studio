@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-027",
+    "month": "2027-05",
+    "companyTime": "2027-05-10T15:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Aurora Solutions — Y2-OPP-510 (discovery).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Aurora Solutions — Platform Development",
+          "code": "Y2-OPP-510",
+          "amount": 3470000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 30,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-05-25",
+          "businessNeed": "Aurora Solutions needs system modernization",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2027-05-23"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-510 created at discovery stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "DMaHrv8UK2vk3wDCtfL4f620OcOgHAaP2u1AdVP_Xck"
+}

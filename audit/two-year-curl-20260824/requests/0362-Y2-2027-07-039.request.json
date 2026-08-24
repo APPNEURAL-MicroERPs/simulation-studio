@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-039",
+      "month": "2027-07",
+      "companyTime": "2027-07-15T09:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-703 exists"
+      ],
+      "intent": "Add candidate Swati Das for DevOps Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Swati Das",
+            "email": "swati.das@example.com",
+            "phone": "+91-9079621338",
+            "locationName": "Mumbai",
+            "currentTitle": "Senior Analyst",
+            "totalExperienceMonths": 78,
+            "skills": "Technical Support, TypeScript, Jenkins, Redis, AWS, Account Management",
+            "source": "inbound",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1400000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for DevOps Engineer — Y2-REQ-703"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Swati Das added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Y9O8TSZCQkRi854LSc7o37KdjQP-1g9MeeZZ5m4gVfI"
+  }
+}

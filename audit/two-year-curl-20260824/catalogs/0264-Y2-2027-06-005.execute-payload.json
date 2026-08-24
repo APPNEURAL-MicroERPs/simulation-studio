@@ -1,0 +1,70 @@
+{
+  "story": {
+    "id": "Y2-2027-06-005",
+    "month": "2027-06",
+    "companyTime": "2027-06-03T12:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "performance",
+    "preconditions": [
+      "4 employees active",
+      "Q2 review due"
+    ],
+    "intent": "Q2 performance cycle opened with first goal.",
+    "steps": [
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/cycles",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Q2 Review 2027",
+          "cycleType": "custom",
+          "startsOn": "2027-06-01",
+          "endsOn": "2027-06-28",
+          "ownerEmail": "priya.sharma@nexora.example",
+          "minimumServiceDays": 90
+        },
+        "verifyListPath": "/api/cycles?pageSize=200"
+      },
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/goals",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Q2 Achieve customer satisfaction target",
+          "description": "Performance goal for Q2 aligned with department objectives.",
+          "goalType": "development",
+          "level": "team",
+          "ownerCode": "EMP-1001",
+          "cycle": "$PREV.createdId",
+          "weightPercent": 20,
+          "progressPercent": 0,
+          "startsOn": "2027-06-01",
+          "dueDate": "2027-06-28",
+          "status": "active"
+        },
+        "verifyListPath": "/api/goals?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Q2 performance cycle opened",
+      "Goal created for Priya Sharma"
+    ],
+    "crossEvents": [
+      "performance.cycle-opened",
+      "performance.goal-created"
+    ],
+    "notifications": [
+      "All managers notified to begin reviews",
+      "Priya Sharma notified of new goal"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4L0OxEZjvKbsd3JFV3ZRMQLwqIB9thR86_f0KOAEEwo"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-059",
+      "month": "2027-09",
+      "companyTime": "2027-09-20T09:00:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1104 exists"
+      ],
+      "intent": "Add candidate Amit Desai for Business Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Amit Desai",
+            "email": "amit.desai@example.com",
+            "phone": "+91-9848196068",
+            "locationName": "Noida",
+            "currentTitle": "Analyst",
+            "totalExperienceMonths": 64,
+            "skills": "Excel, TypeScript, Sketch, Docker, Jenkins, Financial Modeling",
+            "source": "inbound",
+            "noticePeriodDays": 90,
+            "expectedCtc": 1100000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Business Analyst — Y2-REQ-1104"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Amit Desai added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "8ZUXlqDTvVUIID7s8Fzro2GNh8kay3mzg4q_0RaBCVY"
+  }
+}

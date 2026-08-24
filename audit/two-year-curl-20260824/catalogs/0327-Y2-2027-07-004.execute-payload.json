@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-07-004",
+    "month": "2027-07",
+    "companyTime": "2027-07-03T16:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Orbit Digital (Retail) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Orbit Digital",
+          "contactName": "Nikhil Menon",
+          "title": "Director",
+          "email": "nikhil.menon@example.com",
+          "phone": "+91-9728035856",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Retail",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3150000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Orbit Digital — ERP Implementation",
+          "code": "Y2-OPP-1301",
+          "amount": 3150000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-07-28",
+          "businessNeed": "Orbit Digital needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-07-15"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Orbit Digital",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Gyc7XjwHkn-eZQ2VWOdDTAo_mdbv7tddICnd3H21o5M"
+}

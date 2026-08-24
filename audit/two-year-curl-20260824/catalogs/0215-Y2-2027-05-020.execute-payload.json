@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-05-020",
+    "month": "2027-05",
+    "companyTime": "2027-05-08T13:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Sandeep Patel is active",
+      "Project INTERNAL-PRJ-001 is active"
+    ],
+    "intent": "Allocate Sandeep Patel to INTERNAL-PRJ-001 at 75%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-412",
+          "resourceId": "RES-EMP-1012",
+          "employeeCode": "EMP-1012",
+          "projectId": "INTERNAL-PRJ-001",
+          "role": "Business Analyst",
+          "allocationPercent": 75,
+          "startDate": "2027-05-01",
+          "endDate": "2027-09-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Sandeep Patel allocated to INTERNAL-PRJ-001 at 75%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Fd-i5uA0IBIVzVZC1G24Xfa9FNYDyEbjXULEEgzvgxs"
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-011",
+    "month": "2027-09",
+    "companyTime": "2027-09-04T17:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1101 exists"
+    ],
+    "intent": "Add candidate Manish Pillai for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Manish Pillai",
+          "email": "manish.pillai@example.com",
+          "phone": "+91-9070143991",
+          "locationName": "Gurugram",
+          "currentTitle": "Tech Lead",
+          "totalExperienceMonths": 54,
+          "skills": "Vitest, PostgreSQL, Jenkins, SAP, Audit",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 2150000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-1101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Manish Pillai added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LZFl8b1QLMs0XgIUkQqjXA_7-DEoUYKDEyI-eKX46NE"
+}

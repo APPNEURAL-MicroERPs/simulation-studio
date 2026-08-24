@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-001",
+      "month": "2027-06",
+      "companyTime": "2027-06-01T14:10:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "project",
+      "preconditions": [
+        "13 active projects",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "New project: Y2-PRJ-411 — Security Assessment for ABC Manufacturing Corp with kickoff milestone.",
+      "steps": [
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/projects",
+          "expectedStatus": 201,
+          "body": {
+            "name": "ABC Manufacturing Corp — Digital Transformation",
+            "code": "Y2-PRJ-411",
+            "client": "ABC Manufacturing Corp",
+            "managerEmail": "sandeep.patel@nexora.example",
+            "startDate": "2027-06-02",
+            "endDate": "2028-01-15",
+            "budget": 5698117,
+            "status": "planning"
+          },
+          "verifyListPath": "/api/projects?pageSize=200"
+        },
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/milestones",
+          "expectedStatus": 201,
+          "body": {
+            "projectId": "$PREV.createdId",
+            "name": "Kickoff — Initial planning",
+            "baselineDate": "2027-06-15",
+            "forecastDate": "2027-06-08",
+            "isBillingTrigger": false
+          },
+          "verifyListPath": "/api/milestones?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Project Y2-PRJ-411 created for ABC Manufacturing Corp",
+        "Kickoff milestone created"
+      ],
+      "crossEvents": [
+        "project.created",
+        "project.milestone-created"
+      ],
+      "notifications": [
+        "Project manager receives kickoff task",
+        "Milestone added to project plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "5x9mZAXyTEnhWE1RY8d60rIgXnzZMglVSqGHPQxlVF0"
+  }
+}

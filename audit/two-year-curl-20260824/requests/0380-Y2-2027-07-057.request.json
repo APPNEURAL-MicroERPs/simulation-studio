@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-057",
+      "month": "2027-07",
+      "companyTime": "2027-07-20T16:05:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-703 exists"
+      ],
+      "intent": "Add candidate Radhika Mehta for DevOps Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Radhika Mehta",
+            "email": "radhika.mehta@example.com",
+            "phone": "+91-9796171077",
+            "locationName": "Mumbai",
+            "currentTitle": "Engineer",
+            "totalExperienceMonths": 58,
+            "skills": "CI/CD, Jira, Tax, Jest, TypeScript, GCP",
+            "source": "careers_site",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1100000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for DevOps Engineer — Y2-REQ-703"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Radhika Mehta added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "wDVVsyG7aHSYtXySncB0xuqlD4mkBoRFB2oanVSQDNs"
+  }
+}

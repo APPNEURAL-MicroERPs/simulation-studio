@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-010",
+    "month": "2027-06",
+    "companyTime": "2027-06-04T15:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-501 exists"
+    ],
+    "intent": "Add candidate Siddharth Verma for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Siddharth Verma",
+          "email": "siddharth.verma@example.com",
+          "phone": "+91-9619711692",
+          "locationName": "Hyderabad",
+          "currentTitle": "Senior Analyst",
+          "totalExperienceMonths": 44,
+          "skills": "Compliance, Technical Support, Java",
+          "source": "agency",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1150000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-501"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Siddharth Verma added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "F66a_DNv_X7HOXmoEaB_euqqksj1zK2ehqCyfoeHQ3U"
+}

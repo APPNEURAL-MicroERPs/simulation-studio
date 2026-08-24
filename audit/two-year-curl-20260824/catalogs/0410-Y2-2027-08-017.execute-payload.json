@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-08-017",
+    "month": "2027-08",
+    "companyTime": "2027-08-07T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Helios Services (Hospitality) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Helios Services",
+          "contactName": "Anil Singh",
+          "title": "COO",
+          "email": "anil.singh@example.com",
+          "phone": "+91-9717174916",
+          "source": "website",
+          "country": "India",
+          "industry": "Hospitality",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 4130000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Helios Services — ERP Implementation",
+          "code": "Y2-OPP-1703",
+          "amount": 4130000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-08-28",
+          "businessNeed": "Helios Services needs scalable platform",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-08-15"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Helios Services",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "MCZ1iRjU_lwTEfUAs5eNzCP7J0mZoRIvylGxt1HH9rU"
+}

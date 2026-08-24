@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-07-015",
+    "month": "2027-07",
+    "companyTime": "2027-07-08T10:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Titan Industries — Y2-OPP-1308 (solution).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Titan Industries — Analytics Suite",
+          "code": "Y2-OPP-1308",
+          "amount": 3180000,
+          "currency": "INR",
+          "stage": "solution",
+          "probability": 40,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-07-28",
+          "businessNeed": "Titan Industries needs customer engagement tools",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-07-14"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-1308 created at solution stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "NncePXVDw7Zl55SobY7xawsTD8mvgL7ZjTb4llV16co"
+}

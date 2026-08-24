@@ -1,0 +1,81 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-020",
+      "month": "2027-08",
+      "companyTime": "2027-08-08T11:00:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "procurement",
+      "preconditions": [
+        "4 active vendors"
+      ],
+      "intent": "Purchase request: IT Equipment — Laptops → PO (430K).",
+      "steps": [
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/requests",
+          "expectedStatus": 201,
+          "body": {
+            "requestNo": "Y2-PO-902",
+            "title": "IT Equipment — Laptops",
+            "category": "IT Hardware",
+            "requesterEmail": "vikram.shah@nexora.example",
+            "department": "Engineering",
+            "estimatedCost": 429810,
+            "neededBy": "2027-10-15",
+            "justification": "Operational need: IT Equipment — Laptops. Approved by department head.",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/requests?pageSize=200"
+        },
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/purchase-orders",
+          "expectedStatus": 201,
+          "body": {
+            "poNumber": "PO-Y2-061",
+            "vendor": "TechEquip India Pvt Ltd",
+            "requestRef": "$PREV.createdId",
+            "category": "IT Hardware",
+            "itemSummary": "IT Equipment — Laptops",
+            "amount": 429810,
+            "costCenter": "CC-ADMIN",
+            "orderDate": "2027-08-16",
+            "expectedDate": "2027-11-15",
+            "buyerEmail": "vikram.shah@nexora.example",
+            "status": "approved"
+          },
+          "verifyListPath": "/api/purchase-orders?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Purchase request Y2-PO-902 created",
+        "PO created against request"
+      ],
+      "crossEvents": [
+        "procurement.request-created",
+        "procurement.po-created"
+      ],
+      "notifications": [
+        "Procurement team notified",
+        "Vendor notified of PO"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "9ovSszcrDt6WiE5CvQOcDn70zqg8G6xilihzLf3w7sQ"
+  }
+}

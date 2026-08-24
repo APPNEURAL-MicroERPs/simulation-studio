@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-05-017",
+    "month": "2027-05",
+    "companyTime": "2027-05-06T16:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "3 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Crest Corp (Technology) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Crest Corp",
+          "contactName": "Varun Chauhan",
+          "title": "Head of IT",
+          "email": "varun.chauhan@example.com",
+          "phone": "+91-9547037406",
+          "source": "referral",
+          "country": "India",
+          "industry": "Technology",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3960000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Crest Corp — ERP Implementation",
+          "code": "Y2-OPP-503",
+          "amount": 3960000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-05-25",
+          "businessNeed": "Crest Corp needs scalable platform",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-05-19"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Crest Corp",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "sRS3ocBOnS91ugCq7Ty8Y_idEIIK7x14HCil9ElZkVk"
+}

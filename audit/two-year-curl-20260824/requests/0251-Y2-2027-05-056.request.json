@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-05-056",
+      "month": "2027-05",
+      "companyTime": "2027-05-21T13:20:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-304 exists"
+      ],
+      "intent": "Add candidate Jyoti Pandey for Account Manager role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Jyoti Pandey",
+            "email": "jyoti.pandey@example.com",
+            "phone": "+91-9540852736",
+            "locationName": "Gurugram",
+            "currentTitle": "Consultant",
+            "totalExperienceMonths": 88,
+            "skills": "Rust, GitHub Actions, REST, GraphQL",
+            "source": "inbound",
+            "noticePeriodDays": 0,
+            "expectedCtc": 1600000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Account Manager — Y2-REQ-304"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Jyoti Pandey added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "76rhKU9x1v3S0JlBodoNznGzGp2tv9cfOwHlvW_rek8"
+  }
+}

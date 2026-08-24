@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-054",
+    "month": "2027-06",
+    "companyTime": "2027-06-19T12:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Apex Networks — Y2-OPP-911 (qualified).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Apex Networks — Custom Software",
+          "code": "Y2-OPP-911",
+          "amount": 2220000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-06-25",
+          "businessNeed": "Apex Networks needs scalable platform",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2027-06-26"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-911 created at qualified stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "iNKB2re2Ap1Ylb47EuYjlstKDtQahxgc9p_4RPqhoRk"
+}

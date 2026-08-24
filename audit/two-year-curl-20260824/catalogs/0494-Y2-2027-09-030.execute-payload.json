@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-09-030",
+    "month": "2027-09",
+    "companyTime": "2027-09-11T12:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Synergy Infotech (Insurance) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Synergy Infotech",
+          "contactName": "Siddharth Jain",
+          "title": "Head of IT",
+          "email": "siddharth.jain@example.com",
+          "phone": "+91-9861323750",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Insurance",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2930000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Synergy Infotech — Digital Transformation",
+          "code": "Y2-OPP-2104",
+          "amount": 2930000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-09-25",
+          "businessNeed": "Synergy Infotech needs process automation",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-09-23"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Synergy Infotech",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "pGXSZm1rKSEgmf4970hFhsU6k5QzbOMqhbNIeoFTMdM"
+}

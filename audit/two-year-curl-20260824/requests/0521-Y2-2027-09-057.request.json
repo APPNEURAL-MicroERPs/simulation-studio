@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-09-057",
+      "month": "2027-09",
+      "companyTime": "2027-09-19T12:55:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "risk",
+      "preconditions": [
+        "21 risks in register"
+      ],
+      "intent": "Risk registered: Cybersecurity threat escalation.",
+      "steps": [
+        {
+          "module": "risk",
+          "method": "POST",
+          "path": "/api/risks",
+          "expectedStatus": 201,
+          "body": {
+            "riskRef": "RISK-Y2-069",
+            "title": "Cybersecurity threat escalation",
+            "category": "security",
+            "description": "Cybersecurity threat escalation. Identified during 2027-09 risk assessment. Likelihood: 3/5, Impact: 5/5. Treatment plan: avoid.",
+            "ownerEmail": "vikram.shah@nexora.example",
+            "likelihood": 3,
+            "impact": 5,
+            "treatment": "avoid",
+            "status": "assessed",
+            "reviewDue": "2027-09-25"
+          },
+          "verifyListPath": "/api/risks?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Risk registered: Cybersecurity threat escalation"
+      ],
+      "crossEvents": [
+        "risk.registered"
+      ],
+      "notifications": [
+        "Risk owner notified for treatment plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "fJKAqfNB97XA52Q4lrEt3rn2l2Ie9MMs_isrt0oYHP0"
+  }
+}

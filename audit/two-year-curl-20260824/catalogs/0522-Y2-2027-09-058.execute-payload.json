@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-09-058",
+    "month": "2027-09",
+    "companyTime": "2027-09-19T15:50:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1103 exists"
+    ],
+    "intent": "Add candidate Pradeep Pillai for DevOps Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Pradeep Pillai",
+          "email": "pradeep.pillai@example.com",
+          "phone": "+91-9657302769",
+          "locationName": "Hyderabad",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 99,
+          "skills": "Tax, Payroll, Python, Customer Success, MongoDB, Docker",
+          "source": "linkedin",
+          "noticePeriodDays": 60,
+          "expectedCtc": 1750000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for DevOps Engineer — Y2-REQ-1103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Pradeep Pillai added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Hrj4PtExHhYpuT_sZ_KXI2oXzhJn4WlV6N6Y9tswS6s"
+}

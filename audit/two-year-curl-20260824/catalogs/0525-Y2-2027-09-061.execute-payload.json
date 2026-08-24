@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-09-061",
+    "month": "2027-09",
+    "companyTime": "2027-09-20T12:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Phoenix Solutions (Agriculture) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Phoenix Solutions",
+          "contactName": "Divya Joshi",
+          "title": "Head of IT",
+          "email": "divya.joshi@example.com",
+          "phone": "+91-9082789367",
+          "source": "website",
+          "country": "India",
+          "industry": "Agriculture",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2610000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Phoenix Solutions — Platform Development",
+          "code": "Y2-OPP-2107",
+          "amount": 2610000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-09-25",
+          "businessNeed": "Phoenix Solutions needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-09-27"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Phoenix Solutions",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "sMsVw3qQQYYzOOfkNf2AJQEWZ3flinV3LzocOhDd3zU"
+}

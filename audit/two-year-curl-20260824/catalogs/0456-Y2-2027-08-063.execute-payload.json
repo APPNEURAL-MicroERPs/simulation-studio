@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-08-063",
+    "month": "2027-08",
+    "companyTime": "2027-08-21T13:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Synergy Cloud — Y2-OPP-1710 (negotiation).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Synergy Cloud — Cloud Migration",
+          "code": "Y2-OPP-1710",
+          "amount": 3360000,
+          "currency": "INR",
+          "stage": "negotiation",
+          "probability": 75,
+          "forecastCategory": "commit",
+          "expectedCloseOn": "2027-08-27",
+          "businessNeed": "Synergy Cloud needs scalable platform",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-08-26"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-1710 created at negotiation stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "GAQJp3ADJ0gsG_G854kPsVKccgTxAZ8Sd7xwP418pUc"
+}

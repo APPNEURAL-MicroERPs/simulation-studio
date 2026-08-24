@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-046",
+    "month": "2027-05",
+    "companyTime": "2027-05-17T15:10:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-303 exists"
+    ],
+    "intent": "Add candidate Akash Sinha for Security Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Akash Sinha",
+          "email": "akash.sinha@example.com",
+          "phone": "+91-9667256899",
+          "locationName": "Hyderabad",
+          "currentTitle": "Senior Engineer",
+          "totalExperienceMonths": 31,
+          "skills": "Redis, Next.js, Tableau",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1300000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Security Engineer — Y2-REQ-303"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Akash Sinha added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "EZEXjRaBdXKU-vQYYxFPYTEgj9CaSGtvT0bN5FSoPQs"
+}

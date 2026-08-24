@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-049",
+    "month": "2027-05",
+    "companyTime": "2027-05-19T17:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Ravi Reddy",
+      "Senior Software Engineer requisition filled"
+    ],
+    "intent": "Register new employee Ravi Reddy joining as Lead Engineer.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-003",
+          "fullName": "Ravi Reddy",
+          "email": "ravi.reddy@example.com",
+          "designation": "Lead Engineer",
+          "department": "Engineering",
+          "location": "Udaipur",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-05-19"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Ravi Reddy registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "bhZaQPfabclBCZSO8fy_OElT9-4_ojHILYymM4-1GXE"
+}

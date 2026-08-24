@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-08-010",
+    "month": "2027-08",
+    "companyTime": "2027-08-04T17:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Priya Sharma is active",
+      "Project Y2-PRJ-2212 is active"
+    ],
+    "intent": "Allocate Priya Sharma to Y2-PRJ-2212 at 75%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-1611",
+          "resourceId": "RES-EMP-1001",
+          "employeeCode": "EMP-1001",
+          "projectId": "Y2-PRJ-2212",
+          "role": "DevOps Engineer",
+          "allocationPercent": 75,
+          "startDate": "2027-08-01",
+          "endDate": "2027-11-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Priya Sharma allocated to Y2-PRJ-2212 at 75%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_hj5OVky-MliVAGHc2bjdSAT93eMxREGHRa1ozJEwFs"
+}

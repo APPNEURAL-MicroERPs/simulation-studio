@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-07-033",
+      "month": "2027-07",
+      "companyTime": "2027-07-14T11:05:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-702 exists"
+      ],
+      "intent": "Add candidate Vandana Nair for Financial Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Vandana Nair",
+            "email": "vandana.nair@example.com",
+            "phone": "+91-9899425101",
+            "locationName": "Pune",
+            "currentTitle": "Senior Analyst",
+            "totalExperienceMonths": 99,
+            "skills": "Payroll, Next.js, Python, Accounting, React",
+            "source": "linkedin",
+            "noticePeriodDays": 60,
+            "expectedCtc": 850000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Financial Analyst — Y2-REQ-702"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Vandana Nair added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "J3tGg5-1iNOwck9JeheRkh4x4Dh8FqjFmxYikkSUGSY"
+  }
+}

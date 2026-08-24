@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-031",
+      "month": "2027-08",
+      "companyTime": "2027-08-11T14:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-902 exists"
+      ],
+      "intent": "Add candidate Tanvi Yadav for Senior Software Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Tanvi Yadav",
+            "email": "tanvi.yadav@example.com",
+            "phone": "+91-9885471450",
+            "locationName": "Bengaluru",
+            "currentTitle": "Manager",
+            "totalExperienceMonths": 14,
+            "skills": "Next.js, TypeScript, Docker, Accounting, Recruitment, Confluence",
+            "source": "agency",
+            "noticePeriodDays": 0,
+            "expectedCtc": 2050000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Senior Software Engineer — Y2-REQ-902"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Tanvi Yadav added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "jrj8W1hF7yShToW3_KYd1iCZE5aTNMafWJDPnC8V8ng"
+  }
+}

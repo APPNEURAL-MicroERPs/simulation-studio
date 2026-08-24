@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-061",
+    "month": "2027-06",
+    "companyTime": "2027-06-23T16:30:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-503 exists"
+    ],
+    "intent": "Add candidate Harsh Yadav for QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Harsh Yadav",
+          "email": "harsh.yadav@example.com",
+          "phone": "+91-9053558670",
+          "locationName": "Hyderabad",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 118,
+          "skills": "Vitest, CI/CD, Audit, Confluence, Cypress, React",
+          "source": "careers_site",
+          "noticePeriodDays": 90,
+          "expectedCtc": 1050000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for QA Engineer — Y2-REQ-503"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Harsh Yadav added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "yRPejmFjTkR-_aMUoplV0rCnL37uG9rNIxGNDuoJ9ak"
+}

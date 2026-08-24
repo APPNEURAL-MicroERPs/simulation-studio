@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-08-014",
+      "month": "2027-08",
+      "companyTime": "2027-08-05T15:25:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign MacBook Pro 16-inch to Sandeep Patel.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-LAPTOP-Y2-AST-1001",
+            "name": "MacBook Pro 16-inch",
+            "serialNumber": "SN-LAPTOP-Y2-0065",
+            "category": "laptop",
+            "model": "MacBook Pro 16-inch",
+            "status": "assigned",
+            "assignedTo": "sandeep.patel@nexora.example",
+            "location": "Bengaluru",
+            "purchaseDate": "2027-08-02",
+            "purchaseCost": 244100
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-LAPTOP-Y2-AST-1001 assigned to Sandeep Patel"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Lp3606cntHFev975VWSZK0Y4FIseTy6lbFN7Og5YYQw"
+  }
+}

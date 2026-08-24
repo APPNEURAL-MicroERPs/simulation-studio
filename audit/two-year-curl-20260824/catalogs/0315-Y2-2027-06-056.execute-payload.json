@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-06-056",
+    "month": "2027-06",
+    "companyTime": "2027-06-20T17:20:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Kavya Agarwal",
+      "Software Engineer requisition filled"
+    ],
+    "intent": "Register new employee Kavya Agarwal joining as Engineer.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-008",
+          "fullName": "Kavya Agarwal",
+          "email": "kavya.agarwal@example.com",
+          "designation": "Engineer",
+          "department": "Engineering",
+          "location": "Gurugram",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-06-20"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Kavya Agarwal registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "fljPDdH27LlkkK5Gq5W5W7nQDO8QQjSZ7-yRXvALiiw"
+}

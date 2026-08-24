@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-057",
+    "month": "2027-05",
+    "companyTime": "2027-05-21T16:05:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Nexus Ventures — Y2-OPP-511 (new).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Nexus Ventures — Analytics Suite",
+          "code": "Y2-OPP-511",
+          "amount": 4620000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 10,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-05-25",
+          "businessNeed": "Nexus Ventures needs data analytics",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-05-25"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-511 created at new stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "5YYcJX95Hv6Wg4GbgatU4G98cfN2TpPF2ao52iCRIH8"
+}

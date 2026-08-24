@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-05-016",
+    "month": "2027-05",
+    "companyTime": "2027-05-06T15:50:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Vikram Shah is an active employee"
+    ],
+    "intent": "Vikram Shah enrolled in \"Agile Project Management\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1007",
+          "title": "Agile Project Management",
+          "description": "Professional development: Agile Project Management. Aligned with role growth and company needs.",
+          "source": "career_path",
+          "startsOn": "2027-05-01",
+          "completesBy": "2027-07-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vikram Shah enrolled in Agile Project Management"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "K9vqvE6yhHfG3ci-o4XWuecZPmlJvliv9_uIR1as8p4"
+}

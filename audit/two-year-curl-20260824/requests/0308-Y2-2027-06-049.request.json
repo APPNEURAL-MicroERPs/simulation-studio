@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-06-049",
+      "month": "2027-06",
+      "companyTime": "2027-06-17T17:10:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Crest Infotech (Logistics) via campaign — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Crest Infotech",
+            "contactName": "Ravi Kumar",
+            "title": "COO",
+            "email": "ravi.kumar@example.com",
+            "phone": "+91-9581076707",
+            "source": "campaign",
+            "country": "India",
+            "industry": "Logistics",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 3730000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Crest Infotech — Analytics Suite",
+            "code": "Y2-OPP-907",
+            "amount": 3730000,
+            "currency": "INR",
+            "stage": "qualified",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-06-25",
+            "businessNeed": "Crest Infotech needs system modernization",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-06-26"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Crest Infotech",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "WFavEqW2UOf8biPZjI_5Rd4aGRuZaowEefNbD9PM7I4"
+  }
+}

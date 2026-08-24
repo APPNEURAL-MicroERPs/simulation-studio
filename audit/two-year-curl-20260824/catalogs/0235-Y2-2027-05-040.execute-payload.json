@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-05-040",
+    "month": "2027-05",
+    "companyTime": "2027-05-14T16:55:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-302 exists"
+    ],
+    "intent": "Add candidate Sachin Shah for Senior QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Sachin Shah",
+          "email": "sachin.shah@example.com",
+          "phone": "+91-9741622863",
+          "locationName": "Bengaluru",
+          "currentTitle": "Senior Manager",
+          "totalExperienceMonths": 106,
+          "skills": "Training, Go, Rust",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 3000000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior QA Engineer — Y2-REQ-302"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Sachin Shah added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "eIVy84ZlWC-XehJacqOpGpc3TyZd4XElHRbaWuU1QaY"
+}
