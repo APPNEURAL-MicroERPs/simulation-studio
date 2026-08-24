@@ -1,0 +1,125 @@
+{
+  "id": "GOLD-M12-012",
+  "month": "2027-03",
+  "companyTime": "2027-03-31T18:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "organization",
+  "preconditions": [
+    "All March activities completed",
+    "Year 1 complete"
+  ],
+  "intent": "Year-1 final reconciliation — comprehensive cross-ERP verification.",
+  "steps": [
+    {
+      "module": "hr",
+      "method": "GET",
+      "path": "/api/employees?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "crm",
+      "method": "GET",
+      "path": "/api/leads?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "crm",
+      "method": "GET",
+      "path": "/api/opportunities?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "billing",
+      "method": "GET",
+      "path": "/api/invoices?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "project",
+      "method": "GET",
+      "path": "/api/projects?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "finance",
+      "method": "GET",
+      "path": "/api/budgets?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "finance",
+      "method": "GET",
+      "path": "/api/journal-entries?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "compliance",
+      "method": "GET",
+      "path": "/api/findings?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "risk",
+      "method": "GET",
+      "path": "/api/risks?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "vendor",
+      "method": "GET",
+      "path": "/api/vendors?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "asset",
+      "method": "GET",
+      "path": "/api/audit_campaigns?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "security",
+      "method": "GET",
+      "path": "/api/reviews?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "performance",
+      "method": "GET",
+      "path": "/api/cycles?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "learning",
+      "method": "GET",
+      "path": "/api/development-plans?pageSize=100",
+      "expectedStatus": 200
+    }
+  ],
+  "expectedState": [
+    "Employees >= 5",
+    "Leads >= 8",
+    "Opportunities >= 4",
+    "Invoices >= 5",
+    "Projects >= 6",
+    "Budgets >= 5",
+    "Journal entries >= 12",
+    "Findings >= 5",
+    "Risks >= 2",
+    "Vendors >= 3",
+    "Asset audits >= 3",
+    "Security reviews >= 2",
+    "Performance cycles >= 5",
+    "Development plans >= 3"
+  ],
+  "crossEvents": [],
+  "notifications": [
+    "Year 1 complete — 30/30 Micro-ERPs exercised",
+    "Canonical reference simulation established"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state"
+  ]
+}

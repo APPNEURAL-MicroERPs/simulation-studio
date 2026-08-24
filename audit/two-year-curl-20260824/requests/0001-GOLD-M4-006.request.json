@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-006",
+    "month": "2026-07",
+    "companyTime": "2026-07-15T10:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "audit",
+    "preconditions": [
+      "Compliance framework active",
+      "3 months of operations"
+    ],
+    "intent": "CEO initiates first internal audit engagement.",
+    "steps": [
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/audits",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-2026-001",
+          "name": "Q1 Internal Controls Audit",
+          "scope": "financial_controls",
+          "fieldworkStart": "2026-07-15",
+          "fieldworkEnd": "2026-07-31",
+          "status": "planned",
+          "leadEmail": "nikhil.sethi@nexora.example"
+        },
+        "verifyListPath": "/api/audits?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Audit AUD-2026-001 planned"
+    ],
+    "crossEvents": [
+      "audit.engagement-created"
+    ],
+    "notifications": [
+      "Audit team receives engagement assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-006.story.json"
+}

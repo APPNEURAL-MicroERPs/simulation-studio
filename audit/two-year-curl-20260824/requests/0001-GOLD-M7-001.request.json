@@ -1,0 +1,63 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-001",
+    "month": "2026-10",
+    "companyTime": "2026-10-01T09:00:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "hr",
+    "preconditions": [
+      "Rohit (EMP-1003) resigned in September",
+      "Exit process initiated"
+    ],
+    "intent": "HR registers Rohit's employee record for exit processing.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1003",
+          "fullName": "Rohit Kumar",
+          "email": "rohit.kumar@nexora.example",
+          "designation": "Backend Engineer",
+          "department": "Engineering",
+          "location": "Bengaluru",
+          "dateOfJoining": "2025-06-15",
+          "dateOfExit": "2026-10-15",
+          "employmentType": "full_time",
+          "employmentStatus": "notice"
+        },
+        "verifyListPath": "/api/employees?q=EMP-1003&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Employee EMP-1003 registered in HR with notice status"
+    ],
+    "crossEvents": [
+      "hr.employee-exit-initiated"
+    ],
+    "notifications": [
+      "Exit process initiated for Rohit"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-001.story.json"
+}

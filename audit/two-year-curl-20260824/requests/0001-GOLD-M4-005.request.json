@@ -1,0 +1,73 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-005/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-005",
+    "month": "2026-07",
+    "companyTime": "2026-07-10T09:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "Risk register established"
+    ],
+    "intent": "Compliance officer sets up compliance framework and controls.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/frameworks",
+        "expectedStatus": 201,
+        "body": {
+          "code": "ISO27001",
+          "name": "ISO 27001:2022 Information Security",
+          "version": "2022",
+          "status": "in_scope"
+        },
+        "verifyListPath": "/api/frameworks?pageSize=100"
+      },
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/controls",
+        "expectedStatus": 201,
+        "body": {
+          "controlId": "CTRL-ACC-001",
+          "title": "Access Control Policy",
+          "framework": "iso27001",
+          "requirementRef": "ISO27001-A.9",
+          "description": "Role-based access control for all production systems",
+          "status": "not_implemented"
+        },
+        "verifyListPath": "/api/controls?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "ISO 27001 framework registered",
+      "Access control control created"
+    ],
+    "crossEvents": [
+      "compliance.framework-created",
+      "compliance.control-created"
+    ],
+    "notifications": [
+      "Governance team receives framework setup notification"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-005.story.json"
+}

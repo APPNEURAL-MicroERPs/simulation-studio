@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-002/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-002",
+    "month": "2026-10",
+    "companyTime": "2026-10-02T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "payroll",
+    "preconditions": [
+      "Separation SEP-0001 initiated",
+      "LWD is 2026-10-15"
+    ],
+    "intent": "Payroll creates F&F settlement for Rohit — salary till LWD + leave encashment.",
+    "steps": [
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/fnf",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1003",
+          "lastWorkingDay": "2026-10-15",
+          "payableAmount": 109600,
+          "recoveryAmount": 0,
+          "netAmount": 109600,
+          "status": "computed"
+        },
+        "verifyListPath": "/api/fnf?q=EMP-1003&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "F&F settlement FNF-001 computed at ₹1,09,600"
+    ],
+    "crossEvents": [
+      "payroll.fnf-computed"
+    ],
+    "notifications": [
+      "Finance receives F&F for approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-002.story.json"
+}

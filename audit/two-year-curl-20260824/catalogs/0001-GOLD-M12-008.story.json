@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M12-008",
+  "month": "2027-03",
+  "companyTime": "2027-03-18T09:00:00+05:30",
+  "actorId": "EMP-1010",
+  "actorRole": "manager",
+  "module": "compliance",
+  "preconditions": [
+    "Annual compliance assessment launched",
+    "62 controls tested"
+  ],
+  "intent": "Annual compliance review — 55 effective, 6 partial, 1 ineffective.",
+  "steps": [
+    {
+      "module": "compliance",
+      "method": "POST",
+      "path": "/api/findings",
+      "expectedStatus": 201,
+      "body": {
+        "findingRef": "COMP-YE-001",
+        "title": "Annual Compliance Review FY2026 — 62 Controls Tested, 55 Effective, 6 Partially Effective, 1 Ineffective",
+        "severity": "medium",
+        "ownerEmail": "nikhil.sethi@nexora.example",
+        "description": "Controls assessed: Employee lifecycle, access, change management, backup/DR, vendor controls, data privacy, incident response, finance approvals. One medium finding: vendor risk review expired for one vendor. Carried forward for Year 2.",
+        "status": "open"
+      }
+    }
+  ],
+  "expectedState": [
+    "COMP-YE-001: 88.7% controls effective",
+    "1 medium finding carried to Year 2"
+  ],
+  "crossEvents": [
+    "compliance.annual-review-completed"
+  ],
+  "notifications": [
+    "Vendor risk review process updated"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

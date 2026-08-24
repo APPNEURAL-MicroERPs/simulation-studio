@@ -1,0 +1,53 @@
+{
+  "id": "GOLD-M3-010",
+  "month": "2026-06",
+  "companyTime": "2026-06-28T18:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "organization",
+  "preconditions": [
+    "All June activities completed"
+  ],
+  "intent": "End-of-month reconciliation — verify growth metrics.",
+  "steps": [
+    {
+      "module": "hr",
+      "method": "GET",
+      "path": "/api/employees?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "crm",
+      "method": "GET",
+      "path": "/api/leads?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "billing",
+      "method": "GET",
+      "path": "/api/invoices?pageSize=100",
+      "expectedStatus": 200
+    },
+    {
+      "module": "contract",
+      "method": "GET",
+      "path": "/api/contracts?pageSize=100",
+      "expectedStatus": 200
+    }
+  ],
+  "expectedState": [
+    "Employees >= 4",
+    "Leads >= 4",
+    "Invoices >= 1",
+    "Contracts >= 1"
+  ],
+  "crossEvents": [],
+  "notifications": [
+    "Month 3 complete — revenue cycle operational"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state"
+  ]
+}

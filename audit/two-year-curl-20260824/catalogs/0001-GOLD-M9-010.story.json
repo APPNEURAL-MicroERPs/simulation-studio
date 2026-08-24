@@ -1,0 +1,61 @@
+{
+  "id": "GOLD-M9-010",
+  "month": "2026-12",
+  "companyTime": "2026-12-19T09:00:00+05:30",
+  "actorId": "EMP-1005",
+  "actorRole": "manager",
+  "module": "administration",
+  "preconditions": [
+    "32 SaaS licenses purchased",
+    "IT admin runs license audit"
+  ],
+  "intent": "Software license audit — 5 unused licenses found, 3 revoked, 2 downgraded.",
+  "steps": [
+    {
+      "module": "security",
+      "method": "POST",
+      "path": "/api/security-assets",
+      "expectedStatus": 201,
+      "body": {
+        "assetCode": "SEC-LIC-AUDIT-001",
+        "name": "December 2026 SaaS License Audit",
+        "assetType": "APPLICATION",
+        "criticality": "MEDIUM",
+        "businessOwnerEmail": "kavya.iyer@nexora.example",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "module": "administration",
+      "method": "POST",
+      "path": "/api/supplies",
+      "expectedStatus": 201,
+      "body": {
+        "name": "GitHub Enterprise — 5 Unused Seats",
+        "unit": "license",
+        "quantity": 5,
+        "status": "low"
+      }
+    }
+  ],
+  "expectedState": [
+    "License audit SEC-LIC-AUDIT-001 registered",
+    "5 unused seats identified — ₹2.6L annual savings"
+  ],
+  "crossEvents": [
+    "administration.license-audit"
+  ],
+  "notifications": [
+    "IT revokes 3 licenses, downgrades 2"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

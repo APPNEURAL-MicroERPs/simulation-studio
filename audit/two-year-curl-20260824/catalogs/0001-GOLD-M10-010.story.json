@@ -1,0 +1,69 @@
+{
+  "id": "GOLD-M10-010",
+  "month": "2027-01",
+  "companyTime": "2027-01-23T10:00:00+05:30",
+  "actorId": "EMP-1011",
+  "actorRole": "manager",
+  "module": "legal",
+  "preconditions": [
+    "ZenFab payment delays + delivery dispute",
+    "₹90,000 at issue"
+  ],
+  "intent": "Legal commercial dispute — ZenFab delivery scope dispute settled.",
+  "steps": [
+    {
+      "module": "legal",
+      "method": "POST",
+      "path": "/api/disputes",
+      "expectedStatus": 201,
+      "body": {
+        "matterRef": "MAT-ZENFAB-001",
+        "disputeType": "CUSTOMER",
+        "counterpartyRef": "ZenFab Solutions",
+        "amountInDispute": 90000,
+        "currency": "INR",
+        "stage": "NEGOTIATION",
+        "status": "OPEN",
+        "startedOn": "2027-01-23"
+      },
+      "verifyListPath": "/api/disputes?pageSize=100"
+    },
+    {
+      "module": "legal",
+      "method": "POST",
+      "path": "/api/settlements",
+      "expectedStatus": 201,
+      "body": {
+        "matterRef": "MAT-ZENFAB-001",
+        "amount": 40000,
+        "currency": "INR",
+        "nonMonetaryTerms": "₹40K credit note CN-005 + ₹50K payable by customer. SOW acceptance criteria to be strengthened.",
+        "phase": "COMPLETED",
+        "status": "COMPLETED",
+        "executedOn": "2027-01-25"
+      },
+      "verifyListPath": "/api/settlements?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Legal dispute DISPUTE-LEGAL-001 created — ZenFab ₹90K",
+    "Settlement: ₹40K credit + ₹50K payable — SOW template updated"
+  ],
+  "crossEvents": [
+    "legal.dispute-settled"
+  ],
+  "notifications": [
+    "Credit note CN-005 issued",
+    "Contract template V3 with explicit acceptance criteria"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

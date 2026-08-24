@@ -1,0 +1,48 @@
+{
+  "id": "GOLD-M7-006",
+  "month": "2026-10",
+  "companyTime": "2026-10-10T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "project",
+  "preconditions": [
+    "PRJ-INT-001 at 92% progress",
+    "Final regression passed"
+  ],
+  "intent": "Customer signs final acceptance for Internal Platform project.",
+  "steps": [
+    {
+      "module": "project",
+      "method": "POST",
+      "path": "/api/acceptances",
+      "expectedStatus": 201,
+      "body": {
+        "projectId": "PRJ-INT-001",
+        "deliverableTitle": "Internal Platform v2 — Final Delivery",
+        "customerApprover": "operations@abc.example",
+        "internalOwner": "priya.sharma@nexora.example",
+        "evidenceJson": "{\"functionalScope\":\"PASS\",\"performance\":\"PASS\",\"security\":\"PASS\",\"criticalBugs\":0}"
+      },
+      "verifyListPath": "/api/acceptances?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Customer acceptance recorded for PRJ-INT-001"
+  ],
+  "crossEvents": [
+    "project.acceptance-recorded"
+  ],
+  "notifications": [
+    "Project team receives acceptance confirmation"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

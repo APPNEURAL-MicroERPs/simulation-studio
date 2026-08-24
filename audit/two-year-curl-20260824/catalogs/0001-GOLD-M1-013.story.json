@@ -1,0 +1,75 @@
+{
+  "id": "GOLD-M1-013",
+  "month": "2026-04",
+  "companyTime": "2026-04-25T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "asset",
+  "preconditions": [
+    "Vendor VND-TECHSUPPLY exists",
+    "4 employees need laptops"
+  ],
+  "intent": "Create IT assets and assign to founding team.",
+  "steps": [
+    {
+      "module": "asset",
+      "method": "POST",
+      "path": "/api/assets",
+      "expectedStatus": 201,
+      "body": {
+        "assetTag": "AST-LAPTOP-001",
+        "name": "MacBook Pro 16-inch",
+        "serialNumber": "SN-MBP-2026-001",
+        "category": "laptop",
+        "model": "MacBook Pro M3",
+        "status": "assigned",
+        "assignedTo": "priya.sharma@nexora.example",
+        "location": "Udaipur",
+        "purchaseDate": "2026-04-20",
+        "purchaseCost": 250000
+      },
+      "verifyListPath": "/api/assets?q=AST-LAPTOP-001&pageSize=100"
+    },
+    {
+      "module": "asset",
+      "method": "POST",
+      "path": "/api/assets",
+      "expectedStatus": 201,
+      "body": {
+        "assetTag": "AST-LAPTOP-002",
+        "name": "MacBook Pro 16-inch",
+        "serialNumber": "SN-MBP-2026-002",
+        "category": "laptop",
+        "model": "MacBook Pro M3",
+        "status": "assigned",
+        "assignedTo": "sandeep.patel@nexora.example",
+        "location": "Bengaluru",
+        "purchaseDate": "2026-04-20",
+        "purchaseCost": 250000
+      },
+      "verifyListPath": "/api/assets?q=AST-LAPTOP-002&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 laptop assets created and assigned"
+  ],
+  "crossEvents": [
+    "asset.created",
+    "asset.assigned"
+  ],
+  "notifications": [
+    "Employees receive asset assignment notification"
+  ],
+  "edgeCases": [
+    "Asset tag must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

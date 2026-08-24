@@ -1,0 +1,117 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M12-004/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M12-004",
+    "month": "2027-03",
+    "companyTime": "2027-03-10T10:00:00+05:30",
+    "actorId": "EMP-1009",
+    "actorRole": "manager",
+    "module": "vendor",
+    "preconditions": [
+      "11 months of vendor performance data",
+      "Annual review scheduled"
+    ],
+    "intent": "Annual vendor review — scorecards and evaluations created.",
+    "steps": [
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/performance-evaluations",
+        "expectedStatus": 201,
+        "body": {
+          "vendorId": "CLOUDSPHERE",
+          "period": "FY2026-Annual",
+          "deliveryScore": 9,
+          "qualityScore": 9,
+          "commercialScore": 8,
+          "serviceScore": 9,
+          "slaScore": 9,
+          "responsivenessScore": 8,
+          "complianceScore": 9,
+          "evaluatorId": "EMP-1009"
+        }
+      },
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/vendor-scorecards",
+        "expectedStatus": 201,
+        "body": {
+          "vendorId": "CLOUDSPHERE",
+          "period": "FY2026-Annual",
+          "deliveryScore": 9,
+          "qualityScore": 9,
+          "commercialScore": 8,
+          "serviceScore": 9,
+          "complianceScore": 9,
+          "overallScore": 9,
+          "band": "Preferred",
+          "modelVersion": "v2"
+        }
+      },
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/performance-evaluations",
+        "expectedStatus": 201,
+        "body": {
+          "vendorId": "QUALITYWORKS",
+          "period": "FY2026-Annual",
+          "deliveryScore": 8,
+          "qualityScore": 9,
+          "commercialScore": 7,
+          "serviceScore": 8,
+          "slaScore": 8,
+          "responsivenessScore": 7,
+          "complianceScore": 8,
+          "evaluatorId": "EMP-1009"
+        }
+      },
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/vendor-scorecards",
+        "expectedStatus": 201,
+        "body": {
+          "vendorId": "QUALITYWORKS",
+          "period": "FY2026-Annual",
+          "deliveryScore": 8,
+          "qualityScore": 9,
+          "commercialScore": 7,
+          "serviceScore": 8,
+          "complianceScore": 8,
+          "overallScore": 8,
+          "band": "Preferred",
+          "modelVersion": "v2"
+        }
+      }
+    ],
+    "expectedState": [
+      "CloudSphere: 9/10 Preferred",
+      "QualityWorks: 8/10 Preferred"
+    ],
+    "crossEvents": [
+      "procurement.annual-vendor-review"
+    ],
+    "notifications": [
+      "Vendor performance summaries shared with stakeholders"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M12-004.story.json"
+}

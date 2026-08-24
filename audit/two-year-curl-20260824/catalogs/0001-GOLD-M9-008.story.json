@@ -1,0 +1,71 @@
+{
+  "id": "GOLD-M9-008",
+  "month": "2026-12",
+  "companyTime": "2026-12-15T09:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "finance",
+  "preconditions": [
+    "Month-end close in progress",
+    "Invoices not yet received for cloud and contractor"
+  ],
+  "intent": "Month-end accrual entries — cloud usage and contractor hours.",
+  "steps": [
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-ACCR-CLOUD-001",
+        "entryDate": "2026-12-15",
+        "fiscalPeriod": "2026-Q4",
+        "accountCode": "CLOUD-EXPENSE",
+        "costCenter": "CC-ENG",
+        "description": "Cloud usage accrual — invoice not yet received for December hosting",
+        "debit": 14500000,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      },
+      "verifyListPath": "/api/journal-entries?pageSize=100"
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-ACCR-CONTR-001",
+        "entryDate": "2026-12-15",
+        "fiscalPeriod": "2026-Q4",
+        "accountCode": "QA-CONTRACTOR-COST",
+        "costCenter": "CC-ENG",
+        "description": "QA contractor Nikita Bose accrued cost — 6 weeks at ₹60K",
+        "debit": 6000000,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      },
+      "verifyListPath": "/api/journal-entries?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Cloud accrual ₹1.45L posted",
+    "Contractor accrual ₹60K posted"
+  ],
+  "crossEvents": [
+    "finance.accrual-posted"
+  ],
+  "notifications": [
+    "P&L reflects realistic costs before invoices arrive"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

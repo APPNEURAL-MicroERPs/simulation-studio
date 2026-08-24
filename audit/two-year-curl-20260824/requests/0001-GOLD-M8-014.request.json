@@ -1,0 +1,106 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-014/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-014",
+    "month": "2026-11",
+    "companyTime": "2026-11-28T18:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "All November activities completed",
+      "8 months of operations"
+    ],
+    "intent": "Month 8 reconciliation — comprehensive cross-ERP verification.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "GET",
+        "path": "/api/employees?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/leads?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/opportunities?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "billing",
+        "method": "GET",
+        "path": "/api/invoices?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "billing",
+        "method": "GET",
+        "path": "/api/disputes?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "contract",
+        "method": "GET",
+        "path": "/api/contracts?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "project",
+        "method": "GET",
+        "path": "/api/change-requests?projectId=PRJ-EDU-001&pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "procurement",
+        "method": "GET",
+        "path": "/api/receipts?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "performance",
+        "method": "GET",
+        "path": "/api/goals?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "finance",
+        "method": "GET",
+        "path": "/api/budgets?pageSize=100",
+        "expectedStatus": 200
+      }
+    ],
+    "expectedState": [
+      "Employees >= 5",
+      "Leads >= 6",
+      "Opportunities >= 1",
+      "Invoices >= 4",
+      "Disputes >= 1",
+      "Contracts >= 2",
+      "Change requests >= 1",
+      "Receipts >= 1",
+      "Goals >= 3",
+      "Budgets >= 1"
+    ],
+    "crossEvents": [],
+    "notifications": [
+      "Month 8 complete — org maturity workflows exercised"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-014.story.json"
+}

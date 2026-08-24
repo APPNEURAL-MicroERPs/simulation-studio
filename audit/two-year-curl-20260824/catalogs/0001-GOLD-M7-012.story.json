@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M7-012",
+  "month": "2026-10",
+  "companyTime": "2026-10-20T09:00:00+05:30",
+  "actorId": "EMP-1010",
+  "actorRole": "manager",
+  "module": "security",
+  "preconditions": [
+    "12 privileged identities exist",
+    "Audit remediation policy active"
+  ],
+  "intent": "Monthly privileged access review — security assesses production access.",
+  "steps": [
+    {
+      "module": "security",
+      "method": "POST",
+      "path": "/api/security-assets",
+      "expectedStatus": 201,
+      "body": {
+        "assetCode": "SEC-PRIV-REVIEW-001",
+        "name": "October 2026 Privileged Access Review",
+        "assetType": "IDENTITY",
+        "criticality": "HIGH",
+        "businessOwnerEmail": "nikhil.sethi@nexora.example",
+        "status": "ACTIVE"
+      },
+      "verifyListPath": "/api/security-assets?q=PRIV-REVIEW&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Privileged access review SEC-PRIV-REVIEW-001 registered"
+  ],
+  "crossEvents": [
+    "security.access-review-created"
+  ],
+  "notifications": [
+    "Audit team receives access review evidence"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

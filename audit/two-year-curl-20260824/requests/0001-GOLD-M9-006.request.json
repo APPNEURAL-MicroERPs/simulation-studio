@@ -1,0 +1,78 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-006",
+    "month": "2026-12",
+    "companyTime": "2026-12-10T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "project",
+    "preconditions": [
+      "LogisticsOne PRJ-003 delayed by 10 days",
+      "Carrier sandbox incomplete"
+    ],
+    "intent": "LogisticsOne project delay recovery — change request and resource augmentation.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/change-requests",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "PRJ-LOG-001",
+          "code": "CR-RECOVERY-003",
+          "title": "Recovery Plan: Carrier Sandbox Delay",
+          "type": "schedule",
+          "reason": "External carrier sandbox incomplete — 10 business day forecast slip. Recovery: mock adapters, add 0.5 backend FTE, prioritize major carriers.",
+          "requestedBy": "priya.sharma@nexora.example",
+          "source": "project_manager"
+        },
+        "verifyListPath": "/api/change-requests?pageSize=100"
+      },
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "ALLOC-RECOVERY-001",
+          "resourceId": "RES-EMP-1004",
+          "employeeCode": "EMP-1004",
+          "projectId": "PRJ-LOG-001",
+          "role": "Backend Engineer (Recovery)",
+          "allocationPercent": 50,
+          "startDate": "2026-12-10",
+          "endDate": "2027-01-31"
+        }
+      }
+    ],
+    "expectedState": [
+      "Recovery change request created",
+      "0.5 FTE backend engineer allocated to PRJ-LOG-001"
+    ],
+    "crossEvents": [
+      "project.recovery-initiated",
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Customer accepts 4-day revised delay with conditions"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-006.story.json"
+}

@@ -1,0 +1,79 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-009/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-009",
+    "month": "2026-11",
+    "companyTime": "2026-11-18T09:00:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "expense",
+    "preconditions": [
+      "Meera submitted expense claim",
+      "Anomaly engine detects duplicate"
+    ],
+    "intent": "Duplicate expense detection — system flags accidental double submission.",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "EXP-2026-061",
+          "employeeCode": "EMP-1006",
+          "employeeEmail": "meera.joshi@nexora.example",
+          "amount": 1480,
+          "category": "travel",
+          "expenseDate": "2026-11-18",
+          "status": "submitted"
+        },
+        "verifyListPath": "/api/claims?pageSize=100"
+      },
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "EXP-2026-061-DUP",
+          "employeeCode": "EMP-1006",
+          "employeeEmail": "meera.joshi@nexora.example",
+          "amount": 1480,
+          "category": "travel",
+          "expenseDate": "2026-11-18",
+          "notes": "Potential duplicate of EXP-2026-061 — flagged by anomaly engine",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?q=EXP-2026-061&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Original claim EXP-2026-061 submitted",
+      "Duplicate flagged and held in draft"
+    ],
+    "crossEvents": [
+      "expense.duplicate-detected"
+    ],
+    "notifications": [
+      "Finance receives duplicate alert",
+      "Meera confirms accidental resubmission"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-009.story.json"
+}

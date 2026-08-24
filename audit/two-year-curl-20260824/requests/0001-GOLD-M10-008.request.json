@@ -1,0 +1,78 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M10-008/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M10-008",
+    "month": "2027-01",
+    "companyTime": "2027-01-19T09:00:00+05:30",
+    "actorId": "EMP-1004",
+    "actorRole": "manager",
+    "module": "project",
+    "preconditions": [
+      "Engineering proposes reusable integration platform",
+      "₹5L stage-gate approved"
+    ],
+    "intent": "Internal R&D project created — Reusable Integration Platform.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/projects",
+        "expectedStatus": 201,
+        "body": {
+          "code": "INTERNAL-PRJ-001",
+          "name": "Reusable Integration Platform",
+          "client": "Internal",
+          "managerEmail": "amit.shah@nexora.example",
+          "budget": 500000,
+          "startDate": "2027-01-19",
+          "endDate": "2027-06-30",
+          "status": "active"
+        },
+        "verifyListPath": "/api/projects?pageSize=100"
+      },
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "ALLOC-RND-001",
+          "resourceId": "RES-EMP-1012",
+          "employeeCode": "EMP-1012",
+          "projectId": "INTERNAL-PRJ-001",
+          "role": "Platform Engineer",
+          "allocationPercent": 30,
+          "startDate": "2027-01-19",
+          "endDate": "2027-06-30"
+        }
+      }
+    ],
+    "expectedState": [
+      "Internal R&D project INTERNAL-PRJ-001 created — ₹5L budget",
+      "Vivek allocated 30% — Non-Billable Productive"
+    ],
+    "crossEvents": [
+      "project.internal-rnd-created"
+    ],
+    "notifications": [
+      "R&D costs separated from billable project costs"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M10-008.story.json"
+}

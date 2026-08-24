@@ -1,0 +1,54 @@
+{
+  "id": "GOLD-M2-007",
+  "month": "2026-05",
+  "companyTime": "2026-05-20T11:00:00+05:30",
+  "actorId": "EMP-1008",
+  "actorRole": "manager",
+  "module": "crm",
+  "preconditions": [
+    "3 leads exist from April",
+    "ABC Corp showed interest"
+  ],
+  "intent": "Add new enterprise lead — Zenith Digital Solutions.",
+  "steps": [
+    {
+      "module": "crm",
+      "method": "POST",
+      "path": "/api/leads",
+      "expectedStatus": 201,
+      "body": {
+        "company": "Zenith Digital Solutions",
+        "contactName": "Priyanka Mehta",
+        "title": "CEO",
+        "email": "priyanka@zenithdigital.example",
+        "phone": "+91-9800000004",
+        "source": "event",
+        "country": "India",
+        "industry": "Technology",
+        "companySize": "51-200",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "value": 1800000,
+        "currency": "INR"
+      },
+      "verifyListPath": "/api/leads?q=Zenith&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "New lead Zenith Digital created",
+    "Total pipeline now has 4 leads"
+  ],
+  "crossEvents": [
+    "crm.lead-created"
+  ],
+  "notifications": [],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

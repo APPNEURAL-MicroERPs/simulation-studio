@@ -1,0 +1,101 @@
+{
+  "id": "GOLD-M10-001",
+  "month": "2027-01",
+  "companyTime": "2027-01-01T09:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "finance",
+  "preconditions": [
+    "Month 9 complete",
+    "AOP draft reviewed in December"
+  ],
+  "intent": "Annual Operating Plan approved and department budgets cascaded.",
+  "steps": [
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/budgets",
+      "expectedStatus": 201,
+      "body": {
+        "name": "AOP-2026-001 Base Case Approved",
+        "fiscalPeriod": "2027-FY",
+        "costCenter": "CORPORATE",
+        "plannedAmount": 140000000,
+        "status": "approved"
+      },
+      "verifyListPath": "/api/budgets?pageSize=100"
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/budgets",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Engineering Budget FY2027",
+        "fiscalPeriod": "2027-FY",
+        "costCenter": "CC-ENG",
+        "plannedAmount": 72000000,
+        "status": "approved"
+      }
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/budgets",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Delivery Budget FY2027",
+        "fiscalPeriod": "2027-FY",
+        "costCenter": "CC-DELIVERY",
+        "plannedAmount": 26000000,
+        "status": "approved"
+      }
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/budgets",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Sales Budget FY2027",
+        "fiscalPeriod": "2027-FY",
+        "costCenter": "CC-SALES",
+        "plannedAmount": 20000000,
+        "status": "approved"
+      }
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/budgets",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Platform/DevOps Budget FY2027",
+        "fiscalPeriod": "2027-FY",
+        "costCenter": "CC-PLATFORM",
+        "plannedAmount": 18000000,
+        "status": "approved"
+      }
+    }
+  ],
+  "expectedState": [
+    "AOP-2026-001 approved at ₹1.4Cr",
+    "7 department budgets cascaded"
+  ],
+  "crossEvents": [
+    "finance.aop-approved"
+  ],
+  "notifications": [
+    "Department heads receive budget allocations"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

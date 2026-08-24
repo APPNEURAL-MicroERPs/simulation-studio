@@ -133,6 +133,12 @@ test("isDuplicateConflict recognizes legacy flat error envelopes", () => {
   assert.equal(isDuplicateConflict({ error: "DUPLICATE_PURCHASE_ORDER", message: "Already exists" }, 422), true);
 });
 
+test("isDuplicateConflict recognizes deterministic code_taken replays", () => {
+  assert.equal(isDuplicateConflict({
+    error: { code: "code_taken", message: "Entity code APTL is already used." },
+  }, 409), true);
+});
+
 test("isDuplicateConflict rejects validation errors and non-conflict statuses", () => {
   assert.equal(isDuplicateConflict({ error: { code: "VALIDATION_ERROR", message: "A field is required" } }, 422), false);
   assert.equal(isDuplicateConflict({ error: { code: "DUPLICATE_EMPLOYEE" } }, 500), false);

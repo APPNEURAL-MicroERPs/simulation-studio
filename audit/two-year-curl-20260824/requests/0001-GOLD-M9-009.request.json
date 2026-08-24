@@ -1,0 +1,62 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-009/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-009",
+    "month": "2026-12",
+    "companyTime": "2026-12-17T09:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "finance",
+    "preconditions": [
+      "Annual software subscription ₹12L paid upfront",
+      "Monthly amortization ₹1L"
+    ],
+    "intent": "Prepaid expense amortization — software subscription monthly recognition.",
+    "steps": [
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/journal-entries",
+        "expectedStatus": 201,
+        "body": {
+          "entryNo": "JE-PREPAID-SW-001",
+          "entryDate": "2026-12-17",
+          "fiscalPeriod": "2026-Q4",
+          "accountCode": "SOFTWARE-EXPENSE",
+          "costCenter": "CC-ENG",
+          "description": "Monthly prepaid software subscription amortization — ₹1L of ₹12L annual prepaid",
+          "debit": 10000000,
+          "preparedBy": "priya.sharma@nexora.example",
+          "status": "posted"
+        },
+        "verifyListPath": "/api/journal-entries?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Prepaid amortization JE-PREPAID-SW-001 — ₹1L monthly expense"
+    ],
+    "crossEvents": [
+      "finance.prepaid-amortized"
+    ],
+    "notifications": [
+      "Schedule-based amortization — not expensing ₹12L instantly"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-009.story.json"
+}

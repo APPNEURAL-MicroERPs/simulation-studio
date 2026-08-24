@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-002/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-002",
+    "month": "2026-07",
+    "companyTime": "2026-07-03T10:00:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "performance",
+    "preconditions": [
+      "4+ employees active",
+      "Q1 review cycle due"
+    ],
+    "intent": "HR launches first performance review cycle.",
+    "steps": [
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/cycles",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Q1 2026 Performance Review",
+          "cycleType": "leadership",
+          "startsOn": "2026-07-01",
+          "endsOn": "2026-07-31",
+          "ownerEmail": "meera.joshi@nexora.example"
+        },
+        "verifyListPath": "/api/cycles?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Performance cycle CYCLE-Q1-2026 created"
+    ],
+    "crossEvents": [
+      "performance.cycle-created"
+    ],
+    "notifications": [
+      "All managers receive review assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-002.story.json"
+}

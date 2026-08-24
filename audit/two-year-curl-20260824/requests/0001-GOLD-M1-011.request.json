@@ -1,0 +1,85 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M1-011/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M1-011",
+    "month": "2026-04",
+    "companyTime": "2026-04-18T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "finance",
+    "preconditions": [
+      "Legal entity APTL exists",
+      "Finance department operational"
+    ],
+    "intent": "Finance sets up the chart of accounts and accounting entity.",
+    "steps": [
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/accountingEntities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "APPNEURAL Technologies — Books",
+          "functionalCurrency": "INR",
+          "country": "India",
+          "status": "active"
+        },
+        "verifyListPath": "/api/accountingEntities?pageSize=100"
+      },
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/accounts",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Cash — HDFC Bank",
+          "code": "1001",
+          "kind": "asset",
+          "status": "active"
+        },
+        "verifyListPath": "/api/accounts?q=1001&pageSize=100"
+      },
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/accounts",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Share Capital",
+          "code": "3001",
+          "kind": "equity",
+          "status": "active"
+        },
+        "verifyListPath": "/api/accounts?q=3001&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Accounting entity created",
+      "2 accounts (asset + equity) created"
+    ],
+    "crossEvents": [
+      "finance.accounting-entity-created",
+      "finance.account-created"
+    ],
+    "notifications": [],
+    "edgeCases": [
+      "Account codes must be unique"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M1-011.story.json"
+}

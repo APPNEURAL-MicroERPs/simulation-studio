@@ -1,0 +1,103 @@
+{
+  "id": "GOLD-M1-004",
+  "month": "2026-04",
+  "companyTime": "2026-04-02T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "attendance",
+  "preconditions": [
+    "4 employees are ACTIVE",
+    "02 April is a working Thursday"
+  ],
+  "intent": "Founding team records first-day attendance.",
+  "steps": [
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1001",
+        "employeeEmail": "priya.sharma@nexora.example",
+        "workDate": "2026-04-02",
+        "shift": "General",
+        "checkIn": "09:00",
+        "checkOut": "18:30",
+        "location": "Udaipur",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1001&pageSize=100"
+    },
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1012",
+        "employeeEmail": "sandeep.patel@nexora.example",
+        "workDate": "2026-04-02",
+        "shift": "General",
+        "checkIn": "09:15",
+        "checkOut": "18:45",
+        "location": "Bengaluru",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1012&pageSize=100"
+    },
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1008",
+        "employeeEmail": "karan.malhotra@nexora.example",
+        "workDate": "2026-04-02",
+        "shift": "General",
+        "checkIn": "09:30",
+        "checkOut": "18:00",
+        "location": "Gurugram",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1008&pageSize=100"
+    },
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1007",
+        "employeeEmail": "vikram.shah@nexora.example",
+        "workDate": "2026-04-02",
+        "shift": "General",
+        "checkIn": "08:45",
+        "checkOut": "17:30",
+        "location": "Udaipur",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1007&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "4 attendance records for 2026-04-02",
+    "Each employee has exactly one record"
+  ],
+  "crossEvents": [
+    "attendance.recorded"
+  ],
+  "notifications": [],
+  "edgeCases": [
+    "Duplicate check-in must not create a second record"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

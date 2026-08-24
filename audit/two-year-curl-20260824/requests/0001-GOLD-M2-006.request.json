@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M2-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M2-006",
+    "month": "2026-05",
+    "companyTime": "2026-05-18T10:00:00+05:30",
+    "actorId": "EMP-1009",
+    "actorRole": "manager",
+    "module": "procurement",
+    "preconditions": [
+      "Vendor VND-TECHSUPPLY exists",
+      "Need more IT equipment"
+    ],
+    "intent": "Create purchase order for additional laptops.",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-2026-001",
+          "vendor": "TechSupply Co",
+          "itemSummary": "3x MacBook Pro for new hires",
+          "amount": 750000,
+          "expectedDate": "2026-05-25",
+          "buyerEmail": "priya.sharma@nexora.example",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "PO-2026-001 created in draft"
+    ],
+    "crossEvents": [
+      "procurement.purchase-order-created"
+    ],
+    "notifications": [
+      "Finance approves PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M2-006.story.json"
+}

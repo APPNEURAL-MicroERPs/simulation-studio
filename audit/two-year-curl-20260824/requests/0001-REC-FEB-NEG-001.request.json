@@ -1,0 +1,47 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/REC-FEB-NEG-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "REC-FEB-NEG-001",
+    "month": "2026-02",
+    "companyTime": "2026-02-04T11:12:00+05:30",
+    "actorId": "EMP-1003",
+    "actorRole": "member",
+    "module": "recruitment",
+    "preconditions": [
+      "Neha is an engineer without manager privileges"
+    ],
+    "intent": "Verify that an engineer cannot create a requisition.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 403,
+        "body": {
+          "title": "Unauthorized test requisition",
+          "hiringManagerEmail": "neha.gupta@nexora.example",
+          "justification": "Negative permission test"
+        }
+      }
+    ],
+    "expectedState": [
+      "No requisition is created"
+    ],
+    "crossEvents": [],
+    "notifications": [],
+    "edgeCases": [
+      "403 is a passing negative test"
+    ],
+    "assertions": [
+      "api_response",
+      "permission"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-REC-FEB-NEG-001.story.json"
+}

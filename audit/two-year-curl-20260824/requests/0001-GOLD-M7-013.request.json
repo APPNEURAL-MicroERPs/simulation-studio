@@ -1,0 +1,63 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-013/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-013",
+    "month": "2026-10",
+    "companyTime": "2026-10-22T10:00:00+05:30",
+    "actorId": "EMP-1011",
+    "actorRole": "manager",
+    "module": "audit",
+    "preconditions": [
+      "AUD-2026-001 in planned status",
+      "Privileged access review completed"
+    ],
+    "intent": "Auditor creates finding — monthly privileged access review was missing.",
+    "steps": [
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingNo": "AUD-FIND-001",
+          "auditRef": "AUD-2026-001",
+          "title": "Monthly privileged access review missing for Q1-Q2",
+          "area": "access_control",
+          "severity": "major",
+          "description": "No evidence of monthly privileged access reviews for the first 6 months of operations",
+          "recommendation": "Implement monthly privileged access review cadence with documented evidence",
+          "ownerEmail": "nikhil.sethi@nexora.example",
+          "dueDate": "2026-11-15",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Audit finding AUD-FIND-001 created in open status"
+    ],
+    "crossEvents": [
+      "audit.finding-created"
+    ],
+    "notifications": [
+      "Security team receives finding for remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-013.story.json"
+}

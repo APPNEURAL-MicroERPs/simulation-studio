@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-005/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-005",
+    "month": "2026-10",
+    "companyTime": "2026-10-08T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "vendor",
+    "preconditions": [
+      "Team restructuring complete",
+      "Need new training vendor"
+    ],
+    "intent": "Organization onboards a new training vendor for employee development.",
+    "steps": [
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/vendors",
+        "expectedStatus": 201,
+        "body": {
+          "displayName": "LearnPro Solutions",
+          "code": "VND-TRAIN-001",
+          "country": "India",
+          "riskBand": "LOW",
+          "status": "ACTIVE"
+        },
+        "verifyListPath": "/api/vendors?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Vendor VND-TRAIN-001 LearnPro Solutions onboarded"
+    ],
+    "crossEvents": [
+      "vendor.onboarded"
+    ],
+    "notifications": [
+      "Procurement team sees new training vendor"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-005.story.json"
+}

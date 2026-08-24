@@ -1,0 +1,66 @@
+{
+  "id": "GOLD-M12-007",
+  "month": "2027-03",
+  "companyTime": "2027-03-16T09:00:00+05:30",
+  "actorId": "EMP-1010",
+  "actorRole": "manager",
+  "module": "security",
+  "preconditions": [
+    "ACCESS-RECERT-2026 launched",
+    "All employees, contractors, service accounts in scope"
+  ],
+  "intent": "Annual security access recertification — exceptions found and remediated.",
+  "steps": [
+    {
+      "module": "security",
+      "method": "POST",
+      "path": "/api/reviews",
+      "expectedStatus": 201,
+      "body": {
+        "name": "ACCESS-RECERT-2026 Annual Access Recertification",
+        "kind": "access_review",
+        "scope": "All employees (38), contractors (3), service accounts (12), privileged roles (18). Review volume: 71 access assignments.",
+        "performedOn": "2027-03-16",
+        "reviewerEmail": "nikhil.sethi@nexora.example",
+        "findingsRaised": 6,
+        "status": "completed"
+      }
+    },
+    {
+      "module": "security",
+      "method": "POST",
+      "path": "/api/reviews",
+      "expectedStatus": 201,
+      "body": {
+        "name": "SEC-YE-2026 Annual Security Review",
+        "kind": "architecture_review",
+        "scope": "Year 1 security summary: 1 credential incident (High), multiple dependency findings, multiple production security bugs. Access reviews completed. 0 open critical findings. MFA mature, short-lived tokens active, Secure SDLC established.",
+        "performedOn": "2027-03-17",
+        "reviewerEmail": "nikhil.sethi@nexora.example",
+        "findingsRaised": 0,
+        "status": "completed"
+      }
+    }
+  ],
+  "expectedState": [
+    "ACCESS-RECERT-2026: 3 excessive permissions reduced, 2 revoked, 1 contractor closed",
+    "SEC-YE-2026: 0 open critical findings, Year-2 roadmap generated"
+  ],
+  "crossEvents": [
+    "security.annual-recert-completed"
+  ],
+  "notifications": [
+    "6 access exceptions remediated",
+    "Year-2 security roadmap published"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

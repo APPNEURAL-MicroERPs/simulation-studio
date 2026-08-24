@@ -1,0 +1,70 @@
+{
+  "id": "GOLD-M11-004",
+  "month": "2027-02",
+  "companyTime": "2027-02-07T10:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "recruitment",
+  "preconditions": [
+    "Hiring freeze active",
+    "8 open requisitions under review"
+  ],
+  "intent": "Requisition review — critical roles kept, non-critical held.",
+  "steps": [
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Backend Engineer — Customer Delivery (KEEP)",
+        "reason": "new",
+        "departmentName": "Engineering",
+        "openings": 1,
+        "hiringManagerEmail": "amit.shah@nexora.example",
+        "employmentType": "full_time",
+        "budgetMin": 1200000,
+        "budgetMax": 1600000,
+        "justification": "Customer-backed delivery role — EXEMPT from hiring freeze per CEO directive"
+      },
+      "verifyListPath": "/api/requisitions?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "QA Engineer — LogisticsOne (KEEP)",
+        "reason": "new",
+        "departmentName": "QA",
+        "openings": 1,
+        "hiringManagerEmail": "sneha.patil@nexora.example",
+        "employmentType": "full_time",
+        "budgetMin": 800000,
+        "budgetMax": 1200000,
+        "justification": "Critical for LogisticsOne delivery quality — customer-funded"
+      }
+    }
+  ],
+  "expectedState": [
+    "Backend and QA requisitions kept — customer-funded",
+    "Marketing, HR Ops, Data Engineer, Sales moved to HOLD"
+  ],
+  "crossEvents": [
+    "recruitment.requisition-review"
+  ],
+  "notifications": [
+    "Budget forecast immediately improves"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

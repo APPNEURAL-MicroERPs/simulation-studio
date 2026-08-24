@@ -1,0 +1,74 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M2-005/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M2-005",
+    "month": "2026-05",
+    "companyTime": "2026-05-15T09:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "4 employees active",
+      "Office infrastructure set up"
+    ],
+    "intent": "Security lead creates first security assessment and baseline.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/security-assets",
+        "expectedStatus": 201,
+        "body": {
+          "assetCode": "SEC-INFRA-001",
+          "name": "APPNEURAL Production Infrastructure",
+          "assetType": "CLOUD_RESOURCE",
+          "criticality": "CRITICAL",
+          "businessOwnerEmail": "priya.sharma@nexora.example",
+          "status": "ACTIVE"
+        },
+        "verifyListPath": "/api/security-assets?pageSize=100"
+      },
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/security-baselines",
+        "expectedStatus": 201,
+        "body": {
+          "baselineCode": "CIS-CLOUD-V1",
+          "name": "CIS Cloud Foundations v1",
+          "version": "1.0",
+          "status": "DRAFT"
+        },
+        "verifyListPath": "/api/security-baselines?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Security asset registered",
+      "Security baseline created"
+    ],
+    "crossEvents": [
+      "security.asset-registered",
+      "security.baseline-created"
+    ],
+    "notifications": [
+      "Engineering team receives security baseline notification"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M2-005.story.json"
+}

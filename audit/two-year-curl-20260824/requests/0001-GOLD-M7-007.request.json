@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-007/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-007",
+    "month": "2026-10",
+    "companyTime": "2026-10-12T09:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "billing",
+    "preconditions": [
+      "Customer acceptance signed",
+      "Final milestone reached"
+    ],
+    "intent": "Billing triggers final invoice for project closure milestone.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-2026-002",
+          "billingAccount": "BA-ABC-001",
+          "customer": "ABC Manufacturing Corp",
+          "amount": 228000,
+          "currency": "inr",
+          "issueDate": "2026-10-12",
+          "dueDate": "2026-11-11",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/invoices?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Final invoice INV-2026-002 for ₹2.28L created"
+    ],
+    "crossEvents": [
+      "billing.invoice-created"
+    ],
+    "notifications": [
+      "Finance receives final invoice for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-007.story.json"
+}

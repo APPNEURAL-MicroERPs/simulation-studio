@@ -1,0 +1,96 @@
+{
+  "id": "GOLD-M8-013",
+  "month": "2026-11",
+  "companyTime": "2026-11-26T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "performance",
+  "preconditions": [
+    "Leadership finalized company strategy",
+    "Board targets approved"
+  ],
+  "intent": "Company-wide OKRs created and cascaded to Engineering department.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Grow Revenue Predictably — ₹1.25Cr bookings",
+        "description": "Achieve ₹1.25Cr in total bookings with 35%+ gross margin and 90% invoice collection within terms",
+        "goalType": "company",
+        "category": "financial",
+        "level": "company",
+        "ownerCode": "EMP-1001",
+        "measurementType": "currency",
+        "target": 12500000,
+        "startsOn": "2026-11-01",
+        "dueDate": "2027-03-31",
+        "successCriteria": "₹1.25Cr bookings, 35%+ gross margin, 90% collection"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Deliver Reliably — 95% SLA compliance",
+        "description": "Maintain >95% SLA compliance, <5% schedule variance, zero unresolved critical security findings",
+        "goalType": "company",
+        "category": "delivery",
+        "level": "company",
+        "ownerCode": "EMP-1001",
+        "measurementType": "percentage",
+        "target": 95,
+        "startsOn": "2026-11-01",
+        "dueDate": "2027-03-31",
+        "successCriteria": "95% SLA, <5% variance, 0 critical findings"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Engineering — Deployment reliability >99.5%",
+        "description": "Cascaded from company OKR: Deliver Reliably. Engineering owns deployment uptime and code quality.",
+        "goalType": "department",
+        "category": "delivery",
+        "level": "department",
+        "ownerCode": "EMP-1004",
+        "parentGoal": "GOAL-DELIVER-001",
+        "measurementType": "percentage",
+        "target": 99.5,
+        "startsOn": "2026-11-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 company OKRs created",
+    "Engineering department goal cascaded from company OKR"
+  ],
+  "crossEvents": [
+    "performance.okr-created",
+    "performance.okr-cascaded"
+  ],
+  "notifications": [
+    "All department heads see cascaded goals"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

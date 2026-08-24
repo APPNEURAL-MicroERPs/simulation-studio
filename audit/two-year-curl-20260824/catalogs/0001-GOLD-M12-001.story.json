@@ -1,0 +1,50 @@
+{
+  "id": "GOLD-M12-001",
+  "month": "2027-03",
+  "companyTime": "2027-03-01T09:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "performance",
+  "preconditions": [
+    "Month 11 complete",
+    "11 months of operations"
+  ],
+  "intent": "Year-end performance cycle opened — all eligible employees reviewed.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/cycles",
+      "expectedStatus": 201,
+      "body": {
+        "name": "PERF-YE-2026 Annual Appraisal",
+        "cycleType": "annual",
+        "startsOn": "2027-03-01",
+        "endsOn": "2027-03-31",
+        "ownerEmail": "sneha.patil@nexora.example",
+        "minimumServiceDays": 90
+      },
+      "verifyListPath": "/api/cycles?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "PERF-YE-2026 cycle opened — 38 eligible employees",
+    "Self-review, manager review, calibration workflow active"
+  ],
+  "crossEvents": [
+    "performance.year-end-cycle-opened"
+  ],
+  "notifications": [
+    "All managers notified to begin reviews"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

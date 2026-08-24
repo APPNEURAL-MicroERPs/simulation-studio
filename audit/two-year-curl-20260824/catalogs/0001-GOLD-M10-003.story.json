@@ -1,0 +1,68 @@
+{
+  "id": "GOLD-M10-003",
+  "month": "2027-01",
+  "companyTime": "2027-01-06T10:00:00+05:30",
+  "actorId": "EMP-1008",
+  "actorRole": "manager",
+  "module": "customer",
+  "preconditions": [
+    "ABC support contract approaching expiry",
+    "Customer health improving"
+  ],
+  "intent": "First customer renewal — ABC support contract renewed at ₹5.2L.",
+  "steps": [
+    {
+      "module": "customer",
+      "method": "POST",
+      "path": "/api/success-plans",
+      "expectedStatus": 201,
+      "body": {
+        "customerId": "ABC-MANUFACTURING",
+        "name": "RENEW-001 ABC Support Renewal FY2027",
+        "periodFrom": "2027-04-01",
+        "periodTo": "2028-03-31",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "notes": "Renewal pricing: ₹5.2L (negotiated from ₹5.8L ask). Support margin ~33%. Total account economics strong with Phase 2."
+      },
+      "verifyListPath": "/api/success-plans?pageSize=100"
+    },
+    {
+      "module": "contract",
+      "method": "POST",
+      "path": "/api/contracts",
+      "expectedStatus": 201,
+      "body": {
+        "contractNo": "CNT-ABC-RENEW-001",
+        "title": "ABC Smart Factory Support Renewal FY2027",
+        "counterpartyName": "ABC Manufacturing Corp",
+        "contractType": "sow",
+        "value": "5200",
+        "currency": "INR",
+        "startOn": "2027-04-01",
+        "endOn": "2028-03-31",
+        "status": "active"
+      }
+    }
+  ],
+  "expectedState": [
+    "Renewal RENEW-001 created — ₹5.2L support contract",
+    "Old support contract retained, new renewal linked"
+  ],
+  "crossEvents": [
+    "customer.renewal-completed"
+  ],
+  "notifications": [
+    "Customer lifetime value updated",
+    "Future billing schedule created"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

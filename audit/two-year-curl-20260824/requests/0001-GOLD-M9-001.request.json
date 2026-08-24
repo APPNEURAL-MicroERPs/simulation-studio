@@ -1,0 +1,77 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-001",
+    "month": "2026-12",
+    "companyTime": "2026-12-01T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "Vivek transfer approved in November",
+      "Platform team needs formal structure"
+    ],
+    "intent": "Platform Engineering team created and Vivek transfer completed.",
+    "steps": [
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/teams",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Platform Engineering",
+          "code": "TEAM-PLATFORM-001",
+          "departmentId": "DEPT-ENG",
+          "managerEmail": "karan.malhotra@nexora.example",
+          "purpose": "CI/CD platform, cloud infrastructure, observability, developer tooling, reusable services"
+        },
+        "verifyListPath": "/api/teams?pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/change-requests",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Transfer Effective: Vivek to Platform Engineering",
+          "requestType": "transfer",
+          "targetLabel": "EMP-1012",
+          "currentValue": "Application Engineering / CC-ENG-BACKEND",
+          "proposedValue": "Platform Engineering / CC-PLATFORM",
+          "justification": "Internal transfer TRANSFER-001 now effective — skill gap courses completed",
+          "effectiveOn": "2026-12-01"
+        },
+        "verifyListPath": "/api/change-requests?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Platform Engineering team created",
+      "Vivek transfer completed to Platform team"
+    ],
+    "crossEvents": [
+      "people.transfer.completed",
+      "organization.assignment.changed"
+    ],
+    "notifications": [
+      "Resource assignments updated",
+      "Security role review triggered"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-001.story.json"
+}

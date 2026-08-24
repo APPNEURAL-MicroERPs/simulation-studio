@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M3-008",
+  "month": "2026-06",
+  "companyTime": "2026-06-18T09:00:00+05:30",
+  "actorId": "EMP-1005",
+  "actorRole": "manager",
+  "module": "devops",
+  "preconditions": [
+    "Application APP-SUITE registered",
+    "Sprint 1 code ready"
+  ],
+  "intent": "DevOps triggers first deployment to production.",
+  "steps": [
+    {
+      "module": "devops",
+      "method": "POST",
+      "path": "/api/deployments",
+      "expectedStatus": 201,
+      "body": {
+        "service": "APP-SUITE",
+        "version": "1.0.0-sprint1",
+        "environment": "production",
+        "triggeredBy": "kavya.iyer@nexora.example",
+        "notes": "First production deployment — Sprint 1 deliverables",
+        "status": "running"
+      },
+      "verifyListPath": "/api/deployments?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Deployment DEP-2026-001 in progress"
+  ],
+  "crossEvents": [
+    "devops.deployment-started"
+  ],
+  "notifications": [
+    "Team receives deployment notification"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

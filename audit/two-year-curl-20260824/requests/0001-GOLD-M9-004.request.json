@@ -1,0 +1,65 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-004/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-004",
+    "month": "2026-12",
+    "companyTime": "2026-12-06T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "crm",
+    "preconditions": [
+      "ABC Manufacturing is active customer",
+      "Phase 2 discussions advancing"
+    ],
+    "intent": "ABC Phase 2 expansion opportunity won — Mobile App + Analytics at ₹16.8L.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ABC Smart Factory Phase 2",
+          "code": "OPP-ABC-PH2",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "amount": 1680000,
+          "currency": "INR",
+          "stage": "won",
+          "probability": 100,
+          "forecastCategory": "closed",
+          "expectedCloseOn": "2026-12-06",
+          "businessNeed": "Mobile app, predictive maintenance, advanced analytics",
+          "nextAction": "Project kickoff",
+          "nextActionOn": "2026-12-15"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "ABC Phase 2 expansion won at ₹16.8L — total bookings ~₹87L"
+    ],
+    "crossEvents": [
+      "crm.expansion-won"
+    ],
+    "notifications": [
+      "Customer success sees full lifecycle: acquisition → delivery → expansion"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-004.story.json"
+}

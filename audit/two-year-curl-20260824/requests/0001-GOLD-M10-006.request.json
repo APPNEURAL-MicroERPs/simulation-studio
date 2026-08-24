@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M10-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M10-006",
+    "month": "2027-01",
+    "companyTime": "2027-01-14T09:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "AUD-FIND-014 corrective actions deployed",
+      "DR retest scheduled"
+    ],
+    "intent": "DR retest passes — finding moves to remediated status.",
+    "steps": [
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/evidence",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-2026-001",
+          "name": "DR Retest Evidence — All Checks Pass (RTO 24 min)",
+          "obtainedOn": "2027-01-14",
+          "obtainedBy": "nikhil.sethi@nexora.example",
+          "source": "DevOps ERP — DR Drill Report",
+          "status": "accepted"
+        }
+      }
+    ],
+    "expectedState": [
+      "DR retest passed — RTO 24 min (target 30 min)",
+      "AUD-FIND-014 moves to REMEDIATED — audit verification pending"
+    ],
+    "crossEvents": [
+      "compliance.finding-remediated"
+    ],
+    "notifications": [
+      "Secrets replication automation deployed",
+      "DR preflight checklist active"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M10-006.story.json"
+}

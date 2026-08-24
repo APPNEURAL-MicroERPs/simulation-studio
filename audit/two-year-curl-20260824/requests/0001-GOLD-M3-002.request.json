@@ -1,0 +1,64 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M3-002/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M3-002",
+    "month": "2026-06",
+    "companyTime": "2026-06-03T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "contract",
+    "preconditions": [
+      "ABC Corp lead is qualified",
+      "Presales completed"
+    ],
+    "intent": "Create first customer contract for ABC Manufacturing Corp.",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "CTR-2026-001",
+          "title": "ABC Corp ERP Implementation MSA",
+          "counterpartyName": "ABC Manufacturing Corp",
+          "counterpartyType": "customer",
+          "contractType": "msa",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "4800000",
+          "currency": "INR",
+          "startOn": "2026-06-01",
+          "endOn": "2027-05-31",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/contracts?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Contract CTR-2026-001 created in draft"
+    ],
+    "crossEvents": [
+      "contract.created"
+    ],
+    "notifications": [
+      "Legal reviews contract draft"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M3-002.story.json"
+}

@@ -1,0 +1,78 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-004/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-004",
+    "month": "2026-07",
+    "companyTime": "2026-07-08T10:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "risk",
+    "preconditions": [
+      "Security baseline established",
+      "Infrastructure in production"
+    ],
+    "intent": "Security lead registers first enterprise risks.",
+    "steps": [
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-INFRA-001",
+          "title": "Single-region infrastructure dependency",
+          "category": "operational",
+          "likelihood": 3,
+          "impact": 4,
+          "ownerEmail": "priya.sharma@nexora.example",
+          "status": "identified",
+          "description": "All production workloads in single Cloudflare region"
+        },
+        "verifyListPath": "/api/risks?pageSize=100"
+      },
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-PEOPLE-001",
+          "title": "Key-person dependency on founding engineers",
+          "category": "people",
+          "likelihood": 3,
+          "impact": 4,
+          "ownerEmail": "meera.joshi@nexora.example",
+          "status": "identified",
+          "description": "Critical knowledge concentrated in 2 engineers"
+        },
+        "verifyListPath": "/api/risks?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "2 enterprise risks registered"
+    ],
+    "crossEvents": [
+      "risk.registered"
+    ],
+    "notifications": [
+      "Risk owners receive notification"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-004.story.json"
+}

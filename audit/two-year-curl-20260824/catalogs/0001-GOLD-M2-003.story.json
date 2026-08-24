@@ -1,0 +1,63 @@
+{
+  "id": "GOLD-M2-003",
+  "month": "2026-05",
+  "companyTime": "2026-05-10T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "sdlc",
+  "preconditions": [
+    "Project PRJ-INT-001 exists",
+    "Sprint 1 planning approved"
+  ],
+  "intent": "Create first sprint backlog and epic for Internal Platform v2.",
+  "steps": [
+    {
+      "module": "sdlc",
+      "method": "POST",
+      "path": "/api/backlogs",
+      "expectedStatus": 200,
+      "body": {
+        "workspaceId": "PRJ-INT-001",
+        "name": "Platform v2 Sprint 1",
+        "backlogType": "product",
+        "description": "Sprint 1: Auth module, CI pipeline, design system foundation"
+      },
+      "verifyListPath": "/api/backlogs?pageSize=100"
+    },
+    {
+      "module": "sdlc",
+      "method": "POST",
+      "path": "/api/epics",
+      "expectedStatus": 200,
+      "body": {
+        "key": "EPIC-AUTH",
+        "title": "Authentication & Authorization",
+        "kind": "epic",
+        "description": "Implement SSO, MFA, and role-based access control",
+        "priority": "MUST"
+      },
+      "verifyListPath": "/api/epics?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Backlog created",
+    "EPIC-AUTH created"
+  ],
+  "crossEvents": [
+    "sdlc.backlog-created",
+    "sdlc.epic-created"
+  ],
+  "notifications": [
+    "Development team sees sprint backlog"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

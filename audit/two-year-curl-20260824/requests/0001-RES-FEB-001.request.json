@@ -1,0 +1,63 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/RES-FEB-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "RES-FEB-001",
+    "month": "2026-02",
+    "companyTime": "2026-02-03T10:15:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Platform delivery demand has been approved for planning"
+    ],
+    "intent": "Engineering leadership raises a React capacity demand.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/demand",
+        "expectedStatus": 201,
+        "body": {
+          "demandNo": "SIM-DEM-2602-001",
+          "projectCode": "PRJ-5002",
+          "role": "Senior React Engineer",
+          "positions": 2,
+          "skillsRequired": "React, TypeScript, accessibility",
+          "neededFrom": "2026-03-02",
+          "allocationPct": 100,
+          "requestedBy": "priya.sharma@nexora.example",
+          "status": "open"
+        },
+        "verifyListPath": "/api/demand?q=SIM-DEM-2602-001&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Demand SIM-DEM-2602-001 is open with two positions"
+    ],
+    "crossEvents": [
+      "Resource.DemandCreated"
+    ],
+    "notifications": [
+      "Talent team receives a demand notification"
+    ],
+    "edgeCases": [
+      "Demand number must remain unique"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-RES-FEB-001.story.json"
+}

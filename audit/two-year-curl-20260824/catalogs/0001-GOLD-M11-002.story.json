@@ -1,0 +1,68 @@
+{
+  "id": "GOLD-M11-002",
+  "month": "2027-02",
+  "companyTime": "2027-02-03T10:00:00+05:30",
+  "actorId": "EMP-1004",
+  "actorRole": "manager",
+  "module": "resource",
+  "preconditions": [
+    "Internal R&D paused",
+    "Vivek, Karan, Amit freed"
+  ],
+  "intent": "Resource reallocation — freed engineers deployed to customer projects.",
+  "steps": [
+    {
+      "module": "resource",
+      "method": "POST",
+      "path": "/api/allocations",
+      "expectedStatus": 201,
+      "body": {
+        "allocationNo": "ALLOC-PAUSE-001",
+        "resourceId": "RES-EMP-1012",
+        "employeeCode": "EMP-1012",
+        "projectId": "PRJ-003",
+        "role": "Backend Engineer",
+        "allocationPercent": 30,
+        "startDate": "2027-02-03",
+        "endDate": "2027-06-30"
+      }
+    },
+    {
+      "module": "resource",
+      "method": "POST",
+      "path": "/api/allocations",
+      "expectedStatus": 201,
+      "body": {
+        "allocationNo": "ALLOC-PAUSE-002",
+        "resourceId": "RES-EMP-1004",
+        "employeeCode": "EMP-1004",
+        "projectId": "PRJ-005",
+        "role": "Platform Architect",
+        "allocationPercent": 20,
+        "startDate": "2027-02-03",
+        "endDate": "2027-06-30"
+      }
+    }
+  ],
+  "expectedState": [
+    "Vivek → LogisticsOne 30%",
+    "Karan → ABC Phase 2 20%"
+  ],
+  "crossEvents": [
+    "resource.reallocation-completed"
+  ],
+  "notifications": [
+    "Bench cost reduced",
+    "Project forecasts updated"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

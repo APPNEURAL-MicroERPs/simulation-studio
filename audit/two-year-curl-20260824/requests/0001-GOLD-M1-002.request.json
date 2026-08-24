@@ -1,0 +1,98 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M1-002/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M1-002",
+    "month": "2026-04",
+    "companyTime": "2026-04-01T10:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "Legal entity APTL exists",
+      "Departments created"
+    ],
+    "intent": "Create positions for the founding team — CEO, Lead Engineer, Sales Lead, Finance Controller.",
+    "steps": [
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/positions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Founder & CEO",
+          "code": "POS-CEO",
+          "employmentType": "full_time",
+          "holderEmail": "priya.sharma@nexora.example"
+        },
+        "verifyListPath": "/api/positions?q=CEO&pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/positions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Lead Engineer",
+          "code": "POS-LEAD-ENG",
+          "employmentType": "full_time",
+          "holderEmail": "sandeep.patel@nexora.example"
+        },
+        "verifyListPath": "/api/positions?q=Lead%20Engineer&pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/positions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Sales Director",
+          "code": "POS-SALES-DIR",
+          "employmentType": "full_time",
+          "holderEmail": "karan.malhotra@nexora.example"
+        },
+        "verifyListPath": "/api/positions?q=Sales%20Director&pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/positions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Finance Controller",
+          "code": "POS-FIN-CTRL",
+          "employmentType": "full_time",
+          "holderEmail": "vikram.shah@nexora.example"
+        },
+        "verifyListPath": "/api/positions?q=Finance%20Controller&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "4 positions created and filled",
+      "Position codes are unique"
+    ],
+    "crossEvents": [
+      "organization.position-created",
+      "organization.position-filled"
+    ],
+    "notifications": [],
+    "edgeCases": [
+      "Position code must be unique within the org"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M1-002.story.json"
+}

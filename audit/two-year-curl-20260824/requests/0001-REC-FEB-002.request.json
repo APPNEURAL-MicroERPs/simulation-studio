@@ -1,0 +1,66 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/REC-FEB-002/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "REC-FEB-002",
+    "month": "2026-02",
+    "companyTime": "2026-02-09T14:20:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Recruitment campaign is active"
+    ],
+    "intent": "Recruiter adds a sourced candidate through the candidate API.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Aisha Malhotra",
+          "email": "aisha.malhotra@example.com",
+          "phone": "+91-9000002602",
+          "locationName": "Bengaluru",
+          "currentTitle": "Frontend Engineer",
+          "totalExperienceMonths": 72,
+          "skills": "React, TypeScript, Next.js",
+          "source": "referral",
+          "referrerEmail": "neha.gupta@nexora.example",
+          "noticePeriodDays": 30,
+          "expectedCtc": 2400000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Six-month digital-twin candidate"
+        },
+        "verifyListPath": "/api/candidates?q=aisha.malhotra%40example.com&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Aisha Malhotra exists as an active candidate"
+    ],
+    "crossEvents": [
+      "Recruitment.CandidateCreated"
+    ],
+    "notifications": [],
+    "edgeCases": [
+      "Candidate must have an email or phone"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-REC-FEB-002.story.json"
+}

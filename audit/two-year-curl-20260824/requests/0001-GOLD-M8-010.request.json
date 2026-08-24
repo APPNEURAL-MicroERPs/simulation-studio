@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-010/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-010",
+    "month": "2026-11",
+    "companyTime": "2026-11-20T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "crm",
+    "preconditions": [
+      "Campaign CAM-001 webinar completed",
+      "ZenFab lead progressed through funnel"
+    ],
+    "intent": "Marketing-originated opportunity — ZenFab Industries deal won at ₹9L.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "ZenFab Industries",
+          "contactName": "Arjun Mehta",
+          "title": "VP Engineering",
+          "email": "arjun@zenfab.example",
+          "phone": "+91-9700000001",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Manufacturing",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1600000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?q=ZenFab&pageSize=100"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ZenFab Consulting Engagement",
+          "code": "OPP-ZENFAB-001",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "amount": 900000,
+          "currency": "INR",
+          "stage": "won",
+          "probability": 100,
+          "sourceLeadId": "LEAD-ZENFAB",
+          "nextAction": "Kickoff meeting",
+          "nextActionOn": "2026-11-25"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Lead ZenFab created from campaign",
+      "Opportunity OPP-ZENFAB-001 won at ₹9L"
+    ],
+    "crossEvents": [
+      "crm.opportunity-won"
+    ],
+    "notifications": [
+      "Marketing sees campaign attribution confirmed",
+      "Sales team celebrates deal"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-010.story.json"
+}

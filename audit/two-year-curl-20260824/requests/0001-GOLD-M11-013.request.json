@@ -1,0 +1,106 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-013/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-013",
+    "month": "2027-02",
+    "companyTime": "2027-02-28T18:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "All February activities completed",
+      "11 months of operations"
+    ],
+    "intent": "Month 11 reconciliation — comprehensive cross-ERP verification.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "GET",
+        "path": "/api/employees?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/leads?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/opportunities?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "billing",
+        "method": "GET",
+        "path": "/api/invoices?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "project",
+        "method": "GET",
+        "path": "/api/projects?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "finance",
+        "method": "GET",
+        "path": "/api/budgets?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "finance",
+        "method": "GET",
+        "path": "/api/journal-entries?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "compliance",
+        "method": "GET",
+        "path": "/api/findings?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "risk",
+        "method": "GET",
+        "path": "/api/risks?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "asset",
+        "method": "GET",
+        "path": "/api/audit_campaigns?pageSize=100",
+        "expectedStatus": 200
+      }
+    ],
+    "expectedState": [
+      "Employees >= 5",
+      "Leads >= 7",
+      "Opportunities >= 3",
+      "Invoices >= 5",
+      "Projects >= 5",
+      "Budgets >= 5",
+      "Journal entries >= 9",
+      "Findings >= 3",
+      "Risks >= 1",
+      "Asset audit campaigns >= 1"
+    ],
+    "crossEvents": [],
+    "notifications": [
+      "Month 11 complete — hard decisions, churn, write-off, BCP exercised"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-013.story.json"
+}

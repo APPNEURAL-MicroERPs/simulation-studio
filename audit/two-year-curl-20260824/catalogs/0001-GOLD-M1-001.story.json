@@ -1,0 +1,156 @@
+{
+  "id": "GOLD-M1-001",
+  "month": "2026-04",
+  "companyTime": "2026-04-01T09:05:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "organization",
+  "preconditions": [
+    "Simulation run is initialized",
+    "No organization data exists yet"
+  ],
+  "intent": "Founder bootstraps the company — creates legal entity, 6 departments, and HQ office.",
+  "steps": [
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/legal-entities",
+      "expectedStatus": 201,
+      "body": {
+        "name": "APPNEURAL Technologies Pvt Ltd",
+        "code": "APTL",
+        "country": "India",
+        "currency": "INR",
+        "status": "active"
+      },
+      "verifyListPath": "/api/legal-entities?q=APPNEURAL&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Executive",
+        "code": "EXEC",
+        "headEmail": "priya.sharma@nexora.example",
+        "headcount": 2,
+        "location": "Udaipur"
+      },
+      "verifyListPath": "/api/departments?q=Executive&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Engineering",
+        "code": "ENG",
+        "headEmail": "priya.sharma@nexora.example",
+        "headcount": 12,
+        "location": "Bengaluru"
+      },
+      "verifyListPath": "/api/departments?q=Engineering&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Sales",
+        "code": "SALES",
+        "headEmail": "karan.malhotra@nexora.example",
+        "headcount": 10,
+        "location": "Gurugram"
+      },
+      "verifyListPath": "/api/departments?q=Sales&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Finance",
+        "code": "FIN",
+        "headEmail": "vikram.shah@nexora.example",
+        "headcount": 5,
+        "location": "Udaipur"
+      },
+      "verifyListPath": "/api/departments?q=Finance&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "People",
+        "code": "PEOPLE",
+        "headEmail": "meera.joshi@nexora.example",
+        "headcount": 6,
+        "location": "Udaipur"
+      },
+      "verifyListPath": "/api/departments?q=People&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/departments",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Governance",
+        "code": "GOV",
+        "headEmail": "nikhil.sethi@nexora.example",
+        "headcount": 6,
+        "location": "Udaipur"
+      },
+      "verifyListPath": "/api/departments?q=Governance&pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/offices",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Udaipur HQ",
+        "code": "UDR-HQ",
+        "addressLine": "Udaipur, Rajasthan",
+        "city": "Udaipur",
+        "country": "India",
+        "timezone": "Asia/Kolkata",
+        "seatCapacity": 50,
+        "officeType": "headquarters",
+        "status": "active"
+      },
+      "verifyListPath": "/api/offices?q=Udaipur&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Legal entity APTL exists",
+    "6 departments created",
+    "Udaipur HQ office exists"
+  ],
+  "crossEvents": [
+    "organization.legal-entity-created",
+    "organization.department-created",
+    "organization.office-created"
+  ],
+  "notifications": [
+    "All downstream ERPs receive legal entity event"
+  ],
+  "edgeCases": [
+    "Legal entity code must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

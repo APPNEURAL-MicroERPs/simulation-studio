@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-009/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-009",
+    "month": "2026-10",
+    "companyTime": "2026-10-15T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "project",
+    "preconditions": [
+      "Project closure initiated",
+      "Support team ready"
+    ],
+    "intent": "Support handover — project transitions from delivery to warranty/support.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/support-handovers",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "PRJ-INT-001",
+          "architectureJson": "{\"stack\":\"React+Node\",\"deployment\":\"Cloudflare Workers\"}",
+          "runbooksJson": "{\"deploy\":\"CI/CD via GitHub Actions\",\"monitor\":\"Cloudflare Analytics\"}",
+          "knownIssuesJson": "{\"minor\":\"PDF export timeout on large datasets\"}",
+          "supportContactsJson": "{\"L1\":\"support@nexora.example\",\"L2\":\"engineering@nexora.example\"}",
+          "environmentsJson": "{\"prod\":\"suite.erp.appneural.com\"}",
+          "slasJson": "{\"responseTime\":\"4h\",\"resolutionTime\":\"48h\"}",
+          "deploymentInfoJson": "{\"version\":\"1.0.0\",\"build\":\"sprint1-final\"}"
+        },
+        "verifyListPath": "/api/support-handovers?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Support handover created for PRJ-INT-001"
+    ],
+    "crossEvents": [
+      "project.support-handover-created"
+    ],
+    "notifications": [
+      "Support team receives handover package"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-009.story.json"
+}

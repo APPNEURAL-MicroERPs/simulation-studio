@@ -1,0 +1,52 @@
+{
+  "id": "GOLD-M8-004",
+  "month": "2026-11",
+  "companyTime": "2026-11-08T09:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "hr",
+  "preconditions": [
+    "Contractor needed for QA capacity gap",
+    "Vendor QualityWorks identified"
+  ],
+  "intent": "Contract QA engineer onboarding — Nikita Bose as external consultant.",
+  "steps": [
+    {
+      "module": "hr",
+      "method": "POST",
+      "path": "/api/employees",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "CTR-NIKITA-001",
+        "fullName": "Nikita Bose",
+        "email": "nikita.bose@qualityworks.example",
+        "designation": "QA Automation Consultant",
+        "department": "Engineering",
+        "location": "Bengaluru",
+        "dateOfJoining": "2026-11-08",
+        "employmentType": "contract",
+        "employmentStatus": "active"
+      },
+      "verifyListPath": "/api/employees?q=CTR-NIKITA&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Contractor CTR-NIKITA-001 registered — excluded from payroll"
+  ],
+  "crossEvents": [
+    "hr.contractor-onboarded"
+  ],
+  "notifications": [
+    "IT provisions temporary access for contractor"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

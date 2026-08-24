@@ -1,0 +1,50 @@
+{
+  "id": "GOLD-M4-007",
+  "month": "2026-07",
+  "companyTime": "2026-07-18T09:00:00+05:30",
+  "actorId": "EMP-1005",
+  "actorRole": "manager",
+  "module": "support",
+  "preconditions": [
+    "ABC Corp is an active customer",
+    "Production system live"
+  ],
+  "intent": "First customer support ticket from ABC Corp.",
+  "steps": [
+    {
+      "module": "support",
+      "method": "POST",
+      "path": "/api/tickets",
+      "expectedStatus": 201,
+      "body": {
+        "subject": "Unable to access billing module after deployment",
+        "description": "Customer reports 403 error on billing page after Sprint 1 deployment",
+        "customerId": "CUST-ABC-001",
+        "contactName": "Rajesh Kumar",
+        "contactEmail": "rajesh.kumar@abcmfg.example",
+        "priority": "high",
+        "category": "bug"
+      },
+      "verifyListPath": "/api/tickets?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Support ticket TKT-2026-001 created"
+  ],
+  "crossEvents": [
+    "support.ticket-created"
+  ],
+  "notifications": [
+    "Assigned agent receives ticket notification"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

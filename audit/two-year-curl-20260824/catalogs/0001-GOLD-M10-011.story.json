@@ -1,0 +1,51 @@
+{
+  "id": "GOLD-M10-011",
+  "month": "2027-01",
+  "companyTime": "2027-01-26T10:00:00+05:30",
+  "actorId": "EMP-1011",
+  "actorRole": "manager",
+  "module": "organization",
+  "preconditions": [
+    "Legal dispute + CR issues require stronger SOW",
+    "Old template V2 insufficient"
+  ],
+  "intent": "Policy version migration — SOW template upgraded to V3.",
+  "steps": [
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "SOW Template V3 — Stronger Acceptance Criteria",
+        "requestType": "policy_update",
+        "targetLabel": "CONTRACT-TEMPLATE",
+        "currentValue": "SOW-TEMPLATE-V2",
+        "proposedValue": "SOW-TEMPLATE-V3",
+        "justification": "Legal dispute ZenFab + previous CR issues require explicit acceptance criteria, assumption register, change-control threshold, customer dependency section, milestone evidence requirement.",
+        "effectiveOn": "2027-01-26"
+      },
+      "verifyListPath": "/api/change-requests?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "SOW template V3 approved — existing contracts remain on V2",
+    "New deals use V3 with stronger acceptance criteria"
+  ],
+  "crossEvents": [
+    "organization.policy-migrated"
+  ],
+  "notifications": [
+    "Contract template updated for future deals"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

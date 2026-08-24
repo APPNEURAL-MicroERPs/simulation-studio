@@ -1,0 +1,70 @@
+{
+  "id": "GOLD-M10-002",
+  "month": "2027-01",
+  "companyTime": "2027-01-03T10:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "recruitment",
+  "preconditions": [
+    "AOP approved",
+    "Hiring plan derived from project demand"
+  ],
+  "intent": "Hiring plan created — planned requisitions with conditional logic.",
+  "steps": [
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Senior Backend Engineer",
+        "reason": "new",
+        "departmentName": "Engineering",
+        "openings": 3,
+        "hiringManagerEmail": "amit.shah@nexora.example",
+        "employmentType": "full_time",
+        "budgetMin": 1200000,
+        "budgetMax": 1800000,
+        "justification": "AOP hiring plan — project demand driven"
+      },
+      "verifyListPath": "/api/requisitions?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Data Engineer (Conditional)",
+        "reason": "new",
+        "departmentName": "Engineering",
+        "openings": 2,
+        "hiringManagerEmail": "amit.shah@nexora.example",
+        "employmentType": "full_time",
+        "budgetMin": 1000000,
+        "budgetMax": 1500000,
+        "justification": "REQ-021: Open only when PRJ-003 milestone 2 approved OR data-heavy project won — PLANNED status"
+      }
+    }
+  ],
+  "expectedState": [
+    "Backend requisitions created (3 openings)",
+    "Conditional Data Engineer requisition planned"
+  ],
+  "crossEvents": [
+    "recruitment.requisition-planned"
+  ],
+  "notifications": [
+    "Hiring plan locked to AOP headcount target 35"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

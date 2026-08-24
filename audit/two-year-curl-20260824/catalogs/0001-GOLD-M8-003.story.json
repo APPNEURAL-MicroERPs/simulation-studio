@@ -1,0 +1,115 @@
+{
+  "id": "GOLD-M8-003",
+  "month": "2026-11",
+  "companyTime": "2026-11-05T09:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "learning",
+  "preconditions": [
+    "Transfer request pending",
+    "Skill gap identified for Platform role"
+  ],
+  "intent": "Skill gap assessment and learning path created for Vivek's platform transition.",
+  "steps": [
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/skills",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Kubernetes",
+        "category": "Infrastructure"
+      },
+      "verifyListPath": "/api/skills?pageSize=100"
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/skills",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Terraform",
+        "category": "Infrastructure"
+      },
+      "verifyListPath": "/api/skills?pageSize=100"
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/courses",
+      "expectedStatus": 201,
+      "body": {
+        "code": "COURSE-K8S-FUND",
+        "title": "Kubernetes Fundamentals",
+        "category": "infrastructure",
+        "durationHours": 8,
+        "description": "Core Kubernetes concepts for platform engineers",
+        "level": "foundation"
+      },
+      "verifyListPath": "/api/courses?pageSize=100"
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/courses",
+      "expectedStatus": 201,
+      "body": {
+        "code": "COURSE-TF-BASICS",
+        "title": "Terraform Basics",
+        "category": "infrastructure",
+        "durationHours": 6,
+        "description": "Infrastructure as Code with Terraform",
+        "level": "foundation"
+      },
+      "verifyListPath": "/api/courses?pageSize=100"
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/learning-paths",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Platform Engineer Readiness",
+        "targetRole": "Platform Engineer",
+        "durationHours": 24
+      },
+      "verifyListPath": "/api/learning-paths?pageSize=100"
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/assignments",
+      "expectedStatus": 201,
+      "body": {
+        "courseRef": "COURSE-K8S-FUND",
+        "assignedTo": "EMP-1012",
+        "assignedBy": "meera.joshi@nexora.example",
+        "dueOn": "2026-11-30"
+      },
+      "verifyListPath": "/api/assignments?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 skills registered",
+    "2 courses created",
+    "Learning path created",
+    "Assignment for EMP-1012"
+  ],
+  "crossEvents": [
+    "learning.path-created",
+    "learning.assignment-created"
+  ],
+  "notifications": [
+    "Vivek receives mandatory training assignments"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

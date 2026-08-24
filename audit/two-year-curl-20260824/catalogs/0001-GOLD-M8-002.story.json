@@ -1,0 +1,50 @@
+{
+  "id": "GOLD-M8-002",
+  "month": "2026-11",
+  "companyTime": "2026-11-03T10:00:00+05:30",
+  "actorId": "EMP-1012",
+  "actorRole": "member",
+  "module": "organization",
+  "preconditions": [
+    "New org structure effective",
+    "Vivek wants Platform Engineering work"
+  ],
+  "intent": "First internal transfer request — Vivek from Application to Platform Engineering.",
+  "steps": [
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Internal Transfer: Vivek to Platform Engineering",
+        "requestType": "transfer",
+        "targetLabel": "EMP-1012",
+        "currentValue": "Application Engineering",
+        "proposedValue": "Platform Engineering",
+        "justification": "Career development and infrastructure/platform interest",
+        "effectiveOn": "2026-11-15"
+      },
+      "verifyListPath": "/api/change-requests?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Transfer request TRANSFER-001 created and pending approval"
+  ],
+  "crossEvents": [
+    "organization.transfer-requested"
+  ],
+  "notifications": [
+    "Current and future managers receive transfer approval request"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

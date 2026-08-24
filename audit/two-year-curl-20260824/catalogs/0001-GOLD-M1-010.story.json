@@ -1,0 +1,53 @@
+{
+  "id": "GOLD-M1-010",
+  "month": "2026-04",
+  "companyTime": "2026-04-15T09:00:00+05:30",
+  "actorId": "EMP-1009",
+  "actorRole": "manager",
+  "module": "procurement",
+  "preconditions": [
+    "Office supplies needed for new team"
+  ],
+  "intent": "Procurement creates first purchase request for office supplies.",
+  "steps": [
+    {
+      "module": "procurement",
+      "method": "POST",
+      "path": "/api/requests",
+      "expectedStatus": 201,
+      "body": {
+        "requestNo": "PR-2026-001",
+        "title": "Office Setup — Founding Team",
+        "category": "Office Supplies",
+        "requesterEmail": "priya.sharma@nexora.example",
+        "department": "Executive",
+        "estimatedCost": 150000,
+        "neededBy": "2026-04-30",
+        "justification": "Initial office setup for 4-person founding team at Udaipur HQ",
+        "status": "draft"
+      },
+      "verifyListPath": "/api/requests?q=PR-2026-001&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Purchase request PR-2026-001 exists in draft"
+  ],
+  "crossEvents": [
+    "procurement.request-created"
+  ],
+  "notifications": [
+    "Approver receives procurement approval task"
+  ],
+  "edgeCases": [
+    "Request must have a valid category"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

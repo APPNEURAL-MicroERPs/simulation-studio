@@ -1,0 +1,119 @@
+{
+  "id": "GOLD-M9-012",
+  "month": "2026-12",
+  "companyTime": "2026-12-23T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "performance",
+  "preconditions": [
+    "Q4 department business reviews due",
+    "Each department submits KPIs"
+  ],
+  "intent": "Quarterly department business reviews — OKRs cascaded to 5 departments.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Engineering Q4 — Velocity, Quality, Security",
+        "description": "Sprint velocity stable, defect leakage <5%, zero critical security findings",
+        "goalType": "department",
+        "category": "delivery",
+        "level": "department",
+        "ownerCode": "EMP-1004",
+        "startsOn": "2026-12-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Sales Q4 — Bookings ₹25L, Pipeline 3x Coverage",
+        "description": "Close ₹25L in new bookings, maintain 3x pipeline coverage ratio",
+        "goalType": "department",
+        "category": "financial",
+        "level": "department",
+        "ownerCode": "EMP-1008",
+        "startsOn": "2026-12-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "HR Q4 — Hiring SLA, Retention, Engagement",
+        "description": "Close 5 open roles within 30-day SLA, attrition <10%, engagement score >7.5",
+        "goalType": "department",
+        "category": "operational",
+        "level": "department",
+        "ownerCode": "EMP-1006",
+        "startsOn": "2026-12-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Finance Q4 — Collections, Margin, Cash Runway",
+        "description": "90%+ collection within terms, gross margin >35%, 6-month cash runway",
+        "goalType": "department",
+        "category": "financial",
+        "level": "department",
+        "ownerCode": "EMP-1007",
+        "startsOn": "2026-12-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/goals",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Delivery Q4 — Project Health, Customer Health, SLA",
+        "description": ">95% SLA compliance, all projects GREEN/AMBER, customer health improving",
+        "goalType": "department",
+        "category": "delivery",
+        "level": "department",
+        "ownerCode": "EMP-1001",
+        "startsOn": "2026-12-01",
+        "dueDate": "2027-03-31"
+      },
+      "verifyListPath": "/api/goals?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "5 department OKRs created for Q4 business review"
+  ],
+  "crossEvents": [
+    "performance.department-okr-created"
+  ],
+  "notifications": [
+    "Department heads submit quarterly KPI packs"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

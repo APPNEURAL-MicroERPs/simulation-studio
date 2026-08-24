@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-007/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-007",
+    "month": "2026-11",
+    "companyTime": "2026-11-14T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "billing",
+    "preconditions": [
+      "EduSphere milestone invoice generated",
+      "Missing acceptance document"
+    ],
+    "intent": "First invoice dispute — EduSphere disputes ₹4.02L milestone invoice.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-2026-003",
+          "customer": "EduSphere Technologies",
+          "amount": 402000,
+          "currency": "inr",
+          "issueDate": "2026-11-14",
+          "dueDate": "2026-12-14",
+          "status": "issued"
+        },
+        "verifyListPath": "/api/invoices?pageSize=100"
+      },
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/disputes",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceId": "INV-2026-003",
+          "disputeType": "missing_documentation",
+          "disputedAmount": 40200000,
+          "reason": "Milestone acceptance document not attached to invoice"
+        },
+        "verifyListPath": "/api/disputes?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Invoice INV-2026-003 issued",
+      "Dispute DISP-001 created — collection paused"
+    ],
+    "crossEvents": [
+      "billing.invoice-disputed"
+    ],
+    "notifications": [
+      "AR team pauses escalation",
+      "Project team receives evidence request"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-007.story.json"
+}

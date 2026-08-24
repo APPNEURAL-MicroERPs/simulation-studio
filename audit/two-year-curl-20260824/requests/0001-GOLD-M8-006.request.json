@@ -1,0 +1,65 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-006",
+    "month": "2026-11",
+    "companyTime": "2026-11-12T10:00:00+05:30",
+    "actorId": "EMP-1011",
+    "actorRole": "manager",
+    "module": "contract",
+    "preconditions": [
+      "CR-PRJ002-004 approved commercially",
+      "Original SOW at ₹13.4L"
+    ],
+    "intent": "Contract amendment created for EduSphere scope change — +₹2.0L.",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "AMD-2026-001",
+          "title": "EduSphere SOW Amendment — Webcam Proctoring",
+          "counterpartyName": "EduSphere Technologies",
+          "counterpartyType": "customer",
+          "contractType": "amendment",
+          "parentContractId": "CTR-EDU-001",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "200000",
+          "currency": "INR",
+          "startOn": "2026-11-12",
+          "endOn": "2027-07-31",
+          "status": "active"
+        },
+        "verifyListPath": "/api/contracts?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Amendment AMD-2026-001 created — +₹2.0L to contract value"
+    ],
+    "crossEvents": [
+      "contract.amendment-created"
+    ],
+    "notifications": [
+      "Finance and legal receive amendment notification"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-006.story.json"
+}

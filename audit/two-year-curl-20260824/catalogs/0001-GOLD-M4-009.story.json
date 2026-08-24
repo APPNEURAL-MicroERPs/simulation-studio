@@ -1,0 +1,67 @@
+{
+  "id": "GOLD-M4-009",
+  "month": "2026-07",
+  "companyTime": "2026-07-25T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "inventory",
+  "preconditions": [
+    "Office supplies running low"
+  ],
+  "intent": "Procurement manager checks inventory and creates stock request.",
+  "steps": [
+    {
+      "module": "inventory",
+      "method": "POST",
+      "path": "/api/stock-items",
+      "expectedStatus": 201,
+      "body": {
+        "sku": "SKU-PAPER-A4",
+        "name": "A4 Paper Premium White",
+        "category": "Office Supplies",
+        "warehouse": "UDR-HQ",
+        "quantity": 50,
+        "reorderLevel": 10,
+        "unitCost": 350,
+        "status": "active"
+      },
+      "verifyListPath": "/api/stock-items?pageSize=100"
+    },
+    {
+      "module": "inventory",
+      "method": "POST",
+      "path": "/api/stock-items",
+      "expectedStatus": 201,
+      "body": {
+        "sku": "SKU-INK-HP",
+        "name": "Ink Cartridge HP LaserJet",
+        "category": "Office Supplies",
+        "warehouse": "UDR-HQ",
+        "quantity": 20,
+        "reorderLevel": 5,
+        "unitCost": 2500,
+        "status": "active"
+      },
+      "verifyListPath": "/api/stock-items?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 stock items created in inventory"
+  ],
+  "crossEvents": [
+    "inventory.item-created"
+  ],
+  "notifications": [
+    "Procurement can reorder when stock hits reorder level"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

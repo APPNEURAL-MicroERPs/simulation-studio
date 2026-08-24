@@ -1,0 +1,106 @@
+{
+  "id": "GOLD-M12-003",
+  "month": "2027-03",
+  "companyTime": "2027-03-08T10:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "payroll",
+  "preconditions": [
+    "Bonus pool ₹8.5L approved",
+    "Individual amounts calibrated"
+  ],
+  "intent": "Annual bonus batch created — VARIABLE-PAY-BATCH-2026.",
+  "steps": [
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/inputs",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2027-03",
+        "employeeCode": "EMP-1004",
+        "kind": "bonus",
+        "amount": 85000,
+        "remarks": "Annual bonus — Amit: Goal 92%, 3 projects, 4 mentees. Rating 4.5. Pool ₹8.5L calibrated to ₹8.48L.",
+        "status": "draft"
+      }
+    },
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/inputs",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2027-03",
+        "employeeCode": "EMP-1006",
+        "kind": "bonus",
+        "amount": 65000,
+        "remarks": "Annual bonus — Sneha: Rating 4.6, QA excellence, promoted to Sr QA",
+        "status": "draft"
+      }
+    },
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/inputs",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2027-03",
+        "employeeCode": "EMP-1007",
+        "kind": "bonus",
+        "amount": 55000,
+        "remarks": "Annual bonus — Priya: Rating 4.2, frontend architecture, promoted to Sr FE",
+        "status": "draft"
+      }
+    },
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/inputs",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2027-03",
+        "employeeCode": "EMP-1008",
+        "kind": "bonus",
+        "amount": 40000,
+        "remarks": "Annual bonus — Meera: Rating 3.6, sales commission separate",
+        "status": "draft"
+      }
+    },
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/inputs",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2027-03",
+        "employeeCode": "EMP-1012",
+        "kind": "bonus",
+        "amount": 15000,
+        "remarks": "Annual bonus — Rahul: Post-PIP recovery, Rating 3.3, improved delivery",
+        "status": "draft"
+      }
+    }
+  ],
+  "expectedState": [
+    "VARIABLE-PAY-BATCH-2026: ₹2.6L total for 5 employees",
+    "All bonuses approved for March payroll"
+  ],
+  "crossEvents": [
+    "payroll.annual-bonus-approved"
+  ],
+  "notifications": [
+    "Payout in March payroll",
+    "Finance ledger posted"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

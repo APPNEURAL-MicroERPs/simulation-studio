@@ -1,0 +1,68 @@
+{
+  "id": "GOLD-M12-005",
+  "month": "2027-03",
+  "companyTime": "2027-03-12T09:00:00+05:30",
+  "actorId": "EMP-1009",
+  "actorRole": "manager",
+  "module": "vendor",
+  "preconditions": [
+    "Laptop vendor underperforming",
+    "Backup vendor needed"
+  ],
+  "intent": "Backup hardware vendor onboarded — TechEquip India.",
+  "steps": [
+    {
+      "module": "vendor",
+      "method": "POST",
+      "path": "/api/vendors",
+      "expectedStatus": 201,
+      "body": {
+        "displayName": "TechEquip India Pvt Ltd",
+        "code": "TECHEQUIP",
+        "country": "IN",
+        "status": "ACTIVE",
+        "lifecycleStatus": "ONBOARDING",
+        "riskBand": "LOW",
+        "criticality": "MEDIUM"
+      }
+    },
+    {
+      "module": "vendor",
+      "method": "POST",
+      "path": "/api/vendor-scorecards",
+      "expectedStatus": 201,
+      "body": {
+        "vendorId": "TECHEQUIP",
+        "period": "FY2026-Initial",
+        "deliveryScore": 7,
+        "qualityScore": 7,
+        "commercialScore": 7,
+        "serviceScore": 7,
+        "complianceScore": 7,
+        "overallScore": 7,
+        "band": "Backup",
+        "modelVersion": "v2"
+      }
+    }
+  ],
+  "expectedState": [
+    "TechEquip India onboarded as backup hardware vendor",
+    "Future laptop purchases can route there"
+  ],
+  "crossEvents": [
+    "procurement.backup-vendor-onboarded"
+  ],
+  "notifications": [
+    "Underperforming vendor moved to conditional status"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

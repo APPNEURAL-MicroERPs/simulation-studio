@@ -1,7 +1,7 @@
 import { requireStudioAuth } from "./auth";
 import { activeRun, latestRun } from "./db";
 import { errorResponse, HttpError, json, readJson, stringField } from "./http";
-import { apiExecutionDetail, executeApiStory, executeDueApiStories, issueActorToken, listApiOperations } from "./api-runner";
+import { apiExecutionDetail, executeApiStory, executeDueApiStories, issueActorToken, listApiOperations, retryApiStory } from "./api-runner";
 import { februaryApiStories, month1ApiStories, sixMonthStoryline } from "./api-stories";
 import { goldenStoriesMonth2to12 } from "./golden-story";
 import { simulationCompany, simulationEmployees, simulationScenarios } from "@appneural/erp-core/simulation";
@@ -20,9 +20,9 @@ import {
   tickRun,
   type CreateRunInput,
 } from "./runtime";
-import { executeYear2Month, executeYear2Quarter, executeYear2All, retryYear2Quarter } from "./year2/year2-runner";
+import { executeSignedYear2Story, executeYear2Month, executeYear2Quarter, executeYear2All, retrySignedYear2Story, retryYear2Quarter, signedYear2MonthCatalog } from "./year2/year2-runner";
 import { generatorSummary } from "./year2/composer";
-import type { Year2Month } from "./year2/types";
+import { YEAR2_MONTHS, type Year2Month } from "./year2/types";
 
 function integerField(value: unknown, name: string): number | undefined {
   if (value === undefined || value === null || value === "") return undefined;
@@ -169,6 +169,25 @@ async function api(request: Request, env: Env, ctx: ExecutionContext): Promise<R
     const summary = await generatorSummary(env, month, seed);
     return json({ data: { month, seed, summary } });
   }
+  if (url.pathname === "/api/api-stories/year2-catalog" && request.method === "GET") {
+    const month = (url.searchParams.get("month") || "") as Year2Month;
+    if (!YEAR2_MONTHS.includes(month)) throw new HttpError(400, "invalid_year2_month", "A valid Year 2 month is required.");
+    const run = await requireRun(env);
+    const result = await signedYear2MonthCatalog(env, run, month, run.seed || "year2-default");
+    return json({ data: result });
+  }
+  if (url.pathname === "/api/api-stories/year2-execute-one" && request.method === "POST") {
+    const body = await readJson(request);
+    const signature = stringField(body.signature, "signature", { required: true, max: 200 })!;
+    const result = await executeSignedYear2Story(env, await requireRun(env), body.story, signature);
+    return json({ data: result }, { status: 202 });
+  }
+  if (url.pathname === "/api/api-stories/year2-retry-one" && request.method === "POST") {
+    const body = await readJson(request);
+    const signature = stringField(body.signature, "signature", { required: true, max: 200 })!;
+    const result = await retrySignedYear2Story(env, await requireRun(env), body.story, signature);
+    return json({ data: result }, { status: 202 });
+  }
   if (url.pathname === "/api/api-stories/retry-year2-q1" && request.method === "POST") {
     const run = await requireRun(env);
     const seed = run.seed || "year2-default";
@@ -207,6 +226,12 @@ async function api(request: Request, env: Env, ctx: ExecutionContext): Promise<R
   const storyExecution = /^\/api\/api-stories\/([^/]+)\/execute$/u.exec(url.pathname);
   if (storyExecution && request.method === "POST") {
     const result = await executeApiStory(env, await requireRun(env), decodeURIComponent(storyExecution[1]!));
+    return json({ data: result }, { status: 202 });
+  }
+
+  const storyRetry = /^\/api\/api-stories\/([^/]+)\/retry$/u.exec(url.pathname);
+  if (storyRetry && request.method === "POST") {
+    const result = await retryApiStory(env, await requireRun(env), decodeURIComponent(storyRetry[1]!));
     return json({ data: result }, { status: 202 });
   }
 

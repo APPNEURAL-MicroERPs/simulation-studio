@@ -1,0 +1,106 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-013/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-013",
+    "month": "2026-12",
+    "companyTime": "2026-12-28T18:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "All December activities completed",
+      "9 months of operations"
+    ],
+    "intent": "Month 9 reconciliation — comprehensive cross-ERP verification.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "GET",
+        "path": "/api/employees?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/leads?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/opportunities?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "billing",
+        "method": "GET",
+        "path": "/api/invoices?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "contract",
+        "method": "GET",
+        "path": "/api/contracts?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "project",
+        "method": "GET",
+        "path": "/api/projects?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "finance",
+        "method": "GET",
+        "path": "/api/budgets?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "finance",
+        "method": "GET",
+        "path": "/api/journal-entries?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "performance",
+        "method": "GET",
+        "path": "/api/goals?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "security",
+        "method": "GET",
+        "path": "/api/security-assets?pageSize=100",
+        "expectedStatus": 200
+      }
+    ],
+    "expectedState": [
+      "Employees >= 5",
+      "Leads >= 6",
+      "Opportunities >= 2",
+      "Invoices >= 5",
+      "Contracts >= 2",
+      "Projects >= 2",
+      "Budgets >= 1",
+      "Journal entries >= 5",
+      "Goals >= 8",
+      "Security assets >= 5"
+    ],
+    "crossEvents": [],
+    "notifications": [
+      "Month 9 complete — expansion, accounting depth, security incident exercised"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-013.story.json"
+}

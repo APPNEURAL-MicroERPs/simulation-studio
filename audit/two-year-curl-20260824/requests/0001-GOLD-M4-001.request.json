@@ -1,0 +1,76 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-001",
+    "month": "2026-07",
+    "companyTime": "2026-07-01T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "attendance",
+    "preconditions": [
+      "Team is operational",
+      "July is a working month"
+    ],
+    "intent": "Team records attendance for July 1st.",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/attendance",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "workDate": "2026-07-01",
+          "shift": "General",
+          "checkIn": "09:00",
+          "checkOut": "18:00",
+          "location": "Udaipur",
+          "status": "present"
+        },
+        "verifyListPath": "/api/attendance?q=EMP-1001&pageSize=100"
+      },
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/attendance",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1004",
+          "employeeEmail": "imran.khan@nexora.example",
+          "workDate": "2026-07-01",
+          "shift": "General",
+          "checkIn": "09:15",
+          "checkOut": "18:30",
+          "location": "Bengaluru",
+          "status": "present"
+        },
+        "verifyListPath": "/api/attendance?q=EMP-1004&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "2 attendance records for July 1st"
+    ],
+    "crossEvents": [
+      "attendance.recorded"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-001.story.json"
+}

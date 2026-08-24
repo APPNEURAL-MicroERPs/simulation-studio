@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-007/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-007",
+    "month": "2026-12",
+    "companyTime": "2026-12-12T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "billing",
+    "preconditions": [
+      "EduSphere invoice INV-EDU-004 at ₹4.62L",
+      "Customer pays ₹3.00L partial"
+    ],
+    "intent": "Partial invoice payment — EduSphere pays ₹3L of ₹4.62L invoice.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-2026-004",
+          "customer": "EduSphere Technologies",
+          "amount": 462000,
+          "currency": "inr",
+          "issueDate": "2026-12-12",
+          "dueDate": "2027-01-11",
+          "status": "issued"
+        },
+        "verifyListPath": "/api/invoices?pageSize=100"
+      },
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/accountingEvents",
+        "expectedStatus": 201,
+        "body": {
+          "source": "BILLING",
+          "eventType": "partial_payment",
+          "sourceEntityId": "INV-2026-004",
+          "amount": 30000000,
+          "currency": "INR",
+          "description": "Partial payment ₹3.00L received against INV-2026-004 — remaining ₹1.62L outstanding"
+        }
+      }
+    ],
+    "expectedState": [
+      "Invoice INV-2026-004 issued at ₹4.62L",
+      "Partial payment ₹3.00L recorded — ₹1.62L remaining AR"
+    ],
+    "crossEvents": [
+      "billing.partial-payment"
+    ],
+    "notifications": [
+      "AR aging applies only to remaining ₹1.62L"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-007.story.json"
+}

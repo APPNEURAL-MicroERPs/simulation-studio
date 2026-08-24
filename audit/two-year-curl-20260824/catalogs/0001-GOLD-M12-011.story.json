@@ -1,0 +1,64 @@
+{
+  "id": "GOLD-M12-011",
+  "month": "2027-03",
+  "companyTime": "2027-03-27T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "performance",
+  "preconditions": [
+    "All OKRs tracked through year",
+    "Final scoring due"
+  ],
+  "intent": "OKR final scoring — company objectives assessed.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/cycles",
+      "expectedStatus": 201,
+      "body": {
+        "name": "OKR-FY2026 Final Scoring",
+        "cycleType": "annual",
+        "startsOn": "2027-03-27",
+        "endsOn": "2027-03-31",
+        "ownerEmail": "vikram@nexora.example",
+        "minimumServiceDays": 0
+      }
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "FY2026 OKR Final Scores — Company Overall 87%",
+        "requestType": "performance_review",
+        "targetLabel": "COMPANY-OKR-FY2026",
+        "currentValue": "IN_PROGRESS",
+        "proposedValue": "SCORED",
+        "justification": "O1 Revenue 86% (₹1.08Cr of ₹1.25Cr), O2 Delivery 88% (SLA 96%), O3 Team 91% (Utilization 74%, Learning 86%), O4 Sales 82% (pipeline good, win rate improving). Company overall: 87%. Headcount intentionally MISS (38 vs 50 target) — strategy shift to profitability.",
+        "effectiveOn": "2027-03-27"
+      }
+    }
+  ],
+  "expectedState": [
+    "Company OKR FY2026 scored at 87%",
+    "Headcount MISS intentional — profitability over scale"
+  ],
+  "crossEvents": [
+    "performance.okr-final-scored"
+  ],
+  "notifications": [
+    "Year-1 performance documented"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "id": "GOLD-M7-008",
+  "month": "2026-10",
+  "companyTime": "2026-10-14T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "project",
+  "preconditions": [
+    "All closure checks passing",
+    "Customer accepted"
+  ],
+  "intent": "Project closure checklist created and lessons learned recorded.",
+  "steps": [
+    {
+      "module": "project",
+      "method": "POST",
+      "path": "/api/closure-checklists",
+      "expectedStatus": 201,
+      "body": {
+        "projectId": "PRJ-INT-001",
+        "item": "Customer acceptance received, all defects resolved, documentation complete, support handover done"
+      },
+      "verifyListPath": "/api/closure-checklists?pageSize=100"
+    },
+    {
+      "module": "project",
+      "method": "POST",
+      "path": "/api/lessons-learned",
+      "expectedStatus": 201,
+      "body": {
+        "projectId": "PRJ-INT-001",
+        "category": "process",
+        "title": "Early QA involvement reduced defect leakage",
+        "description": "QA engaged from sprint 1, caught issues before UAT",
+        "recommendation": "Make QA part of sprint planning for all future projects"
+      },
+      "verifyListPath": "/api/lessons-learned?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Closure checklist item created",
+    "Lesson learned recorded"
+  ],
+  "crossEvents": [
+    "project.closure-initiated",
+    "project.lesson-recorded"
+  ],
+  "notifications": [
+    "Project manager reviews closure checklist"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

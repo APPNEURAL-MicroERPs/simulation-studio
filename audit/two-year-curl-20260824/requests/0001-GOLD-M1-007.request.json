@@ -1,0 +1,109 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M1-007/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M1-007",
+    "month": "2026-04",
+    "companyTime": "2026-04-08T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "crm",
+    "preconditions": [
+      "Sales team is operational"
+    ],
+    "intent": "Sales creates first enterprise leads — ABC Corp and EduSphere.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "ABC Manufacturing Corp",
+          "contactName": "Rajesh Kumar",
+          "title": "CTO",
+          "email": "rajesh.kumar@abcmfg.example",
+          "phone": "+91-9800000001",
+          "source": "website",
+          "country": "India",
+          "industry": "Manufacturing",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 4800000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?q=ABC%20Manufacturing&pageSize=100"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "EduSphere Technologies",
+          "contactName": "Meena Rao",
+          "title": "VP Engineering",
+          "email": "meena.rao@edusphere.example",
+          "phone": "+91-9800000002",
+          "source": "referral",
+          "country": "India",
+          "industry": "Education",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3200000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?q=EduSphere&pageSize=100"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "LogisticsOne India",
+          "contactName": "Amit Verma",
+          "title": "Head of Operations",
+          "email": "amit.verma@logisticsone.example",
+          "phone": "+91-9800000003",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Logistics",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2400000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?q=LogisticsOne&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "3 leads created at 'new' stage",
+      "Total pipeline value = ₹1.04Cr"
+    ],
+    "crossEvents": [
+      "crm.lead-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminders"
+    ],
+    "edgeCases": [
+      "Lead must have email or phone"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M1-007.story.json"
+}

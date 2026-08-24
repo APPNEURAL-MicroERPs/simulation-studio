@@ -1,0 +1,48 @@
+{
+  "id": "GOLD-M4-008",
+  "month": "2026-07",
+  "companyTime": "2026-07-22T10:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "finance",
+  "preconditions": [
+    "Invoice INV-2026-001 outstanding"
+  ],
+  "intent": "Finance records payment receipt from ABC Corp.",
+  "steps": [
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/accountingEvents",
+      "expectedStatus": 201,
+      "body": {
+        "source": "BILLING",
+        "eventType": "payment_receipt",
+        "sourceEntityId": "INV-2026-001",
+        "amount": 40000000,
+        "currency": "INR",
+        "description": "ABC Corp payment received against INV-2026-001"
+      },
+      "verifyListPath": "/api/accountingEvents?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Payment receipt REC-2026-001 recorded"
+  ],
+  "crossEvents": [
+    "finance.payment-received"
+  ],
+  "notifications": [
+    "Sales team notified of payment"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

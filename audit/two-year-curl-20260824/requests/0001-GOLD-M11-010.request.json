@@ -1,0 +1,73 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-010/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-010",
+    "month": "2027-02",
+    "companyTime": "2027-02-25T08:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "administration",
+    "preconditions": [
+      "Major building utility failure — office temporarily unavailable"
+    ],
+    "intent": "Business continuity event — remote work activated, office restored in 2 days.",
+    "steps": [
+      {
+        "module": "administration",
+        "method": "POST",
+        "path": "/api/supplies",
+        "expectedStatus": 201,
+        "body": {
+          "name": "BCP-EVENT-001 Office Unavailability",
+          "unit": "event",
+          "quantity": 1,
+          "status": "out_of_stock"
+        },
+        "verifyListPath": "/api/supplies?pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/change-requests",
+        "expectedStatus": 201,
+        "body": {
+          "title": "BCP-001 Remote Work Activation — Udaipur HQ",
+          "requestType": "work_mode",
+          "targetLabel": "UDAIPUR-HQ",
+          "currentValue": "OFFICE",
+          "proposedValue": "REMOTE_REQUIRED",
+          "justification": "Major building utility failure. Expected outage: 2 business days. Remote work activated. VPN capacity increased from 25 to 40. Security checks: VPN capacity, MFA, device compliance. 0 lost workdays, 0 customer SLA breaches.",
+          "effectiveOn": "2027-02-25"
+        }
+      }
+    ],
+    "expectedState": [
+      "BCP-EVENT-001 activated — 34 employees affected",
+      "Office restored Day 3 — BCP review: 0 lost workdays, 0 SLA breaches"
+    ],
+    "crossEvents": [
+      "administration.bcp-activated"
+    ],
+    "notifications": [
+      "VPN capacity increased to 40",
+      "Quarterly remote-readiness test recommended"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-010.story.json"
+}

@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M3-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M3-006",
+    "month": "2026-06",
+    "companyTime": "2026-06-12T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "customer",
+    "preconditions": [
+      "ABC Corp contract signed",
+      "Implementation started"
+    ],
+    "intent": "Onboard ABC Corp as a formal customer in the Customer Success module.",
+    "steps": [
+      {
+        "module": "customer",
+        "method": "POST",
+        "path": "/api/customers",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ABC Manufacturing Corp",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "industry": "Manufacturing",
+          "arr": 4800000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/customers?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Customer CUST-ABC-001 onboarded and active"
+    ],
+    "crossEvents": [
+      "customer.onboarded"
+    ],
+    "notifications": [
+      "Customer success team receives onboarding task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M3-006.story.json"
+}

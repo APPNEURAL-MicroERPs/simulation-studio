@@ -1,0 +1,67 @@
+{
+  "id": "GOLD-M11-007",
+  "month": "2027-02",
+  "companyTime": "2027-02-18T10:00:00+05:30",
+  "actorId": "EMP-1005",
+  "actorRole": "manager",
+  "module": "performance",
+  "preconditions": [
+    "Rahul PIP-001 midpoint passed — metrics improving"
+  ],
+  "intent": "PIP-001 successfully completed — employee remains active with follow-up plan.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/pips",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1013",
+        "caseNo": "PIP-001-COMPLETION",
+        "managerEmail": "vikram.rao@nexora.example",
+        "hrPartnerEmail": "meera.joshi@nexora.example",
+        "reason": "PIP successfully completed. Sprint Delivery 82%, Unit Coverage 78%, PR Rework improved 35%, Communication improved, Training 100%. All metrics PASS. Mentor feedback POSITIVE.",
+        "startDate": "2026-10-01",
+        "endDate": "2027-02-18",
+        "objectivesJson": "{\"delivery\":\"PASS\",\"testing\":\"PASS\",\"communication\":\"PASS\",\"mentor\":\"POSITIVE\",\"outcome\":\"SUCCESSFULLY_COMPLETED\"}"
+      },
+      "verifyListPath": "/api/pips?pageSize=100"
+    },
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/cycles",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Year-End Appraisal FY2026-27",
+        "cycleType": "annual",
+        "startsOn": "2027-02-18",
+        "endsOn": "2027-03-31",
+        "ownerEmail": "meera.joshi@nexora.example",
+        "minimumServiceDays": 180
+      },
+      "verifyListPath": "/api/cycles?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "PIP-001 SUCCESSFULLY_COMPLETED — not automatic termination",
+    "Year-end appraisal cycle created"
+  ],
+  "crossEvents": [
+    "performance.pip-completed"
+  ],
+  "notifications": [
+    "90-day follow-up development plan created",
+    "Appraisal inputs: goals, reviews, feedback, learning"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

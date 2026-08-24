@@ -1,0 +1,61 @@
+{
+  "id": "GOLD-M11-005",
+  "month": "2027-02",
+  "companyTime": "2027-02-09T09:00:00+05:30",
+  "actorId": "EMP-1008",
+  "actorRole": "manager",
+  "module": "customer",
+  "preconditions": [
+    "ZenFab payment delays, low usage, scope disagreements"
+  ],
+  "intent": "ZenFab churn — recovery plan, save attempt fails, termination.",
+  "steps": [
+    {
+      "module": "customer",
+      "method": "POST",
+      "path": "/api/recovery-plans",
+      "expectedStatus": 201,
+      "body": {
+        "customerId": "ZENFAB-SOLUTIONS",
+        "title": "SAVE-PLAN-001 ZenFab Retention",
+        "problemStatement": "Churn probability 78%. Delayed payments, low project usage, repeated scope disagreement, low expansion interest. Save attempt: reduced support tier, payment plan, scope clarification, quarterly health review.",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "targetEndDate": "2027-02-15"
+      },
+      "verifyListPath": "/api/recovery-plans?pageSize=100"
+    },
+    {
+      "module": "customer",
+      "method": "POST",
+      "path": "/api/customers",
+      "expectedStatus": 201,
+      "body": {
+        "name": "ZenFab Solutions (Churned)",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "tier": "former",
+        "description": "Churned 2027-02-15. Primary reason: Customer strategy change. Secondary: Commercial friction. Contributing: Payment delay, scope ambiguity, low usage. Final settlement ₹2.1L of ₹2.7L outstanding. ₹60K written off."
+      }
+    }
+  ],
+  "expectedState": [
+    "SAVE-PLAN-001 created — churn unavoidable",
+    "ZenFab marked as former customer"
+  ],
+  "crossEvents": [
+    "customer.churn-completed"
+  ],
+  "notifications": [
+    "Support disabled, project access removed",
+    "Data retention workflow triggered"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

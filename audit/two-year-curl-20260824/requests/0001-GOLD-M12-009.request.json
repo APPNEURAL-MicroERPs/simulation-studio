@@ -1,0 +1,102 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M12-009/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M12-009",
+    "month": "2027-03",
+    "companyTime": "2027-03-20T09:00:00+05:30",
+    "actorId": "EMP-1011",
+    "actorRole": "manager",
+    "module": "audit",
+    "preconditions": [
+      "AUD-ANNUAL-001 started",
+      "Sample transactions selected"
+    ],
+    "intent": "Annual audit findings raised and remediation plans created.",
+    "steps": [
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/evidence",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-ANNUAL-001",
+          "name": "Annual Audit FY2026 — Scope: Finance, People, Procurement, Security, Projects, Contracts, Assets, Compliance. Samples: 25 expenses, 15 POs, 10 payroll, 12 access changes, 8 invoices, 5 contracts, 10 project changes.",
+          "obtainedOn": "2027-03-20",
+          "obtainedBy": "nikhil.sethi@nexora.example",
+          "source": "Audit ERP — Annual Audit Fieldwork",
+          "status": "accepted"
+        }
+      },
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "AUD-FIND-028",
+          "title": "Expense Approval Timestamps After Reimbursement Batch Generation",
+          "severity": "medium",
+          "ownerEmail": "priya.sharma@nexora.example",
+          "description": "Some expense approval timestamps occurred after reimbursement batch generation. Root cause: Batch scheduling not gated on approval completion. Action: Block reimbursement batch unless all claims fully approved. Owner: Finance.",
+          "status": "open"
+        }
+      },
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "AUD-FIND-029",
+          "title": "Two Old Project Service Accounts Have No Documented Owner",
+          "severity": "medium",
+          "ownerEmail": "nikhil.sethi@nexora.example",
+          "description": "Two legacy project service accounts lack documented ownership. Action: Assign owners or decommission. Owner: Security.",
+          "status": "open"
+        }
+      },
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "AUD-FIND-030",
+          "title": "One Vendor Risk Review Expired",
+          "severity": "low",
+          "ownerEmail": "amit.shah@nexora.example",
+          "description": "Vendor risk review for one hardware vendor expired. Action: Complete review or update vendor status. Owner: Procurement.",
+          "status": "open"
+        }
+      }
+    ],
+    "expectedState": [
+      "AUD-ANNUAL-001: 3 findings raised (2 medium, 1 low)",
+      "Remediation owners assigned with due dates"
+    ],
+    "crossEvents": [
+      "audit.annual-findings-raised"
+    ],
+    "notifications": [
+      "Management responses recorded",
+      "Workflow configuration update generated"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M12-009.story.json"
+}

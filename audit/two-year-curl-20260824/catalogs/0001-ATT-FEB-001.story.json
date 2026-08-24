@@ -1,0 +1,50 @@
+{
+  "id": "ATT-FEB-001",
+  "month": "2026-02",
+  "companyTime": "2026-02-02T09:03:00+05:30",
+  "actorId": "EMP-1003",
+  "actorRole": "member",
+  "module": "attendance",
+  "preconditions": [
+    "Neha is an active employee",
+    "02 February is a working Monday"
+  ],
+  "intent": "Neha records her office check-in through the Attendance API.",
+  "steps": [
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1003",
+        "employeeEmail": "neha.gupta@nexora.example",
+        "workDate": "2026-02-02",
+        "shift": "General",
+        "checkIn": "09:03",
+        "location": "Bengaluru",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1003&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "One attendance record exists for EMP-1003 on 2026-02-02"
+  ],
+  "crossEvents": [
+    "Attendance.Recorded"
+  ],
+  "notifications": [],
+  "edgeCases": [
+    "A duplicate check-in must not create a second record"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

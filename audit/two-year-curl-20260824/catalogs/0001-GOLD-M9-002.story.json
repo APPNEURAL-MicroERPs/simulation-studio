@@ -1,0 +1,51 @@
+{
+  "id": "GOLD-M9-002",
+  "month": "2026-12",
+  "companyTime": "2026-12-03T10:00:00+05:30",
+  "actorId": "EMP-1004",
+  "actorRole": "manager",
+  "module": "organization",
+  "preconditions": [
+    "Priya has 4.5 months tenure",
+    "Minimum tenure policy is 6 months"
+  ],
+  "intent": "First promotion request deferred — Priya ineligible due to tenure requirement.",
+  "steps": [
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Promotion: Priya Frontend to Senior Frontend Engineer",
+        "requestType": "promotion",
+        "targetLabel": "EMP-1001",
+        "currentValue": "Frontend Engineer",
+        "proposedValue": "Senior Frontend Engineer",
+        "justification": "Strong performance but tenure 4.5 months — minimum 6 months required. DEFERRED to 2027-01-01.",
+        "effectiveOn": "2027-01-01",
+        "priority": "normal"
+      },
+      "verifyListPath": "/api/change-requests?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Promotion PROM-004 deferred — next review 2027-01-01"
+  ],
+  "crossEvents": [
+    "hr.promotion-deferred"
+  ],
+  "notifications": [
+    "Manager receives deferral with eligibility date"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

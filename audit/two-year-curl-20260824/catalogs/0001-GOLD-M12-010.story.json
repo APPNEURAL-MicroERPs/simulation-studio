@@ -1,0 +1,91 @@
+{
+  "id": "GOLD-M12-010",
+  "month": "2027-03",
+  "companyTime": "2027-03-23T10:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "finance",
+  "preconditions": [
+    "AR/AP reviewed",
+    "Revenue cut-off checked",
+    "Depreciation posted"
+  ],
+  "intent": "Year-end accounting close — FY2025-26 closed.",
+  "steps": [
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-YEC-001",
+        "entryDate": "2027-03-23",
+        "fiscalPeriod": "2027-Q4",
+        "accountCode": "ACCRUED-CONTRACTOR-EXPENSE",
+        "costCenter": "CC-ENG",
+        "description": "Year-end close exception — Contractor cost ₹1.2L in Project ERP but only ₹0.9L in Finance. Accrual posted for ₹30K difference. Final timesheet approved but accrual missed.",
+        "debit": 3000000,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      },
+      "verifyListPath": "/api/journal-entries?pageSize=100"
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-YEC-002",
+        "entryDate": "2027-03-23",
+        "fiscalPeriod": "2027-Q4",
+        "accountCode": "DEPRECIATION-EXPENSE",
+        "costCenter": "CORPORATE",
+        "description": "Annual fixed asset depreciation FY2026 — Laptops (3-year straight line), Monitors (5-year), Network equipment (3-year). Disposed assets excluded.",
+        "debit": 48000000,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      }
+    },
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-YEC-003",
+        "entryDate": "2027-03-23",
+        "fiscalPeriod": "2027-Q4",
+        "accountCode": "REVENUE-CUT-OFF",
+        "costCenter": "CC-DELIVERY",
+        "description": "Revenue cut-off adjustment — Invoice issued 30-Mar but milestone accepted 04-Apr. Revenue deferred to FY2027 under configured policy. Unbilled revenue for March work recognized.",
+        "debit": 0,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      }
+    }
+  ],
+  "expectedState": [
+    "FY2025-26 year-end close entries posted",
+    "₹30K contractor accrual exception resolved",
+    "Depreciation ₹4.8L posted",
+    "Revenue cut-off verified"
+  ],
+  "crossEvents": [
+    "finance.year-end-close"
+  ],
+  "notifications": [
+    "FY2025-26 moved to CLOSED",
+    "Normal transaction edits locked"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

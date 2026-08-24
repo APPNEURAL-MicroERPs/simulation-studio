@@ -1,0 +1,72 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M12-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M12-006",
+    "month": "2027-03",
+    "companyTime": "2027-03-14T09:00:00+05:30",
+    "actorId": "EMP-1009",
+    "actorRole": "manager",
+    "module": "asset",
+    "preconditions": [
+      "Annual asset count ASSET-COUNT-FY26 launched",
+      "98 devices expected"
+    ],
+    "intent": "Annual asset count — physical verification and missing item resolved.",
+    "steps": [
+      {
+        "module": "asset",
+        "method": "POST",
+        "path": "/api/audit_campaigns",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ASSET-COUNT-FY26 Year-End Physical Verification",
+          "description": "Scope: Laptops 42, Monitors 38, Network 8, Mobiles 3, Other 7. Total 98. Matched 95, Repair 2, Temporarily Missing 1.",
+          "plannedStart": "2027-03-14",
+          "plannedEnd": "2027-03-16",
+          "status": "completed"
+        }
+      },
+      {
+        "module": "asset",
+        "method": "POST",
+        "path": "/api/missing_cases",
+        "expectedStatus": 201,
+        "body": {
+          "assetId": "AST-MON-023",
+          "lastCustodian": "EMP-018",
+          "lastLocation": "ABC Customer Site - Project Room",
+          "reportedBy": "admin@nexora.example",
+          "resolution": "Monitor found at customer site. Location transfer not recorded. Transfer transaction now corrected.",
+          "status": "found"
+        }
+      }
+    ],
+    "expectedState": [
+      "ASSET-COUNT-FY26 completed — 95/98 matched",
+      "AST-MON-023 located — 100% accuracy after reconciliation"
+    ],
+    "crossEvents": [
+      "asset.annual-count-completed"
+    ],
+    "notifications": [
+      "Inter-location movement process control updated"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M12-006.story.json"
+}

@@ -1,0 +1,87 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-010/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-010",
+    "month": "2026-07",
+    "companyTime": "2026-07-28T18:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "All July activities completed",
+      "4 months of operations"
+    ],
+    "intent": "Half-year review — comprehensive cross-ERP reconciliation.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "GET",
+        "path": "/api/employees?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "crm",
+        "method": "GET",
+        "path": "/api/leads?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "contract",
+        "method": "GET",
+        "path": "/api/contracts?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "billing",
+        "method": "GET",
+        "path": "/api/invoices?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "project",
+        "method": "GET",
+        "path": "/api/projects?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "asset",
+        "method": "GET",
+        "path": "/api/assets?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "vendor",
+        "method": "GET",
+        "path": "/api/vendors?pageSize=100",
+        "expectedStatus": 200
+      }
+    ],
+    "expectedState": [
+      "Employees >= 4",
+      "Leads >= 4",
+      "Contracts >= 1",
+      "Invoices >= 1",
+      "Projects >= 1",
+      "Assets >= 2",
+      "Vendors >= 2"
+    ],
+    "crossEvents": [],
+    "notifications": [
+      "4-month golden simulation complete — all ERP cycles exercised"
+    ],
+    "edgeCases": [
+      "All invariants computed from live API data"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-010.story.json"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "GOLD-M2-004",
+  "month": "2026-05",
+  "companyTime": "2026-05-12T10:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "resource",
+  "preconditions": [
+    "Sprint 1 backlog exists",
+    "Team members available"
+  ],
+  "intent": "Allocate engineering resources to the platform project.",
+  "steps": [
+    {
+      "module": "resource",
+      "method": "POST",
+      "path": "/api/allocations",
+      "expectedStatus": 201,
+      "body": {
+        "allocationNo": "ALLOC-001",
+        "resourceId": "RES-EMP-1012",
+        "employeeCode": "EMP-1012",
+        "projectId": "PRJ-INT-001",
+        "role": "Lead Engineer",
+        "allocationPercent": 80,
+        "startDate": "2026-05-12",
+        "endDate": "2026-06-30"
+      },
+      "verifyListPath": "/api/allocations?pageSize=100"
+    },
+    {
+      "module": "resource",
+      "method": "POST",
+      "path": "/api/allocations",
+      "expectedStatus": 201,
+      "body": {
+        "allocationNo": "ALLOC-002",
+        "resourceId": "RES-EMP-1003",
+        "employeeCode": "EMP-1003",
+        "projectId": "PRJ-INT-001",
+        "role": "Senior React Engineer",
+        "allocationPercent": 100,
+        "startDate": "2026-05-12",
+        "endDate": "2026-06-30"
+      },
+      "verifyListPath": "/api/allocations?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 resource allocations created for PRJ-INT-001"
+  ],
+  "crossEvents": [
+    "resource.allocation-created"
+  ],
+  "notifications": [
+    "Allocated engineers see project assignment"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

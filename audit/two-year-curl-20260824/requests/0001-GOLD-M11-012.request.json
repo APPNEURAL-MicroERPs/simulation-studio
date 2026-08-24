@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-012/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-012",
+    "month": "2027-02",
+    "companyTime": "2027-02-28T14:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "payroll",
+    "preconditions": [
+      "Meera quota ₹25L, actual ₹29L = 116% attainment"
+    ],
+    "intent": "Sales commission calculated and risk committee formed.",
+    "steps": [
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-02",
+          "employeeCode": "EMP-1008",
+          "kind": "bonus",
+          "amount": 118000,
+          "remarks": "Sales commission Q4 FY2027 — Meera: Quota ₹25L, Bookings ₹29L (116%). Calculated ₹1.35L, adjusted to ₹1.18L (one deal 50% credit — founder participated). Manager review complete. Approved for payroll.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/inputs?pageSize=100"
+      },
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risk-committees",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Monthly Risk Committee — FY2027",
+          "description": "CEO, COO, Finance, Engineering, Security, Delivery, HR. Top risks: Cash conversion (High), Logistics project dependency (Medium), Customer concentration (Medium), Cyber credential attacks (Medium), Bench cost (Medium), Vendor dependency (Medium), Hiring freeze impact (Low-Medium).",
+          "charter": "Monthly risk review and treatment tracking. Escalation authority for risks exceeding appetite.",
+          "frequency": "monthly",
+          "chairEmployeeId": "EMP-1001",
+          "status": "ACTIVE"
+        }
+      }
+    ],
+    "expectedState": [
+      "Commission ₹1.18L approved for payroll — not paid before approval",
+      "Risk committee formed with 7 top risks tracked"
+    ],
+    "crossEvents": [
+      "payroll.commission-approved",
+      "risk.committee-formed"
+    ],
+    "notifications": [
+      "Commission CALCULATED → MANAGER_REVIEW → APPROVED",
+      "Risk treatment actions assigned to owners"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-012.story.json"
+}

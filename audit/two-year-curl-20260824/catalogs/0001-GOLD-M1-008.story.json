@@ -1,0 +1,53 @@
+{
+  "id": "GOLD-M1-008",
+  "month": "2026-04",
+  "companyTime": "2026-04-10T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "resource",
+  "preconditions": [
+    "Internal platform project approved"
+  ],
+  "intent": "Engineering leadership raises capacity demand for the platform project.",
+  "steps": [
+    {
+      "module": "resource",
+      "method": "POST",
+      "path": "/api/demand",
+      "expectedStatus": 201,
+      "body": {
+        "demandNo": "DEM-2026-001",
+        "projectCode": "PRJ-INT-001",
+        "role": "Senior React Engineer",
+        "positions": 2,
+        "skillsRequired": "React, TypeScript, accessibility",
+        "neededFrom": "2026-05-01",
+        "allocationPct": 100,
+        "requestedBy": "priya.sharma@nexora.example",
+        "status": "open"
+      },
+      "verifyListPath": "/api/demand?q=DEM-2026-001&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Demand DEM-2026-001 is open with 2 positions"
+  ],
+  "crossEvents": [
+    "resource.demand-created"
+  ],
+  "notifications": [
+    "Talent team receives demand notification"
+  ],
+  "edgeCases": [
+    "Demand number must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

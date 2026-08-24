@@ -1,0 +1,108 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M1-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M1-006",
+    "month": "2026-04",
+    "companyTime": "2026-04-05T11:00:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisitions REQ-0001 and REQ-0002 exist"
+    ],
+    "intent": "Recruiter adds 3 candidates to the pipeline.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Aisha Malhotra",
+          "email": "aisha.malhotra@example.com",
+          "phone": "+91-9000002602",
+          "locationName": "Bengaluru",
+          "currentTitle": "Frontend Engineer",
+          "totalExperienceMonths": 72,
+          "skills": "React, TypeScript, Next.js",
+          "source": "referral",
+          "referrerEmail": "neha.gupta@nexora.example",
+          "noticePeriodDays": 30,
+          "expectedCtc": 2400000,
+          "currency": "INR",
+          "status": "active"
+        },
+        "verifyListPath": "/api/candidates?q=aisha.malhotra%40example.com&pageSize=100"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Rohan Desai",
+          "email": "rohan.desai@example.com",
+          "phone": "+91-9000002603",
+          "locationName": "Bengaluru",
+          "currentTitle": "React Developer",
+          "totalExperienceMonths": 48,
+          "skills": "React, JavaScript, CSS, Testing",
+          "source": "careers_site",
+          "noticePeriodDays": 60,
+          "expectedCtc": 2000000,
+          "currency": "INR",
+          "status": "active"
+        },
+        "verifyListPath": "/api/candidates?q=rohan.desai%40example.com&pageSize=100"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Tara Nair",
+          "email": "tara.nair@example.com",
+          "phone": "+91-9000002604",
+          "locationName": "Gurugram",
+          "currentTitle": "QA Automation Engineer",
+          "totalExperienceMonths": 60,
+          "skills": "Selenium, Cypress, TypeScript, CI/CD",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1800000,
+          "currency": "INR",
+          "status": "active"
+        },
+        "verifyListPath": "/api/candidates?q=tara.nair%40example.com&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "3 active candidates in pipeline",
+      "Each candidate has email and phone"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [
+      "Candidate must have email or phone"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M1-006.story.json"
+}

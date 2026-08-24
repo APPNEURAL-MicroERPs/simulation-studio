@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-005/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-005",
+    "month": "2026-11",
+    "companyTime": "2026-11-10T10:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "project",
+    "preconditions": [
+      "EduSphere project active",
+      "Customer requests webcam proctoring"
+    ],
+    "intent": "EduSphere customer requests scope change — webcam proctoring support.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/change-requests",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "PRJ-EDU-001",
+          "code": "CR-PRJ002-004",
+          "title": "Add webcam proctoring support",
+          "type": "scope",
+          "reason": "Customer requests webcam proctoring module for online examination",
+          "requestedBy": "edusphere@example.com",
+          "source": "customer",
+          "isContractual": true
+        },
+        "verifyListPath": "/api/change-requests?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Change request CR-PRJ002-004 created for EduSphere project"
+    ],
+    "crossEvents": [
+      "project.change-requested"
+    ],
+    "notifications": [
+      "Project manager and delivery lead receive change request"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-005.story.json"
+}

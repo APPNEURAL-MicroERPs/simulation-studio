@@ -1,0 +1,53 @@
+{
+  "id": "GOLD-M10-009",
+  "month": "2027-01",
+  "companyTime": "2027-01-21T10:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "finance",
+  "preconditions": [
+    "Shared platform costs need allocation",
+    "Monthly shared cost ₹2.4L"
+  ],
+  "intent": "Inter-department cost allocation — shared cloud/platform costs distributed.",
+  "steps": [
+    {
+      "module": "finance",
+      "method": "POST",
+      "path": "/api/journal-entries",
+      "expectedStatus": 201,
+      "body": {
+        "entryNo": "JE-ALLOC-001",
+        "entryDate": "2027-01-21",
+        "fiscalPeriod": "2027-Q4",
+        "accountCode": "PLATFORM-COST-ALLOCATION",
+        "costCenter": "CORPORATE",
+        "description": "Shared platform cost allocation — ABC 30%, EduSphere 20%, LogisticsOne 25%, ABC Phase 2 10%, Internal R&D 10%, Corporate 5%",
+        "debit": 24000000,
+        "preparedBy": "priya.sharma@nexora.example",
+        "status": "posted"
+      },
+      "verifyListPath": "/api/journal-entries?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Cost allocation JE-ALLOC-001 — ₹2.4L distributed across projects",
+    "Project profitability reflects shared infrastructure cost"
+  ],
+  "crossEvents": [
+    "finance.cost-allocation"
+  ],
+  "notifications": [
+    "Profitability analytics now includes shared costs"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "GOLD-M2-002",
+  "month": "2026-05",
+  "companyTime": "2026-05-04T10:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "recruitment",
+  "preconditions": [
+    "Requisitions REQ-0001 and REQ-0002 are approved"
+  ],
+  "intent": "Schedule interviews for the top candidates.",
+  "steps": [
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/interviews",
+      "expectedStatus": 201,
+      "body": {
+        "applicationId": "APP-REACT-001",
+        "round": "technical",
+        "scheduledAt": "2026-09-08T10:00:00+05:30",
+        "durationMinutes": 90,
+        "locationName": "Video Call",
+        "focus": "React architecture deep-dive",
+        "interviewers": [
+          "priya.sharma@nexora.example",
+          "sandeep.patel@nexora.example"
+        ]
+      },
+      "verifyListPath": "/api/interviews?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/interviews",
+      "expectedStatus": 201,
+      "body": {
+        "applicationId": "APP-QA-001",
+        "round": "technical",
+        "scheduledAt": "2026-09-09T14:00:00+05:30",
+        "durationMinutes": 60,
+        "locationName": "Video Call",
+        "focus": "QA automation framework design",
+        "interviewers": [
+          "priya.sharma@nexora.example"
+        ]
+      },
+      "verifyListPath": "/api/interviews?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 interviews scheduled"
+  ],
+  "crossEvents": [
+    "recruitment.interview-scheduled"
+  ],
+  "notifications": [
+    "Interviewees receive calendar invites"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

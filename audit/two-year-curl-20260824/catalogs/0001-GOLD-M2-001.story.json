@@ -1,0 +1,83 @@
+{
+  "id": "GOLD-M2-001",
+  "month": "2026-05",
+  "companyTime": "2026-05-01T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "attendance",
+  "preconditions": [
+    "4 employees are ACTIVE",
+    "May is in full swing"
+  ],
+  "intent": "Team records attendance for first working day of May.",
+  "steps": [
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1001",
+        "employeeEmail": "priya.sharma@nexora.example",
+        "workDate": "2026-05-01",
+        "shift": "General",
+        "checkIn": "09:00",
+        "checkOut": "18:15",
+        "location": "Udaipur",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1001&pageSize=100"
+    },
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1012",
+        "employeeEmail": "sandeep.patel@nexora.example",
+        "workDate": "2026-05-01",
+        "shift": "General",
+        "checkIn": "09:10",
+        "checkOut": "18:30",
+        "location": "Bengaluru",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1012&pageSize=100"
+    },
+    {
+      "module": "attendance",
+      "method": "POST",
+      "path": "/api/attendance",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1006",
+        "employeeEmail": "meera.joshi@nexora.example",
+        "workDate": "2026-05-01",
+        "shift": "General",
+        "checkIn": "09:05",
+        "checkOut": "18:00",
+        "location": "Udaipur",
+        "status": "present"
+      },
+      "verifyListPath": "/api/attendance?q=EMP-1006&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "3 attendance records for 2026-05-01"
+  ],
+  "crossEvents": [
+    "attendance.recorded"
+  ],
+  "notifications": [],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/runs",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "mode": "replay",
+    "speed": 1,
+    "companyTime": "2026-02-01T08:00:00+05:30",
+    "seed": "curl-sequential-20260824T030000Z"
+  }
+}

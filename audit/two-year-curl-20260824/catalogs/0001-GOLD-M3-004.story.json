@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M3-004",
+  "month": "2026-06",
+  "companyTime": "2026-06-08T09:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "expense",
+  "preconditions": [
+    "Team incurred travel expenses"
+  ],
+  "intent": "Engineer submits first expense claim for client site visit.",
+  "steps": [
+    {
+      "module": "expense",
+      "method": "POST",
+      "path": "/api/claims",
+      "expectedStatus": 201,
+      "body": {
+        "claimNo": "EXP-2026-001",
+        "employeeCode": "EMP-1012",
+        "employeeEmail": "sandeep.patel@nexora.example",
+        "category": "travel",
+        "amount": 35000,
+        "expenseDate": "2026-06-08",
+        "status": "draft"
+      },
+      "verifyListPath": "/api/claims?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Expense claim EXP-2026-001 created in draft"
+  ],
+  "crossEvents": [
+    "expense.claim-created"
+  ],
+  "notifications": [
+    "Manager receives approval task"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

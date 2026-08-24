@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M3-009",
+  "month": "2026-06",
+  "companyTime": "2026-06-22T10:00:00+05:30",
+  "actorId": "EMP-1011",
+  "actorRole": "manager",
+  "module": "legal",
+  "preconditions": [
+    "Contract CTR-2026-001 needs legal review"
+  ],
+  "intent": "Legal counsel creates matter for contract review.",
+  "steps": [
+    {
+      "module": "legal",
+      "method": "POST",
+      "path": "/api/matters",
+      "expectedStatus": 201,
+      "body": {
+        "matterNo": "MAT-2026-001",
+        "title": "ABC Corp MSA Review",
+        "kind": "advisory",
+        "counterparty": "ABC Manufacturing Corp",
+        "leadCounsel": "riya.kapoor@nexora.example",
+        "status": "open",
+        "riskLevel": "high"
+      },
+      "verifyListPath": "/api/matters?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Legal matter MAT-2026-001 opened"
+  ],
+  "crossEvents": [
+    "legal.matter-created"
+  ],
+  "notifications": [
+    "Legal team receives matter assignment"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

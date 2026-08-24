@@ -1,0 +1,92 @@
+{
+  "id": "GOLD-M12-002",
+  "month": "2027-03",
+  "companyTime": "2027-03-05T10:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "performance",
+  "preconditions": [
+    "Calibration complete",
+    "Promotion recommendations approved"
+  ],
+  "intent": "Promotions approved — Priya, Sneha, Karan promoted.",
+  "steps": [
+    {
+      "module": "performance",
+      "method": "POST",
+      "path": "/api/cycles",
+      "expectedStatus": 201,
+      "body": {
+        "name": "PROM-BATCH-2027 Year-End Promotions",
+        "cycleType": "leadership",
+        "startsOn": "2027-03-05",
+        "endsOn": "2027-03-31",
+        "ownerEmail": "sneha.patil@nexora.example",
+        "minimumServiceDays": 180
+      }
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/development-plans",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1007",
+        "title": "Priya — Frontend Architecture Leadership",
+        "description": "Post-promotion development: Frontend architecture, accessibility leadership, performance optimization",
+        "source": "year-end-appraisal",
+        "startsOn": "2027-04-01",
+        "completesBy": "2027-09-30"
+      }
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/development-plans",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1006",
+        "title": "Sneha — Senior QA Leadership",
+        "description": "Post-promotion: Advanced test architecture, quality governance, mentoring",
+        "source": "year-end-appraisal",
+        "startsOn": "2027-04-01",
+        "completesBy": "2027-09-30"
+      }
+    },
+    {
+      "module": "learning",
+      "method": "POST",
+      "path": "/api/development-plans",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1010",
+        "title": "Karan — Platform/DevOps Lead",
+        "description": "Post-promotion: Platform engineering, infrastructure at scale, team leadership",
+        "source": "year-end-appraisal",
+        "startsOn": "2027-04-01",
+        "completesBy": "2027-09-30"
+      }
+    }
+  ],
+  "expectedState": [
+    "3 promotions approved: Priya → Sr FE, Sneha → Sr QA, Karan → Platform Lead",
+    "Development plans created for all 3"
+  ],
+  "crossEvents": [
+    "performance.promotions-approved"
+  ],
+  "notifications": [
+    "Effective 01-Apr-2027",
+    "HR letters generated"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

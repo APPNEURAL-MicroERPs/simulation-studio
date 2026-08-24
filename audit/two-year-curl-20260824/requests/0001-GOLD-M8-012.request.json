@@ -1,0 +1,79 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-012/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-012",
+    "month": "2026-11",
+    "companyTime": "2026-11-24T09:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "finance",
+    "preconditions": [
+      "New department structure effective",
+      "Finance allocates quarterly budgets"
+    ],
+    "intent": "First department budget ownership — Engineering gets quarterly budget ₹46L.",
+    "steps": [
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/budgets",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Engineering Q3 FY2026 Budget",
+          "fiscalPeriod": "2026-Q3",
+          "costCenter": "CC-ENG",
+          "plannedAmount": 4600000,
+          "status": "approved"
+        },
+        "verifyListPath": "/api/budgets?pageSize=100"
+      },
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/journal-entries",
+        "expectedStatus": 201,
+        "body": {
+          "entryNo": "JE-BUD-ENG-001",
+          "entryDate": "2026-11-24",
+          "fiscalPeriod": "2026-Q3",
+          "accountCode": "ENG-OPEX",
+          "costCenter": "CC-ENG",
+          "description": "Engineering department Q3 budget allocation — payroll 32L, recruitment 5L, training 2L, cloud 4L, tools 2L, travel 1L",
+          "debit": 460000000,
+          "preparedBy": "priya.sharma@nexora.example",
+          "approvedBy": "priya.sharma@nexora.example",
+          "status": "posted"
+        },
+        "verifyListPath": "/api/journal-entries?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Engineering budget BUD-ENG-Q3 approved at ₹46L",
+      "Journal entry posted for budget allocation"
+    ],
+    "crossEvents": [
+      "finance.budget-approved"
+    ],
+    "notifications": [
+      "Engineering lead receives budget ownership",
+      "Finance retains variance approval authority"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-012.story.json"
+}

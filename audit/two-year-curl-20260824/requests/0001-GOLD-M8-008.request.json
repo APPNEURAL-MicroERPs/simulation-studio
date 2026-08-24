@@ -1,0 +1,95 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-008/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-008",
+    "month": "2026-11",
+    "companyTime": "2026-11-16T09:00:00+05:30",
+    "actorId": "EMP-1009",
+    "actorRole": "manager",
+    "module": "procurement",
+    "preconditions": [
+      "Office needs 10 monitors",
+      "PO placed with TechSupply Co"
+    ],
+    "intent": "Procurement 3-way match failure — 10 ordered, 9 received, 10 invoiced.",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-2026-014",
+          "vendor": "TechSupply Co",
+          "itemSummary": "10 x 27-inch 4K Monitors",
+          "amount": 230000,
+          "expectedDate": "2026-11-15",
+          "buyerEmail": "priya.sharma@nexora.example",
+          "status": "ordered"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=100"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/receipts",
+        "expectedStatus": 201,
+        "body": {
+          "grnNo": "GRN-2026-014",
+          "poRef": "PO-2026-014",
+          "receivedOn": "2026-11-16",
+          "quantity": 10,
+          "acceptedQuantity": 9,
+          "damagedQuantity": 0,
+          "status": "partially_accepted"
+        },
+        "verifyListPath": "/api/receipts?pageSize=100"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "AP-INV-014",
+          "vendor": "TechSupply Co",
+          "amount": 230000,
+          "poRef": "PO-2026-014",
+          "grnRef": "GRN-2026-014",
+          "invoiceDate": "2026-11-16",
+          "status": "received"
+        },
+        "verifyListPath": "/api/purchase-invoices?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "PO-2026-014 ordered",
+      "GRN shows 9/10 accepted",
+      "AP invoice received — 3-way mismatch detected"
+    ],
+    "crossEvents": [
+      "procurement.goods-received",
+      "procurement.match-failed"
+    ],
+    "notifications": [
+      "Finance blocks payment for 1 missing unit"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-008.story.json"
+}

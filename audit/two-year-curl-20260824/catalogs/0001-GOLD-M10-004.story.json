@@ -1,0 +1,51 @@
+{
+  "id": "GOLD-M10-004",
+  "month": "2027-01",
+  "companyTime": "2027-01-09T10:00:00+05:30",
+  "actorId": "EMP-1009",
+  "actorRole": "manager",
+  "module": "procurement",
+  "preconditions": [
+    "CloudSphere vendor contract approaching renewal",
+    "Current commitment ₹18L/year"
+  ],
+  "intent": "Vendor contract renewal — CloudSphere negotiated to ₹18.4L with better SLA.",
+  "steps": [
+    {
+      "module": "contract",
+      "method": "POST",
+      "path": "/api/contracts",
+      "expectedStatus": 201,
+      "body": {
+        "contractNo": "CNT-CLOUD-RENEW-001",
+        "title": "CloudSphere Infrastructure Renewal FY2027",
+        "counterpartyName": "CloudSphere India Pvt Ltd",
+        "contractType": "msa",
+        "value": "18400",
+        "currency": "INR",
+        "startOn": "2027-04-01",
+        "endOn": "2028-03-31",
+        "status": "active"
+      }
+    }
+  ],
+  "expectedState": [
+    "CloudSphere renewal at ₹18.4L — ₹1.4L savings vs vendor proposal"
+  ],
+  "crossEvents": [
+    "procurement.vendor-renewal"
+  ],
+  "notifications": [
+    "NEGOTIATED_SAVINGS recorded — better support SLA"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

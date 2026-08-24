@@ -1,0 +1,67 @@
+{
+  "id": "GOLD-M1-012",
+  "month": "2026-04",
+  "companyTime": "2026-04-22T09:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "vendor",
+  "preconditions": [
+    "Need office supplies vendor"
+  ],
+  "intent": "Onboard first vendor — TechSupply Co for IT equipment.",
+  "steps": [
+    {
+      "module": "vendor",
+      "method": "POST",
+      "path": "/api/vendors",
+      "expectedStatus": 201,
+      "body": {
+        "displayName": "TechSupply Co",
+        "code": "VND-TECHSUPPLY",
+        "country": "India",
+        "status": "ACTIVE",
+        "lifecycleStatus": "ACTIVE",
+        "riskBand": "LOW",
+        "criticality": "MEDIUM"
+      },
+      "verifyListPath": "/api/vendors?q=TechSupply&pageSize=100"
+    },
+    {
+      "module": "vendor",
+      "method": "POST",
+      "path": "/api/vendors",
+      "expectedStatus": 201,
+      "body": {
+        "displayName": "OfficeMart India",
+        "code": "VND-OFFICEMART",
+        "country": "India",
+        "status": "ACTIVE",
+        "lifecycleStatus": "ACTIVE",
+        "riskBand": "LOW",
+        "criticality": "LOW"
+      },
+      "verifyListPath": "/api/vendors?q=OfficeMart&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 vendors onboarded and active"
+  ],
+  "crossEvents": [
+    "vendor.onboarded"
+  ],
+  "notifications": [
+    "Procurement can now create POs against these vendors"
+  ],
+  "edgeCases": [
+    "Vendor code must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

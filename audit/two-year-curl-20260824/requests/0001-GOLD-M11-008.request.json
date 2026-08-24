@@ -1,0 +1,74 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-008/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-008",
+    "month": "2027-02",
+    "companyTime": "2027-02-19T10:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "Anonymous ethics concern submitted"
+    ],
+    "intent": "Ethics investigation — no misconduct found, process gap identified.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "ETHICS-001",
+          "title": "Anonymous Concern: Possible Vendor Selection Favoritism",
+          "severity": "medium",
+          "ownerEmail": "compliance@nexora.example",
+          "description": "ETHICS-001 investigated. RFQ records, vendor comparison, approval history, communication evidence, conflict declarations reviewed. No evidence of misconduct. Process weakness: Conflict-of-interest declaration was not mandatory for evaluators.",
+          "dueDate": "2027-02-25",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=100"
+      },
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/evidence",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-ETHICS-001",
+          "name": "ETHICS-001 Investigation — No Misconduct, Process Finding: COI Declaration Must Be Mandatory",
+          "obtainedOn": "2027-02-20",
+          "obtainedBy": "compliance@nexora.example",
+          "source": "Compliance ERP — Ethics Investigation Report",
+          "status": "accepted"
+        }
+      }
+    ],
+    "expectedState": [
+      "ETHICS-001: No misconduct substantiated",
+      "Process finding: COI declaration must be mandatory for evaluators >₹1L"
+    ],
+    "crossEvents": [
+      "compliance.ethics-investigation-closed"
+    ],
+    "notifications": [
+      "Case access restricted to COO, Compliance, authorized investigator"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-008.story.json"
+}

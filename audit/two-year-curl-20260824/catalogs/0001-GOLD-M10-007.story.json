@@ -1,0 +1,49 @@
+{
+  "id": "GOLD-M10-007",
+  "month": "2027-01",
+  "companyTime": "2027-01-16T10:00:00+05:30",
+  "actorId": "EMP-1011",
+  "actorRole": "manager",
+  "module": "compliance",
+  "preconditions": [
+    "Customer user submits data request",
+    "Privacy workflow initiated"
+  ],
+  "intent": "Privacy/data request fulfilled — export, deletion, retention exceptions recorded.",
+  "steps": [
+    {
+      "module": "audit",
+      "method": "POST",
+      "path": "/api/evidence",
+      "expectedStatus": 201,
+      "body": {
+        "auditRef": "AUD-2026-001",
+        "name": "PRIV-REQ-001 Data Export and Deletion — Systems Searched, Records Found, Retention Exceptions Recorded",
+        "obtainedOn": "2027-01-16",
+        "obtainedBy": "kavya.iyer@nexora.example",
+        "source": "Compliance ERP — Privacy Request Workflow",
+        "status": "accepted"
+      }
+    }
+  ],
+  "expectedState": [
+    "Privacy request PRIV-REQ-001 completed",
+    "Data exported, eligible records deleted/anonymized, retention exceptions recorded"
+  ],
+  "crossEvents": [
+    "compliance.privacy-request-fulfilled"
+  ],
+  "notifications": [
+    "Financial retention, audit evidence, contract obligations preserved"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

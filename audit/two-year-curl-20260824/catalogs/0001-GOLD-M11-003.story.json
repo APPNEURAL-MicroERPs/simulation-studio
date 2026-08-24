@@ -1,0 +1,70 @@
+{
+  "id": "GOLD-M11-003",
+  "month": "2027-02",
+  "companyTime": "2027-02-05T09:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "risk",
+  "preconditions": [
+    "Cash forecast warning detected",
+    "AR outstanding ₹18.5L"
+  ],
+  "intent": "Cash buffer erosion risk registered and hiring freeze enacted.",
+  "steps": [
+    {
+      "module": "risk",
+      "method": "POST",
+      "path": "/api/risks",
+      "expectedStatus": 201,
+      "body": {
+        "riskRef": "FIN-RISK-018",
+        "title": "Cash Buffer Erosion — AR Concentration and Upcoming Renewals",
+        "category": "financial",
+        "description": "Current cash ₹18.5L, 30-day outflows ₹20.8L, expected inflows ₹16.4L. Projected minimum ₹14.1L. Declining trend requires hiring freeze and AR acceleration.",
+        "ownerEmail": "priya.sharma@nexora.example",
+        "likelihood": 4,
+        "impact": 4,
+        "treatment": "mitigate",
+        "status": "assessed",
+        "reviewDue": "2027-02-28"
+      },
+      "verifyListPath": "/api/risks?pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Strategic Hiring Freeze — Non-Critical Roles",
+        "requestType": "policy_update",
+        "targetLabel": "HR-HIRING-POLICY",
+        "currentValue": "OPEN",
+        "proposedValue": "FREEZE_ACTIVE",
+        "justification": "CEO/Finance decision: Temporary hiring freeze for non-critical roles effective 01-Feb-2027. Exempt: customer-backed delivery, critical attrition replacement, revenue-generating sales, security-critical.",
+        "effectiveOn": "2027-02-05"
+      }
+    }
+  ],
+  "expectedState": [
+    "FIN-RISK-018 registered — cash buffer erosion",
+    "Hiring freeze enacted via policy change"
+  ],
+  "crossEvents": [
+    "risk.cash-erosion-registered"
+  ],
+  "notifications": [
+    "Open requisitions moved to REVIEW_REQUIRED",
+    "Budget forecast improves"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

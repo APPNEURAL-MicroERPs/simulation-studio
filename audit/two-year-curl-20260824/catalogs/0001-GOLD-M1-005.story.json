@@ -1,0 +1,116 @@
+{
+  "id": "GOLD-M1-005",
+  "month": "2026-04",
+  "companyTime": "2026-04-03T10:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "recruitment",
+  "preconditions": [
+    "Engineering department needs more capacity"
+  ],
+  "intent": "HR opens 2 requisitions — Senior Engineer and QA Lead.",
+  "steps": [
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Senior React Engineer",
+        "reason": "new",
+        "departmentName": "Engineering",
+        "locationName": "Bengaluru",
+        "employmentType": "full_time",
+        "openings": 2,
+        "hiringManagerEmail": "priya.sharma@nexora.example",
+        "recruiterEmail": "meera.joshi@nexora.example",
+        "targetStartOn": "2026-05-01",
+        "justification": "Platform team needs React capacity for delivery ramp",
+        "budgetMin": 1800000,
+        "budgetMax": 2600000,
+        "currency": "INR"
+      },
+      "verifyListPath": "/api/requisitions?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/jobs",
+      "expectedStatus": 201,
+      "body": {
+        "requisitionId": "$PREV.createdId",
+        "title": "Senior React Engineer",
+        "summary": "Build our next-gen platform with React and TypeScript.",
+        "skills": "React, TypeScript, Node.js",
+        "locationName": "Bengaluru",
+        "workMode": "hybrid",
+        "experienceMinYears": 5,
+        "experienceMaxYears": 10,
+        "channel": "careers_site"
+      },
+      "verifyListPath": "/api/jobs?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/requisitions",
+      "expectedStatus": 201,
+      "body": {
+        "title": "QA Automation Lead",
+        "reason": "new",
+        "departmentName": "Engineering",
+        "locationName": "Bengaluru",
+        "employmentType": "full_time",
+        "openings": 1,
+        "hiringManagerEmail": "priya.sharma@nexora.example",
+        "recruiterEmail": "meera.joshi@nexora.example",
+        "targetStartOn": "2026-05-15",
+        "justification": "QA function needs automation leadership",
+        "budgetMin": 1600000,
+        "budgetMax": 2200000,
+        "currency": "INR"
+      },
+      "verifyListPath": "/api/requisitions?pageSize=100"
+    },
+    {
+      "module": "recruitment",
+      "method": "POST",
+      "path": "/api/jobs",
+      "expectedStatus": 201,
+      "body": {
+        "requisitionId": "$PREV.createdId",
+        "title": "QA Automation Lead",
+        "summary": "Lead our QA automation function.",
+        "skills": "Selenium, Cypress, TypeScript, CI/CD",
+        "locationName": "Bengaluru",
+        "workMode": "hybrid",
+        "experienceMinYears": 6,
+        "experienceMaxYears": 12,
+        "channel": "careers_site"
+      },
+      "verifyListPath": "/api/jobs?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "2 requisitions created in draft status",
+    "REQ-0001 and REQ-0002 assigned"
+  ],
+  "crossEvents": [
+    "recruitment.requisition-created"
+  ],
+  "notifications": [
+    "Hiring manager sees requisition approval task"
+  ],
+  "edgeCases": [
+    "Budget minimum must not exceed maximum"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M3-003/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M3-003",
+    "month": "2026-06",
+    "companyTime": "2026-06-05T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "billing",
+    "preconditions": [
+      "Contract CTR-2026-001 exists",
+      "ABC Corp is active customer"
+    ],
+    "intent": "Set up billing account and create first invoice for ABC Corp.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/billing-accounts",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ABC Manufacturing Corp Billing",
+          "customer": "ABC Manufacturing Corp",
+          "currency": "inr",
+          "paymentTerms": "net_30",
+          "status": "active"
+        },
+        "verifyListPath": "/api/billing-accounts?pageSize=100"
+      },
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-2026-001",
+          "billingAccount": "BA-ABC-001",
+          "customer": "ABC Manufacturing Corp",
+          "amount": 400000,
+          "currency": "inr",
+          "issueDate": "2026-06-05",
+          "dueDate": "2026-07-05",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/invoices?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Billing account BA-ABC-001 active",
+      "Invoice INV-2026-001 for ₹4L created"
+    ],
+    "crossEvents": [
+      "billing.account-created",
+      "billing.invoice-created"
+    ],
+    "notifications": [
+      "Finance receives invoice for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M3-003.story.json"
+}

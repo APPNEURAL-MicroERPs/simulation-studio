@@ -1,0 +1,62 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-003/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-003",
+    "month": "2026-12",
+    "companyTime": "2026-12-04T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "finance",
+    "preconditions": [
+      "HR audit found wrong salary component for EMP-013",
+      "CTC correct, HRA incorrect"
+    ],
+    "intent": "Compensation correction — payroll adjustment entry without overwriting salary history.",
+    "steps": [
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/journal-entries",
+        "expectedStatus": 201,
+        "body": {
+          "entryNo": "JE-PAY-CORR-001",
+          "entryDate": "2026-12-04",
+          "fiscalPeriod": "2026-Q4",
+          "accountCode": "SALARY-HRA",
+          "costCenter": "CC-ENG",
+          "description": "PAY-CORR-001: HRA component correction for EMP-013 QA Engineer — differential ₹3,200",
+          "debit": 320000,
+          "preparedBy": "priya.sharma@nexora.example",
+          "status": "posted"
+        },
+        "verifyListPath": "/api/journal-entries?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Payroll correction JE-PAY-CORR-001 posted — ₹3,200 adjustment"
+    ],
+    "crossEvents": [
+      "payroll.correction-posted"
+    ],
+    "notifications": [
+      "Audit trail preserved — no salary history overwrite"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-003.story.json"
+}

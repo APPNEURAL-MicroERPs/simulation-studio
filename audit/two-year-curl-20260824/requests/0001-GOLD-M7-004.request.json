@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M7-004/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M7-004",
+    "month": "2026-10",
+    "companyTime": "2026-10-06T10:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "performance",
+    "preconditions": [
+      "Amit (EMP-1004) has Exceeds performance",
+      "Project ownership high"
+    ],
+    "intent": "HR launches Q3 performance review cycle — Amit identified for promotion track.",
+    "steps": [
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/cycles",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Q3 2026 Performance Review",
+          "cycleType": "leadership",
+          "startsOn": "2026-10-01",
+          "endsOn": "2026-10-31",
+          "ownerEmail": "meera.joshi@nexora.example"
+        },
+        "verifyListPath": "/api/cycles?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Performance cycle CYCLE-Q3-2026 created for promotion reviews"
+    ],
+    "crossEvents": [
+      "performance.cycle-created"
+    ],
+    "notifications": [
+      "All managers receive review assignment for Q3"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M7-004.story.json"
+}

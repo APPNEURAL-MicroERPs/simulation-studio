@@ -1,0 +1,55 @@
+{
+  "id": "GOLD-M7-011",
+  "month": "2026-10",
+  "companyTime": "2026-10-18T10:00:00+05:30",
+  "actorId": "EMP-1008",
+  "actorRole": "manager",
+  "module": "crm",
+  "preconditions": [
+    "ABC Corp is active customer",
+    "Project delivered successfully"
+  ],
+  "intent": "Expansion opportunity — ABC Corp Phase 2 (Mobile App + Analytics).",
+  "steps": [
+    {
+      "module": "crm",
+      "method": "POST",
+      "path": "/api/leads",
+      "expectedStatus": 201,
+      "body": {
+        "company": "ABC Manufacturing Corp",
+        "contactName": "Rajesh Kumar",
+        "title": "CTO",
+        "email": "rajesh.kumar@abcmfg.example",
+        "phone": "+91-9800000001",
+        "source": "inbound_call",
+        "country": "India",
+        "industry": "Manufacturing",
+        "companySize": "201-1000",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "value": 1800000,
+        "currency": "INR"
+      },
+      "verifyListPath": "/api/leads?q=ABC+Manufacturing&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Expansion lead ABC Phase 2 created — ₹18L potential"
+  ],
+  "crossEvents": [
+    "crm.lead-created"
+  ],
+  "notifications": [
+    "Sales team receives expansion opportunity"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

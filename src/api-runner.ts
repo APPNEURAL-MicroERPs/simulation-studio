@@ -98,6 +98,7 @@ export function isDuplicateConflict(payload: unknown, status: number): boolean {
 
   return evidence.includes("DUPLICATE")
     || evidence.includes("ALREADY EXISTS")
+    || evidence.includes("ALREADY USED")
     || evidence.includes("RECORD WITH THESE VALUES");
 }
 
@@ -315,6 +316,22 @@ export async function executeApiStory(env: Env, run: RunRow, storyId: string): P
   await env.DB.prepare(`UPDATE api_story_executions SET status = ?, completed_at = ?, last_error = ? WHERE id = ?`)
     .bind(passed ? "passed" : "failed", nowIso(), passed ? null : "One or more required API or entity assertions failed.", executionId).run();
   return apiExecutionDetail(env, executionId);
+}
+
+export async function retryApiStory(env: Env, run: RunRow, storyId: string): Promise<unknown> {
+  const executionId = `${run.id}:${storyId}`;
+  const existing = await env.DB.prepare(
+    `SELECT status FROM api_story_executions WHERE id = ? AND run_id = ?`,
+  ).bind(executionId, run.id).first<{ status: string }>();
+  if (!existing) throw new HttpError(404, "failed_api_story_not_found", "No failed execution exists for this story and run.");
+  if (existing.status !== "failed") throw new HttpError(409, "api_story_not_failed", "Only failed story executions can be retried.");
+
+  await env.DB.batch([
+    env.DB.prepare(`DELETE FROM api_assertions WHERE story_execution_id = ?`).bind(executionId),
+    env.DB.prepare(`DELETE FROM api_operations WHERE story_execution_id = ?`).bind(executionId),
+    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status = 'failed'`).bind(executionId, run.id),
+  ]);
+  return executeApiStory(env, run, storyId);
 }
 
 /** Executes every catalog story whose business timestamp is now due, once per run. */

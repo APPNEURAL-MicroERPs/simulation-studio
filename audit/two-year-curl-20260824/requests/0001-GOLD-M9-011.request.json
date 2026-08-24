@@ -1,0 +1,77 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M9-011/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M9-011",
+    "month": "2026-12",
+    "companyTime": "2026-12-21T09:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "Impossible login pattern detected on employee account",
+      "India then foreign IP within 12 minutes"
+    ],
+    "intent": "Credential compromise incident — security detects and contains phishing attack.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/security-assets",
+        "expectedStatus": 201,
+        "body": {
+          "assetCode": "SEC-INC-003",
+          "name": "Credential Compromise Incident — Phishing",
+          "assetType": "IDENTITY",
+          "criticality": "CRITICAL",
+          "businessOwnerEmail": "nikhil.sethi@nexora.example",
+          "status": "ACTIVE"
+        },
+        "verifyListPath": "/api/security-assets?q=SEC-INC-003&pageSize=100"
+      },
+      {
+        "module": "audit",
+        "method": "POST",
+        "path": "/api/evidence",
+        "expectedStatus": 201,
+        "body": {
+          "auditRef": "AUD-2026-001",
+          "name": "SEC-INC-003 Incident Timeline — Phishing Credential Compromise",
+          "obtainedOn": "2026-12-21",
+          "obtainedBy": "nikhil.sethi@nexora.example",
+          "source": "Security ERP — Incident Response",
+          "status": "accepted"
+        }
+      }
+    ],
+    "expectedState": [
+      "Security incident SEC-INC-003 registered — sessions terminated, access restricted",
+      "Incident evidence recorded for audit trail"
+    ],
+    "crossEvents": [
+      "security.incident-detected",
+      "security.credential-rotated"
+    ],
+    "notifications": [
+      "Password reset forced",
+      "API tokens rotated",
+      "Endpoint scan initiated"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M9-011.story.json"
+}

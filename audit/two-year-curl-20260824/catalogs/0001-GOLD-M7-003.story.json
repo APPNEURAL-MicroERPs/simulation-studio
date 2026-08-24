@@ -1,0 +1,48 @@
+{
+  "id": "GOLD-M7-003",
+  "month": "2026-10",
+  "companyTime": "2026-10-03T10:00:00+05:30",
+  "actorId": "EMP-1007",
+  "actorRole": "manager",
+  "module": "payroll",
+  "preconditions": [
+    "F&F computed at ₹1,09,600",
+    "Finance approved"
+  ],
+  "intent": "Payroll records F&F payment — bank transaction completes.",
+  "steps": [
+    {
+      "module": "payroll",
+      "method": "POST",
+      "path": "/api/payments",
+      "expectedStatus": 201,
+      "body": {
+        "period": "2026-10",
+        "reference": "PAY-FNF-001",
+        "amount": 109600,
+        "paidOn": "2026-10-03",
+        "status": "paid"
+      },
+      "verifyListPath": "/api/payments?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Payment PAY-FNF-001 recorded — ₹1,09,600 paid"
+  ],
+  "crossEvents": [
+    "payroll.payment-made"
+  ],
+  "notifications": [
+    "Employee receives final payment confirmation"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/REC-FEB-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "REC-FEB-001",
+    "month": "2026-02",
+    "companyTime": "2026-02-04T11:10:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Resource demand SIM-DEM-2602-001 exists",
+      "Meera has manager access"
+    ],
+    "intent": "People Operations opens a draft requisition against the capacity plan.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Senior React Engineer",
+          "reason": "new",
+          "departmentName": "Engineering",
+          "locationName": "Bengaluru",
+          "employmentType": "full_time",
+          "openings": 2,
+          "budgetMin": 1800000,
+          "budgetMax": 2600000,
+          "currency": "INR",
+          "hiringManagerEmail": "priya.sharma@nexora.example",
+          "recruiterEmail": "meera.joshi@nexora.example",
+          "targetStartOn": "2026-03-02",
+          "justification": "Approved capacity demand SIM-DEM-2602-001"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=100"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "Senior React Engineer",
+          "summary": "Join our Engineering team as a Senior React Engineer.",
+          "skills": "React, TypeScript, Node.js",
+          "locationName": "Bengaluru",
+          "workMode": "hybrid",
+          "experienceMinYears": 5,
+          "experienceMaxYears": 10,
+          "channel": "careers_site"
+        },
+        "verifyListPath": "/api/jobs?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "A two-opening requisition exists in draft"
+    ],
+    "crossEvents": [
+      "Recruitment.RequisitionCreated"
+    ],
+    "notifications": [
+      "Hiring manager sees an approval task"
+    ],
+    "edgeCases": [
+      "Budget minimum must not exceed maximum"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-REC-FEB-001.story.json"
+}

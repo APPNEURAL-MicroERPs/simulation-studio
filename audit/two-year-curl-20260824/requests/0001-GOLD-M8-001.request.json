@@ -1,0 +1,100 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M8-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M8-001",
+    "month": "2026-11",
+    "companyTime": "2026-11-01T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "Company has 20+ employees",
+      "Growth requires structured teams"
+    ],
+    "intent": "New org structure becomes effective — reorg plan and department activation.",
+    "steps": [
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/reorg-plans",
+        "expectedStatus": 201,
+        "body": {
+          "name": "November 2026 Restructure",
+          "rationale": "Scale from 20-person startup to structured teams with department ownership",
+          "effectiveOn": "2026-11-01",
+          "ownerEmail": "priya.sharma@nexora.example"
+        },
+        "verifyListPath": "/api/reorg-plans?pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/departments",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Engineering",
+          "code": "DEPT-ENG",
+          "costCenter": "CC-ENG",
+          "headEmail": "amit.kumar@nexora.example",
+          "location": "Bengaluru"
+        },
+        "verifyListPath": "/api/departments?pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/departments",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Delivery",
+          "code": "DEPT-DEL",
+          "costCenter": "CC-DEL",
+          "headEmail": "priya.sharma@nexora.example",
+          "location": "Udaipur"
+        },
+        "verifyListPath": "/api/departments?pageSize=100"
+      },
+      {
+        "module": "organization",
+        "method": "POST",
+        "path": "/api/departments",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Growth",
+          "code": "DEPT-GRO",
+          "costCenter": "CC-GRO",
+          "headEmail": "karan.malhotra@nexora.example",
+          "location": "Gurugram"
+        },
+        "verifyListPath": "/api/departments?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Reorg plan created",
+      "3 new departments activated: Engineering, Delivery, Growth"
+    ],
+    "crossEvents": [
+      "organization.structure.activated"
+    ],
+    "notifications": [
+      "All employees see updated reporting lines"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M8-001.story.json"
+}

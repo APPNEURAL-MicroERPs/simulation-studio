@@ -1,0 +1,110 @@
+{
+  "id": "GOLD-M1-003",
+  "month": "2026-04",
+  "companyTime": "2026-04-01T11:00:00+05:30",
+  "actorId": "EMP-1006",
+  "actorRole": "manager",
+  "module": "hr",
+  "preconditions": [
+    "Positions created",
+    "Legal entity exists"
+  ],
+  "intent": "HR registers the 4 founding employees in the HR system.",
+  "steps": [
+    {
+      "module": "hr",
+      "method": "POST",
+      "path": "/api/employees",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1001",
+        "fullName": "Priya Sharma",
+        "email": "priya.sharma@nexora.example",
+        "designation": "Founder & CEO",
+        "department": "Executive",
+        "location": "Udaipur",
+        "employmentType": "full_time",
+        "employmentStatus": "active",
+        "dateOfJoining": "2026-04-01"
+      },
+      "verifyListPath": "/api/employees?q=Priya&pageSize=100"
+    },
+    {
+      "module": "hr",
+      "method": "POST",
+      "path": "/api/employees",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1008",
+        "fullName": "Karan Malhotra",
+        "email": "karan.malhotra@nexora.example",
+        "designation": "Sales Director",
+        "department": "Sales",
+        "location": "Gurugram",
+        "employmentType": "full_time",
+        "employmentStatus": "active",
+        "dateOfJoining": "2026-04-01"
+      },
+      "verifyListPath": "/api/employees?q=Karan&pageSize=100"
+    },
+    {
+      "module": "hr",
+      "method": "POST",
+      "path": "/api/employees",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1007",
+        "fullName": "Vikram Shah",
+        "email": "vikram.shah@nexora.example",
+        "designation": "Finance Controller",
+        "department": "Finance",
+        "location": "Udaipur",
+        "employmentType": "full_time",
+        "employmentStatus": "active",
+        "dateOfJoining": "2026-04-01"
+      },
+      "verifyListPath": "/api/employees?q=Vikram&pageSize=100"
+    },
+    {
+      "module": "hr",
+      "method": "POST",
+      "path": "/api/employees",
+      "expectedStatus": 201,
+      "body": {
+        "employeeCode": "EMP-1012",
+        "fullName": "Sandeep Patel",
+        "email": "sandeep.patel@nexora.example",
+        "designation": "Lead Engineer",
+        "department": "Engineering",
+        "location": "Bengaluru",
+        "employmentType": "full_time",
+        "employmentStatus": "active",
+        "dateOfJoining": "2026-04-01"
+      },
+      "verifyListPath": "/api/employees?q=Sandeep&pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "4 employees registered and ACTIVE",
+    "Each employee has a unique employeeCode"
+  ],
+  "crossEvents": [
+    "hr.employee-created",
+    "hr.employee-joined"
+  ],
+  "notifications": [
+    "Attendance, Payroll, Asset, Admin, Security, Learning receive employee.joined"
+  ],
+  "edgeCases": [
+    "Employee code must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

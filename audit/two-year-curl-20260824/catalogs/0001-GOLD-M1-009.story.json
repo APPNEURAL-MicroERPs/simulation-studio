@@ -1,0 +1,52 @@
+{
+  "id": "GOLD-M1-009",
+  "month": "2026-04",
+  "companyTime": "2026-04-10T14:00:00+05:30",
+  "actorId": "EMP-1001",
+  "actorRole": "owner",
+  "module": "project",
+  "preconditions": [
+    "Internal platform initiative approved"
+  ],
+  "intent": "Create the first delivery project — Internal Platform v2.",
+  "steps": [
+    {
+      "module": "project",
+      "method": "POST",
+      "path": "/api/projects",
+      "expectedStatus": 201,
+      "body": {
+        "name": "Internal Platform v2",
+        "code": "PRJ-INT-001",
+        "client": "Internal",
+        "managerEmail": "priya.sharma@nexora.example",
+        "startDate": "2026-04-15",
+        "endDate": "2026-08-31",
+        "budget": 2500000,
+        "status": "planning"
+      },
+      "verifyListPath": "/api/projects?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Project PRJ-INT-001 exists in planning"
+  ],
+  "crossEvents": [
+    "project.created"
+  ],
+  "notifications": [
+    "Project manager receives kickoff task"
+  ],
+  "edgeCases": [
+    "Project code must be unique"
+  ],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

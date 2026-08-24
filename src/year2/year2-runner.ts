@@ -12,10 +12,62 @@ import {
   callPortal, verifyEntity, addAssertion, issueActorToken,
   observableKinds, type OperationResult,
 } from "../api-runner";
+import { HttpError } from "../http";
 import { composeMonthStories, composeQuarterStories, composeYear2Stories } from "./composer";
-import { YEAR2_QUARTERS, type Year2Month } from "./types";
+import { YEAR2_MONTHS, YEAR2_QUARTERS, type Year2Month } from "./types";
 
 function nowIso(): string { return new Date().toISOString(); }
+
+export function canonicalJson(value: unknown): string {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  const record = value as Record<string, unknown>;
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(",")}}`;
+}
+
+export async function createYear2StorySignature(secret: string, runId: string, story: unknown): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(`${runId}.${canonicalJson(story)}`),
+  );
+  const binary = String.fromCharCode(...new Uint8Array(signature));
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/u, "");
+}
+
+async function secureEqual(left: string, right: string): Promise<boolean> {
+  const [leftHash, rightHash] = await Promise.all([
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(left)),
+    crypto.subtle.digest("SHA-256", new TextEncoder().encode(right)),
+  ]);
+  const a = new Uint8Array(leftHash);
+  const b = new Uint8Array(rightHash);
+  let difference = a.length ^ b.length;
+  for (let index = 0; index < Math.max(a.length, b.length); index += 1) {
+    difference |= (a[index % a.length] ?? 0) ^ (b[index % b.length] ?? 0);
+  }
+  return difference === 0;
+}
+
+function signedStoryShape(value: unknown): value is ApiStory {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const story = value as Partial<ApiStory>;
+  return typeof story.id === "string"
+    && typeof story.month === "string"
+    && typeof story.companyTime === "string"
+    && typeof story.actorId === "string"
+    && typeof story.module === "string"
+    && typeof story.intent === "string"
+    && Array.isArray(story.steps)
+    && story.steps.length > 0;
+}
 
 // ─── Execute a Single Generated Story ─────────────────────────────────────────
 
@@ -126,6 +178,76 @@ async function executionDetail(env: Env, executionId: string): Promise<unknown> 
     ).bind(executionId).all(),
   ]);
   return { execution, operations: operations.results, assertions: assertions.results };
+}
+
+export async function signedYear2MonthCatalog(
+  env: Env,
+  run: RunRow,
+  month: Year2Month,
+  seed: string,
+): Promise<{ month: Year2Month; stories: Array<{ story: ApiStory; signature: string }> }> {
+  const { stories } = await composeMonthStories(env, run, month, seed);
+  return {
+    month,
+    stories: await Promise.all(stories.map(async (story) => ({
+      story,
+      signature: await createYear2StorySignature(env.SIMULATION_AUTH_SECRET, run.id, story),
+    }))),
+  };
+}
+
+export async function executeSignedYear2Story(
+  env: Env,
+  run: RunRow,
+  storyValue: unknown,
+  signature: string,
+): Promise<unknown> {
+  if (!signedStoryShape(storyValue)) {
+    throw new HttpError(400, "invalid_year2_story", "A complete signed Year 2 story is required.");
+  }
+  if (!YEAR2_MONTHS.includes(storyValue.month as Year2Month)
+    || !storyValue.id.startsWith(`Y2-${storyValue.month}-`)) {
+    throw new HttpError(400, "invalid_year2_story", "Story identity does not match a Year 2 month.");
+  }
+  const expected = await createYear2StorySignature(env.SIMULATION_AUTH_SECRET, run.id, storyValue);
+  if (!await secureEqual(signature, expected)) {
+    throw new HttpError(403, "invalid_year2_story_signature", "The Year 2 story signature is invalid for this run.");
+  }
+  await executeGeneratedStory(env, run, storyValue);
+  return executionDetail(env, `${run.id}:${storyValue.id}`);
+}
+
+export async function retrySignedYear2Story(
+  env: Env,
+  run: RunRow,
+  storyValue: unknown,
+  signature: string,
+): Promise<unknown> {
+  if (!signedStoryShape(storyValue)) {
+    throw new HttpError(400, "invalid_year2_story", "A complete signed Year 2 story is required.");
+  }
+  if (!YEAR2_MONTHS.includes(storyValue.month as Year2Month)
+    || !storyValue.id.startsWith(`Y2-${storyValue.month}-`)) {
+    throw new HttpError(400, "invalid_year2_story", "Story identity does not match a Year 2 month.");
+  }
+  const expected = await createYear2StorySignature(env.SIMULATION_AUTH_SECRET, run.id, storyValue);
+  if (!await secureEqual(signature, expected)) {
+    throw new HttpError(403, "invalid_year2_story_signature", "The Year 2 story signature is invalid for this run.");
+  }
+
+  const executionId = `${run.id}:${storyValue.id}`;
+  const existing = await env.DB.prepare(
+    `SELECT status FROM api_story_executions WHERE id = ? AND run_id = ?`,
+  ).bind(executionId, run.id).first<{ status: string }>();
+  if (!existing) throw new HttpError(404, "failed_api_story_not_found", "No failed execution exists for this story and run.");
+  if (existing.status !== "failed") throw new HttpError(409, "api_story_not_failed", "Only failed story executions can be retried.");
+  await env.DB.batch([
+    env.DB.prepare(`DELETE FROM api_assertions WHERE story_execution_id = ?`).bind(executionId),
+    env.DB.prepare(`DELETE FROM api_operations WHERE story_execution_id = ?`).bind(executionId),
+    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status = 'failed'`).bind(executionId, run.id),
+  ]);
+  await executeGeneratedStory(env, run, storyValue);
+  return executionDetail(env, executionId);
 }
 
 // ─── Execute Year 2 Month ─────────────────────────────────────────────────────

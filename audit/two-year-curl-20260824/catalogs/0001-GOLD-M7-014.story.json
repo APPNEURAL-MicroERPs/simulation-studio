@@ -1,0 +1,66 @@
+{
+  "id": "GOLD-M7-014",
+  "month": "2026-10",
+  "companyTime": "2026-10-24T10:00:00+05:30",
+  "actorId": "EMP-1010",
+  "actorRole": "manager",
+  "module": "audit",
+  "preconditions": [
+    "AUD-FIND-001 is open",
+    "Privileged access review now implemented"
+  ],
+  "intent": "Audit remediation — evidence submitted and finding verified for closure.",
+  "steps": [
+    {
+      "module": "audit",
+      "method": "POST",
+      "path": "/api/evidence",
+      "expectedStatus": 201,
+      "body": {
+        "auditRef": "AUD-2026-001",
+        "name": "October 2026 Privileged Access Review Report",
+        "obtainedOn": "2026-10-24",
+        "obtainedBy": "nikhil.sethi@nexora.example",
+        "source": "Security ERP — Access Review Module",
+        "status": "accepted"
+      },
+      "verifyListPath": "/api/evidence?pageSize=100"
+    },
+    {
+      "module": "audit",
+      "method": "POST",
+      "path": "/api/finding-verifications",
+      "expectedStatus": 201,
+      "body": {
+        "findingRef": "AUD-FIND-001",
+        "result": "IMPLEMENTED_EFFECTIVE",
+        "verifiedBy": "nikhil.sethi@nexora.example",
+        "verifiedOn": "2026-10-24",
+        "notes": "Monthly privileged access review now in place with documented evidence. 12 identities reviewed, 2 reduced, 1 revoked.",
+        "status": "FINAL"
+      },
+      "verifyListPath": "/api/finding-verifications?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Evidence recorded for AUD-FIND-001",
+    "Finding verification confirms effective implementation"
+  ],
+  "crossEvents": [
+    "audit.evidence-recorded",
+    "audit.finding-verified"
+  ],
+  "notifications": [
+    "Auditor can now close finding"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

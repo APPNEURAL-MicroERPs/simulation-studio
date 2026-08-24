@@ -1,0 +1,83 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-011/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-011",
+    "month": "2027-02",
+    "companyTime": "2027-02-28T10:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "crm",
+    "preconditions": [
+      "CloudNova Technologies partnership signed",
+      "5% referral fee on first-year collected revenue"
+    ],
+    "intent": "Strategic partner onboarded and partner-sourced opportunity created.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "RetailGrid",
+          "contactName": "RetailGrid CTO",
+          "title": "Smart Contact Center — ₹32L Opportunity",
+          "source": "partner",
+          "phone": "+91-98765-43210",
+          "referrer": "CloudNova Technologies PARTNER-001",
+          "value": 3200000,
+          "currency": "INR",
+          "ownerEmail": "karan.malhotra@nexora.example"
+        },
+        "verifyListPath": "/api/leads?pageSize=100"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "RetailGrid Smart Contact Center",
+          "code": "OPP-032",
+          "amount": 3200000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 25,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-05-31",
+          "businessNeed": "RetailGrid needs AI-powered contact center for 200-agent operation",
+          "nextAction": "Discovery call scheduled with CloudNova introduction",
+          "nextActionOn": "2027-03-05"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "PARTNER-001 CloudNova onboarded",
+      "OPP-032 RetailGrid ₹32L — partner-sourced with attribution"
+    ],
+    "crossEvents": [
+      "crm.partner-opportunity-created"
+    ],
+    "notifications": [
+      "Referral fee 5% on first-year collected revenue"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-011.story.json"
+}

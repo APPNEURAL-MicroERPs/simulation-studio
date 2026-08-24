@@ -1,0 +1,72 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M10-005/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M10-005",
+    "month": "2027-01",
+    "companyTime": "2027-01-12T09:00:00+05:30",
+    "actorId": "EMP-1010",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "Second DR drill scheduled",
+      "Primary database unavailable scenario"
+    ],
+    "intent": "DR drill fails — finding created with remediation plan.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "AUD-FIND-014",
+          "title": "DR Test Failed — Missing Secret Synchronization in DR Environment",
+          "severity": "high",
+          "ownerEmail": "nikhil.sethi@nexora.example",
+          "description": "Primary DB restore succeeded but application failed due to missing secret in DR environment. Actual RTO: 58 min (target: 30 min). RCA: DR environment secret synchronization missing from deployment process.",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=100"
+      },
+      {
+        "module": "devops",
+        "method": "POST",
+        "path": "/api/incidents",
+        "expectedStatus": 201,
+        "body": {
+          "title": "DR Drill Failure — Secret Sync Missing",
+          "severity": "sev2",
+          "status": "investigating",
+          "description": "DR test failed at 58 min RTO. Corrective actions: secrets replication automation, DR preflight checklist, quarterly secret verification, runbook update."
+        }
+      }
+    ],
+    "expectedState": [
+      "Finding AUD-FIND-014 HIGH created",
+      "DR incident registered for corrective action tracking"
+    ],
+    "crossEvents": [
+      "compliance.dr-finding-created"
+    ],
+    "notifications": [
+      "RCA: Secret synchronization missing from deployment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M10-005.story.json"
+}

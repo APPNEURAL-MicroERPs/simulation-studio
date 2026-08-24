@@ -1,0 +1,61 @@
+{
+  "id": "GOLD-M3-007",
+  "month": "2026-06",
+  "companyTime": "2026-06-15T10:00:00+05:30",
+  "actorId": "EMP-1004",
+  "actorRole": "manager",
+  "module": "qa",
+  "preconditions": [
+    "Sprint 1 in progress",
+    "Test environment ready"
+  ],
+  "intent": "QA lead creates test plan and first test cases for Sprint 1.",
+  "steps": [
+    {
+      "module": "qa",
+      "method": "POST",
+      "path": "/api/test-plans",
+      "expectedStatus": 200,
+      "body": {
+        "workspaceId": "PRJ-INT-001",
+        "name": "Sprint 1 Auth Module Test Plan",
+        "description": "Test plan for authentication and authorization features"
+      },
+      "verifyListPath": "/api/test-plans?pageSize=100"
+    },
+    {
+      "module": "qa",
+      "method": "POST",
+      "path": "/api/test-cases",
+      "expectedStatus": 200,
+      "body": {
+        "title": "SSO login with valid credentials",
+        "type": "functional",
+        "priority": "high",
+        "description": "Verify SSO login works with valid credentials"
+      },
+      "verifyListPath": "/api/test-cases?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Test plan TP-SPRINT1-AUTH active",
+    "Test case TC-AUTH-001 created"
+  ],
+  "crossEvents": [
+    "qa.test-plan-created",
+    "qa.test-case-created"
+  ],
+  "notifications": [
+    "QA team sees test plan assignment"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

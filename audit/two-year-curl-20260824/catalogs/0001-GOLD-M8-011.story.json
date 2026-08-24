@@ -1,0 +1,70 @@
+{
+  "id": "GOLD-M8-011",
+  "month": "2026-11",
+  "companyTime": "2026-11-22T10:00:00+05:30",
+  "actorId": "EMP-1008",
+  "actorRole": "manager",
+  "module": "customer",
+  "preconditions": [
+    "ABC Corp support tickets rising",
+    "Satisfaction declining 4.2 to 3.7",
+    "Phase-2 discussions delayed"
+  ],
+  "intent": "Customer churn-risk signal detected — ABC Corp success intervention initiated.",
+  "steps": [
+    {
+      "module": "customer",
+      "method": "POST",
+      "path": "/api/success-plans",
+      "expectedStatus": 201,
+      "body": {
+        "customerId": "CUST-ABC-001",
+        "name": "ABC Corp Q4 Recovery Plan",
+        "periodFrom": "2026-11-22",
+        "periodTo": "2027-02-28",
+        "ownerEmail": "karan.malhotra@nexora.example",
+        "notes": "Churn risk MEDIUM — rising tickets, declining CSAT, expansion delay. Actions: EBR, roadmap review, proactive health dashboard."
+      },
+      "verifyListPath": "/api/success-plans?pageSize=100"
+    },
+    {
+      "module": "customer",
+      "method": "POST",
+      "path": "/api/health-models",
+      "expectedStatus": 201,
+      "body": {
+        "name": "ABC Corp Health Model",
+        "deliveryWeight": 25,
+        "outcomesWeight": 20,
+        "relationshipWeight": 20,
+        "adoptionWeight": 15,
+        "supportWeight": 10,
+        "commercialWeight": 10,
+        "greenThreshold": 70,
+        "amberThreshold": 40
+      },
+      "verifyListPath": "/api/health-models?pageSize=100"
+    }
+  ],
+  "expectedState": [
+    "Success plan created for ABC Corp recovery",
+    "Health model defined with weighted signals"
+  ],
+  "crossEvents": [
+    "customer.churn-risk-detected",
+    "customer.success-plan-created"
+  ],
+  "notifications": [
+    "Account manager schedules Executive Business Review"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}

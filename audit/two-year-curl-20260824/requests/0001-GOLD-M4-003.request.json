@@ -1,0 +1,73 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M4-003/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M4-003",
+    "month": "2026-07",
+    "companyTime": "2026-07-05T09:00:00+05:30",
+    "actorId": "EMP-1006",
+    "actorRole": "manager",
+    "module": "learning",
+    "preconditions": [
+      "New hires need onboarding training"
+    ],
+    "intent": "HR creates mandatory onboarding course and assigns to new team.",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/courses",
+        "expectedStatus": 201,
+        "body": {
+          "code": "COURSE-ORIENT-001",
+          "title": "APPNEURAL Orientation",
+          "category": "onboarding",
+          "durationHours": 2,
+          "description": "Mandatory orientation for all new APPNEURAL employees"
+        },
+        "verifyListPath": "/api/courses?pageSize=100"
+      },
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/assignments",
+        "expectedStatus": 201,
+        "body": {
+          "courseRef": "COURSE-ORIENT-001",
+          "assignedTo": "EMP-1012",
+          "assignedBy": "meera.joshi@nexora.example",
+          "dueOn": "2026-07-15",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/assignments?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Course COURSE-ORIENT-001 published",
+      "Assignment created for EMP-1012"
+    ],
+    "crossEvents": [
+      "learning.course-created",
+      "learning.assignment-created"
+    ],
+    "notifications": [
+      "Employee receives training assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M4-003.story.json"
+}

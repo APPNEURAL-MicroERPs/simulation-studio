@@ -1,0 +1,78 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-006/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-006",
+    "month": "2027-02",
+    "companyTime": "2027-02-12T10:00:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "manager",
+    "module": "finance",
+    "preconditions": [
+      "ZenFab settlement ₹2.1L accepted",
+      "₹60K write-off candidate"
+    ],
+    "intent": "ZenFab settlement recorded and bad debt write-off posted.",
+    "steps": [
+      {
+        "module": "legal",
+        "method": "POST",
+        "path": "/api/settlements",
+        "expectedStatus": 201,
+        "body": {
+          "matterRef": "MAT-ZENFAB-TERM",
+          "amount": 210000,
+          "currency": "INR",
+          "nonMonetaryTerms": "Final settlement of ₹2.1L against outstanding ₹2.7L. ₹60K approved write-off. Customer pays by 2027-02-28. Data retention obligations preserved.",
+          "phase": "COMPLETED",
+          "status": "COMPLETED"
+        }
+      },
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/journal-entries",
+        "expectedStatus": 201,
+        "body": {
+          "entryNo": "JE-WO-001",
+          "entryDate": "2027-02-14",
+          "fiscalPeriod": "2027-Q4",
+          "accountCode": "BAD-DEBT-EXPENSE",
+          "costCenter": "CORPORATE",
+          "description": "Bad debt write-off WO-AR-001 — ZenFab ₹60,000. Approved by Finance Manager and CEO. Dr Bad Debt Expense ₹60K / Cr Accounts Receivable ₹60K.",
+          "debit": 60000,
+          "preparedBy": "priya.sharma@nexora.example",
+          "status": "posted"
+        },
+        "verifyListPath": "/api/journal-entries?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Settlement ₹2.1L recorded",
+      "Bad debt write-off ₹60K posted to ledger"
+    ],
+    "crossEvents": [
+      "finance.bad-debt-written-off"
+    ],
+    "notifications": [
+      "Invoice status: PARTIALLY_PAID → SETTLED_WRITTEN_OFF",
+      "AR cleared"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-006.story.json"
+}

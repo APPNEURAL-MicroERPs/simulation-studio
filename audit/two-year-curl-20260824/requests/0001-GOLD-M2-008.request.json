@@ -1,0 +1,74 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M2-008/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M2-008",
+    "month": "2026-05",
+    "companyTime": "2026-05-25T09:00:00+05:30",
+    "actorId": "EMP-1005",
+    "actorRole": "manager",
+    "module": "devops",
+    "preconditions": [
+      "Project PRJ-INT-001 active",
+      "Infrastructure asset registered"
+    ],
+    "intent": "DevOps lead sets up CI/CD pipeline and application registration.",
+    "steps": [
+      {
+        "module": "devops",
+        "method": "POST",
+        "path": "/api/applications",
+        "expectedStatus": 201,
+        "body": {
+          "name": "APPNEURAL Suite",
+          "code": "APP-SUITE",
+          "description": "Main APPNEURAL MicroERP suite application",
+          "repositoryUrl": "https://github.com/appneural/microerps",
+          "ownerEmail": "kavya.iyer@nexora.example",
+          "status": "active"
+        },
+        "verifyListPath": "/api/applications?pageSize=100"
+      },
+      {
+        "module": "devops",
+        "method": "POST",
+        "path": "/api/environments",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Production",
+          "kind": "production",
+          "application": "APP-SUITE",
+          "url": "https://suite.erp.appneural.com"
+        },
+        "verifyListPath": "/api/environments?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Application APP-SUITE registered",
+      "Production environment created"
+    ],
+    "crossEvents": [
+      "devops.application-created",
+      "devops.environment-created"
+    ],
+    "notifications": [
+      "Engineering team sees CI/CD setup"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M2-008.story.json"
+}

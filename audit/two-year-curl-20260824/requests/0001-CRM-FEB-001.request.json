@@ -1,0 +1,64 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/CRM-FEB-001/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "CRM-FEB-001",
+    "month": "2026-02",
+    "companyTime": "2026-02-11T10:40:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "manager",
+    "module": "crm",
+    "preconditions": [
+      "Karan owns enterprise pipeline"
+    ],
+    "intent": "Sales creates a qualified inbound company lead.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Suryodaya Retail Labs",
+          "contactName": "Rohit Mehta",
+          "title": "VP Technology",
+          "email": "rohit.mehta@suryodaya.example",
+          "source": "website",
+          "country": "India",
+          "industry": "Retail",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 4800000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?q=Suryodaya%20Retail%20Labs&pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "Suryodaya Retail Labs exists at lead stage new"
+    ],
+    "crossEvents": [
+      "CRM.LeadCreated"
+    ],
+    "notifications": [
+      "Lead owner receives a follow-up"
+    ],
+    "edgeCases": [
+      "Lead must include email or phone"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-CRM-FEB-001.story.json"
+}

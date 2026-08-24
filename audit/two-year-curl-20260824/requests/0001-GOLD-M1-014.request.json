@@ -1,0 +1,66 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M1-014/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M1-014",
+    "month": "2026-04",
+    "companyTime": "2026-04-28T18:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "organization",
+    "preconditions": [
+      "All Month 1 activities completed",
+      "4 employees active"
+    ],
+    "intent": "End-of-month cross-ERP reconciliation — verify all invariant checks pass.",
+    "steps": [
+      {
+        "module": "organization",
+        "method": "GET",
+        "path": "/api/positions?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "hr",
+        "method": "GET",
+        "path": "/api/employees?q=&pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "organization",
+        "method": "GET",
+        "path": "/api/legal-entities?pageSize=100",
+        "expectedStatus": 200
+      },
+      {
+        "module": "organization",
+        "method": "GET",
+        "path": "/api/departments?pageSize=100",
+        "expectedStatus": 200
+      }
+    ],
+    "expectedState": [
+      "Legal entities >= 1",
+      "Departments >= 6",
+      "Positions >= 4",
+      "Employees >= 4"
+    ],
+    "crossEvents": [],
+    "notifications": [
+      "All invariants pass"
+    ],
+    "edgeCases": [
+      "Invariants are computed from actual API data"
+    ],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M1-014.story.json"
+}

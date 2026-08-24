@@ -1,0 +1,74 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/GOLD-M11-009/execute",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null,
+  "story": {
+    "id": "GOLD-M11-009",
+    "month": "2027-02",
+    "companyTime": "2027-02-22T09:00:00+05:30",
+    "actorId": "EMP-1009",
+    "actorRole": "manager",
+    "module": "asset",
+    "preconditions": [
+      "Physical asset audit ASSET-AUDIT-001 launched",
+      "42 devices expected, 40 found, 1 in repair, 1 not located"
+    ],
+    "intent": "Asset audit — missing laptop investigated and located.",
+    "steps": [
+      {
+        "module": "asset",
+        "method": "POST",
+        "path": "/api/audit_campaigns",
+        "expectedStatus": 201,
+        "body": {
+          "name": "ASSET-AUDIT-001 Q4 Physical Verification",
+          "description": "Scope: Laptops, Monitors, Network Devices, Access Cards, Mobile Devices. Expected 42 devices. 40 found, 1 in repair, 1 initially not located (AST-LAP-017).",
+          "plannedStart": "2027-02-22",
+          "plannedEnd": "2027-02-25",
+          "status": "active"
+        },
+        "verifyListPath": "/api/audit_campaigns?pageSize=100"
+      },
+      {
+        "module": "asset",
+        "method": "POST",
+        "path": "/api/missing_cases",
+        "expectedStatus": 201,
+        "body": {
+          "assetId": "AST-LAP-017",
+          "lastCustodian": "EMP-024",
+          "lastLocation": "IT Storage Room",
+          "reportedBy": "admin@nexora.example",
+          "resolution": "Laptop found in storage room. Physical handover occurred but system return transaction was missed. Asset status corrected: ASSIGNED → RETURNED → AVAILABLE.",
+          "status": "found"
+        },
+        "verifyListPath": "/api/missing_cases?pageSize=100"
+      }
+    ],
+    "expectedState": [
+      "ASSET-AUDIT-001 completed — 42 devices verified",
+      "AST-LAP-017 located — process finding: barcode scan + digital acknowledgement required for returns"
+    ],
+    "crossEvents": [
+      "asset.audit-completed"
+    ],
+    "notifications": [
+      "Asset return process control improved"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state",
+      "workflow",
+      "related_entity",
+      "domain_event",
+      "my_work",
+      "notification"
+    ]
+  },
+  "storyCatalogFile": "audit/two-year-curl-20260824/catalogs/0001-GOLD-M11-009.story.json"
+}

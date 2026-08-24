@@ -1,0 +1,67 @@
+{
+  "id": "GOLD-M11-001",
+  "month": "2027-02",
+  "companyTime": "2027-02-01T09:00:00+05:30",
+  "actorId": "EMP-1004",
+  "actorRole": "manager",
+  "module": "project",
+  "preconditions": [
+    "Month 10 complete",
+    "Internal R&D spend at ₹3.1L of ₹5L budget"
+  ],
+  "intent": "Internal R&D project paused — resources freed for customer delivery.",
+  "steps": [
+    {
+      "module": "project",
+      "method": "POST",
+      "path": "/api/projects",
+      "expectedStatus": 201,
+      "body": {
+        "code": "PAUSE-REVIEW-001",
+        "name": "Integration Platform Pause Review",
+        "client": "Internal",
+        "managerEmail": "amit.shah@nexora.example",
+        "budget": 0,
+        "startDate": "2027-02-01",
+        "endDate": "2027-02-28",
+        "status": "active"
+      },
+      "verifyListPath": "/api/projects?pageSize=100"
+    },
+    {
+      "module": "organization",
+      "method": "POST",
+      "path": "/api/change-requests",
+      "expectedStatus": 201,
+      "body": {
+        "title": "Pause INTERNAL-PRJ-001 Integration Platform",
+        "requestType": "project_status",
+        "targetLabel": "INTERNAL-PRJ-001",
+        "currentValue": "active",
+        "proposedValue": "paused",
+        "justification": "Customer project demand higher priority. Bench capacity below 15%. Restart when bench >15% OR 2 projects commit to reuse platform.",
+        "effectiveOn": "2027-02-02"
+      }
+    }
+  ],
+  "expectedState": [
+    "INTERNAL-PRJ-001 paused — backlog and architecture preserved",
+    "Pause review tracker created"
+  ],
+  "crossEvents": [
+    "project.internal-rnd-paused"
+  ],
+  "notifications": [
+    "Vivek 30%, Karan 20%, Amit 10% freed for reallocation"
+  ],
+  "edgeCases": [],
+  "assertions": [
+    "api_response",
+    "entity_state",
+    "workflow",
+    "related_entity",
+    "domain_event",
+    "my_work",
+    "notification"
+  ]
+}
