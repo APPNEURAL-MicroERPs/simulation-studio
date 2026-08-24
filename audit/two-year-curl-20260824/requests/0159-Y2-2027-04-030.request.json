@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-030",
+      "month": "2027-04",
+      "companyTime": "2027-04-11T12:00:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-102 exists"
+      ],
+      "intent": "Add candidate Jyoti Verma for Business Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Jyoti Verma",
+            "email": "jyoti.verma@example.com",
+            "phone": "+91-9873713305",
+            "locationName": "Gurugram",
+            "currentTitle": "Consultant",
+            "totalExperienceMonths": 100,
+            "skills": "Tableau, GCP, Cypress",
+            "source": "careers_site",
+            "noticePeriodDays": 90,
+            "expectedCtc": 1400000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Business Analyst — Y2-REQ-102"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Jyoti Verma added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "M24O4lJT2-DxkAA74IQc6ljgRqH8mOea9RxpcdoXsA8"
+  }
+}

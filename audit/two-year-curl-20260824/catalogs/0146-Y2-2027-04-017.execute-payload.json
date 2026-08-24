@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-017",
+    "month": "2027-04",
+    "companyTime": "2027-04-07T11:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-101 exists"
+    ],
+    "intent": "Add candidate Swati Iyer for Sales Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Swati Iyer",
+          "email": "swati.iyer@example.com",
+          "phone": "+91-9583388477",
+          "locationName": "Udaipur",
+          "currentTitle": "Junior Developer",
+          "totalExperienceMonths": 101,
+          "skills": "Jira, Payroll, Playwright, Adobe XD, Confluence",
+          "source": "agency",
+          "noticePeriodDays": 30,
+          "expectedCtc": 700000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Sales Executive — Y2-REQ-101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Swati Iyer added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LKaWlBnjFinDEz0CDO2GbWPM-5CwmuXy52Mfdf5HsTw"
+}

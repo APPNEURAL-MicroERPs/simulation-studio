@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-04-023",
+    "month": "2027-04",
+    "companyTime": "2027-04-10T10:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Vikram Shah is active",
+      "Project INTERNAL-PRJ-001 is active"
+    ],
+    "intent": "Allocate Vikram Shah to INTERNAL-PRJ-001 at 25%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-013",
+          "resourceId": "RES-EMP-1007",
+          "employeeCode": "EMP-1007",
+          "projectId": "INTERNAL-PRJ-001",
+          "role": "Business Analyst",
+          "allocationPercent": 25,
+          "startDate": "2027-04-01",
+          "endDate": "2027-10-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vikram Shah allocated to INTERNAL-PRJ-001 at 25%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "rQ35nORN4K9W3mZv_kSXBGocvPVEoD0wGF6opYhlzeA"
+}

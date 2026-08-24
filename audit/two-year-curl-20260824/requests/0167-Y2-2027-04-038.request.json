@@ -1,0 +1,51 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-038",
+      "month": "2027-04",
+      "companyTime": "2027-04-14T14:20:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "administration",
+      "preconditions": [
+        "Office is operational"
+      ],
+      "intent": "Administration: Pantry Restock.",
+      "steps": [
+        {
+          "module": "administration",
+          "method": "POST",
+          "path": "/api/supplies",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Pantry Restock",
+            "unit": "batch",
+            "quantity": 20,
+            "status": "in_stock"
+          },
+          "verifyListPath": "/api/supplies?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Admin supply record created: Pantry Restock"
+      ],
+      "crossEvents": [
+        "administration.supply-recorded"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "N3_vxsmkEpHZfuobemcsRgYrPYTe5-gaP7c4O9hZzjE"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-040",
+    "month": "2027-04",
+    "companyTime": "2027-04-15T13:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-103 exists"
+    ],
+    "intent": "Add candidate Yash Das for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Yash Das",
+          "email": "yash.das@example.com",
+          "phone": "+91-9074488131",
+          "locationName": "Chennai",
+          "currentTitle": "Junior Developer",
+          "totalExperienceMonths": 94,
+          "skills": "Account Management, MongoDB, Financial Modeling",
+          "source": "campus",
+          "noticePeriodDays": 30,
+          "expectedCtc": 750000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Yash Das added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "FvxYvpTN66OIa__rKhRduM2DBl_JL3P7tSMy7srA8gY"
+}

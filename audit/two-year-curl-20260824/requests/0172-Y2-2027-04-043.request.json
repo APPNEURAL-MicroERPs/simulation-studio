@@ -1,0 +1,80 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-043",
+      "month": "2027-04",
+      "companyTime": "2027-04-15T17:10:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "security",
+      "preconditions": [
+        "4 employees",
+        "18 prior security reviews"
+      ],
+      "intent": "Security review: Monthly Access Review. 1 findings raised and documented.",
+      "steps": [
+        {
+          "module": "security",
+          "method": "POST",
+          "path": "/api/reviews",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Monthly Access Review — 2027-04",
+            "kind": "access_review",
+            "scope": "4 employees, 13 active projects, cloud infrastructure",
+            "performedOn": "2027-04-05",
+            "reviewerEmail": "sandeep.patel@nexora.example",
+            "findingsRaised": 1,
+            "status": "completed"
+          },
+          "verifyListPath": "/api/reviews?pageSize=200"
+        },
+        {
+          "module": "security",
+          "method": "POST",
+          "path": "/api/security-findings",
+          "expectedStatus": 201,
+          "body": {
+            "findingCode": "SF-Y2-063",
+            "title": "Monthly Access Review: Excessive IAM permissions",
+            "source": "SECURITY_ASSESSMENT",
+            "reviewId": "$PREV.createdId",
+            "severity": "MEDIUM",
+            "priority": "P3",
+            "status": "NEW",
+            "description": "Finding from Monthly Access Review. Requires remediation within SLA.",
+            "ownerEmail": "sandeep.patel@nexora.example",
+            "team": "IT",
+            "detectedOn": "2027-04-13",
+            "slaDays": 30
+          },
+          "verifyListPath": "/api/security-findings?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Security review completed: Monthly Access Review",
+        "Security finding documented"
+      ],
+      "crossEvents": [
+        "security.review-completed",
+        "security.finding-raised"
+      ],
+      "notifications": [
+        "1 security findings require remediation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "K78gE-vpvBftFDe4sv2BeDhGNgq7bcxi3BieVwabwTo"
+  }
+}

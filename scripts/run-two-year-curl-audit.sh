@@ -5,6 +5,7 @@ BASE_URL="${BASE_URL:-https://simulation.erp.appneural.com}"
 GATEWAY_URL="${GATEWAY_URL:-https://api.erp.appneural.com}"
 AUDIT_STAMP="${AUDIT_STAMP:-$(date -u +%Y%m%dT%H%M%SZ)}"
 AUDIT_DIR="${1:-audit/two-year-curl-$AUDIT_STAMP}"
+RESUME="${RESUME:-0}"
 
 if [[ -z "${STUDIO_ADMIN_TOKEN:-}" ]]; then
   printf 'STUDIO_ADMIN_TOKEN is required.\n' >&2
@@ -20,9 +21,16 @@ done
 mkdir -p "$AUDIT_DIR/requests" "$AUDIT_DIR/responses" "$AUDIT_DIR/headers" "$AUDIT_DIR/catalogs"
 RESULTS_FILE="$AUDIT_DIR/results.ndjson"
 RUN_FILE="$AUDIT_DIR/run.json"
-: > "$RESULTS_FILE"
+if [[ "$RESUME" == "1" ]]; then
+  if [[ ! -s "$RESULTS_FILE" || ! -s "$RUN_FILE" ]]; then
+    printf 'RESUME=1 requires an existing results ledger and run file.\n' >&2
+    exit 2
+  fi
+else
+  : > "$RESULTS_FILE"
+fi
 
-sequence=0
+sequence=$(($(wc -l < "$RESULTS_FILE") + 2))
 story_failures=0
 workflow_failures=0
 
@@ -114,42 +122,49 @@ record_story_result() {
 printf 'Audit directory: %s\n' "$AUDIT_DIR"
 
 # Create a fresh run only through the public API, then pause the simulation clock.
-run_payload="$AUDIT_DIR/run-create-payload.json"
-jq -n --arg seed "curl-sequential-$AUDIT_STAMP" \
-  '{mode:"replay",speed:1,companyTime:"2026-02-01T08:00:00+05:30",seed:$seed}' > "$run_payload"
-next_prefix
-run_prefix="$prefix"
-run_request="$AUDIT_DIR/requests/$run_prefix-create-run.request.json"
-run_response="$AUDIT_DIR/responses/$run_prefix-create-run.response.json"
-run_headers="$AUDIT_DIR/headers/$run_prefix-create-run.headers.txt"
-write_request "$run_request" POST "$BASE_URL/api/runs" "$run_payload"
-IFS=$'\t' read -r run_http run_duration < <(curl_json POST "$BASE_URL/api/runs" "$run_response" "$run_headers" "$run_payload")
-if [[ "$run_http" != "201" ]]; then
-  printf 'Fresh run creation failed with HTTP %s.\n' "$run_http" >&2
-  exit 1
-fi
-run_id=$(jq -r '.data.run.id // empty' "$run_response")
-if [[ -z "$run_id" ]]; then
-  printf 'Run response did not contain a run id.\n' >&2
-  exit 1
-fi
-jq -n --arg runId "$run_id" --arg startedAt "$AUDIT_STAMP" --arg baseUrl "$BASE_URL" --arg gatewayUrl "$GATEWAY_URL" \
-  '{runId:$runId,startedAt:$startedAt,transport:"curl/http-only",directDatabaseAccess:false,baseUrl:$baseUrl,gatewayUrl:$gatewayUrl}' > "$RUN_FILE"
+if [[ "$RESUME" == "1" ]]; then
+  run_id=$(jq -r '.runId // empty' "$RUN_FILE")
+  printf 'Resuming run %s with %s recorded results.\n' "$run_id" "$(wc -l < "$RESULTS_FILE" | tr -d ' ')"
+else
+  run_payload="$AUDIT_DIR/run-create-payload.json"
+  jq -n --arg seed "curl-sequential-$AUDIT_STAMP" \
+    '{mode:"replay",speed:1,companyTime:"2026-02-01T08:00:00+05:30",seed:$seed}' > "$run_payload"
+  next_prefix
+  run_prefix="$prefix"
+  run_request="$AUDIT_DIR/requests/$run_prefix-create-run.request.json"
+  run_response="$AUDIT_DIR/responses/$run_prefix-create-run.response.json"
+  run_headers="$AUDIT_DIR/headers/$run_prefix-create-run.headers.txt"
+  write_request "$run_request" POST "$BASE_URL/api/runs" "$run_payload"
+  IFS=$'\t' read -r run_http run_duration < <(curl_json POST "$BASE_URL/api/runs" "$run_response" "$run_headers" "$run_payload")
+  if [[ "$run_http" != "201" ]]; then
+    printf 'Fresh run creation failed with HTTP %s.\n' "$run_http" >&2
+    exit 1
+  fi
+  run_id=$(jq -r '.data.run.id // empty' "$run_response")
+  if [[ -z "$run_id" ]]; then
+    printf 'Run response did not contain a run id.\n' >&2
+    exit 1
+  fi
+  jq -n --arg runId "$run_id" --arg startedAt "$AUDIT_STAMP" --arg baseUrl "$BASE_URL" --arg gatewayUrl "$GATEWAY_URL" \
+    '{runId:$runId,startedAt:$startedAt,transport:"curl/http-only",directDatabaseAccess:false,baseUrl:$baseUrl,gatewayUrl:$gatewayUrl}' > "$RUN_FILE"
 
-pause_payload="$AUDIT_DIR/run-pause-payload.json"
-jq -n '{action:"pause"}' > "$pause_payload"
-next_prefix
-pause_prefix="$prefix"
-pause_request="$AUDIT_DIR/requests/$pause_prefix-pause-run.request.json"
-pause_response="$AUDIT_DIR/responses/$pause_prefix-pause-run.response.json"
-pause_headers="$AUDIT_DIR/headers/$pause_prefix-pause-run.headers.txt"
-write_request "$pause_request" POST "$BASE_URL/api/control" "$pause_payload"
-curl_json POST "$BASE_URL/api/control" "$pause_response" "$pause_headers" "$pause_payload" >/dev/null
+  pause_payload="$AUDIT_DIR/run-pause-payload.json"
+  jq -n '{action:"pause"}' > "$pause_payload"
+  next_prefix
+  pause_prefix="$prefix"
+  pause_request="$AUDIT_DIR/requests/$pause_prefix-pause-run.request.json"
+  pause_response="$AUDIT_DIR/responses/$pause_prefix-pause-run.response.json"
+  pause_headers="$AUDIT_DIR/headers/$pause_prefix-pause-run.headers.txt"
+  write_request "$pause_request" POST "$BASE_URL/api/control" "$pause_payload"
+  curl_json POST "$BASE_URL/api/control" "$pause_response" "$pause_headers" "$pause_payload" >/dev/null
+fi
 
 # Freeze the static Year 1 catalog, then execute every story sequentially.
 year1_catalog="$AUDIT_DIR/catalogs/year1-catalog.json"
 year1_catalog_headers="$AUDIT_DIR/headers/year1-catalog.headers.txt"
-curl_json GET "$BASE_URL/api/api-stories" "$year1_catalog" "$year1_catalog_headers" >/dev/null
+if [[ "$RESUME" != "1" || ! -s "$year1_catalog" ]]; then
+  curl_json GET "$BASE_URL/api/api-stories" "$year1_catalog" "$year1_catalog_headers" >/dev/null
+fi
 year1_total=$(jq '.data.stories | length' "$year1_catalog")
 printf 'Year 1 catalog: %s stories\n' "$year1_total"
 
@@ -157,6 +172,9 @@ while IFS= read -r story; do
   story_id=$(jq -r '.id' <<<"$story")
   month=$(jq -r '.month' <<<"$story")
   module=$(jq -r '.module' <<<"$story")
+  if jq -e --arg id "$story_id" 'select(.kind == "story" and .phase == "year1" and .storyId == $id)' "$RESULTS_FILE" >/dev/null; then
+    continue
+  fi
   safe_story=$(safe_name "$story_id")
   next_prefix
   request_file="$AUDIT_DIR/requests/$prefix-$safe_story.request.json"
@@ -179,7 +197,9 @@ for quarter_start in 0 3 6 9; do
     month="${year2_months[$((quarter_start + offset))]}"
     catalog_file="$AUDIT_DIR/catalogs/year2-$month-catalog.json"
     catalog_headers="$AUDIT_DIR/headers/year2-$month-catalog.headers.txt"
-    curl_json GET "$BASE_URL/api/api-stories/year2-catalog?month=$month" "$catalog_file" "$catalog_headers" >/dev/null
+    if [[ "$RESUME" != "1" || ! -s "$catalog_file" ]]; then
+      curl_json GET "$BASE_URL/api/api-stories/year2-catalog?month=$month" "$catalog_file" "$catalog_headers" >/dev/null
+    fi
     if ! jq -e '.data.stories | type == "array"' "$catalog_file" >/dev/null; then
       printf 'Year 2 catalog failed for %s.\n' "$month" >&2
       exit 1
@@ -192,6 +212,9 @@ for quarter_start in 0 3 6 9; do
       story_id=$(jq -r '.story.id' <<<"$signed_story")
       month=$(jq -r '.story.month' <<<"$signed_story")
       module=$(jq -r '.story.module' <<<"$signed_story")
+      if jq -e --arg id "$story_id" 'select(.kind == "story" and .phase == "year2" and .storyId == $id)' "$RESULTS_FILE" >/dev/null; then
+        continue
+      fi
       safe_story=$(safe_name "$story_id")
       next_prefix
       payload_file="$AUDIT_DIR/catalogs/$prefix-$safe_story.execute-payload.json"
@@ -223,6 +246,9 @@ fi
 
 workflow_modules=(administration asset attendance audit billing compliance contract crm customer devops expense finance hr inventory learning legal organization payroll performance presales procurement project qa recruitment resource risk sdlc security support vendor)
 for module in "${workflow_modules[@]}"; do
+  if jq -e --arg module "$module" 'select(.kind == "workflow" and .module == $module)' "$RESULTS_FILE" >/dev/null; then
+    continue
+  fi
   next_prefix
   request_file="$AUDIT_DIR/requests/$prefix-workflow-$module.request.json"
   response_file="$AUDIT_DIR/responses/$prefix-workflow-$module.response.json"
@@ -296,6 +322,6 @@ jq -r '
 printf 'Completed: stories %s/%s passed; workflows %s/%s passed.\n' "$story_passed" "$story_total" "$workflow_passed" "${#workflow_modules[@]}"
 printf 'Evidence: %s\n' "$AUDIT_DIR"
 
-if [[ "$story_failures" -ne 0 || "$workflow_failures" -ne 0 ]]; then
+if [[ "$story_failed" -ne 0 || "$workflow_failures" -ne 0 ]]; then
   exit 1
 fi

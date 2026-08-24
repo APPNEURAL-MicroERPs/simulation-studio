@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2027-04-010",
+    "month": "2027-04",
+    "companyTime": "2027-04-05T14:25:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: Software Licenses → PO (141K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-101",
+          "title": "Software Licenses",
+          "category": "Software",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Finance",
+          "estimatedCost": 141090,
+          "neededBy": "2027-05-15",
+          "justification": "Operational need: Software Licenses. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-054",
+          "vendor": "TechEquip India Pvt Ltd",
+          "requestRef": "$PREV.createdId",
+          "category": "Software",
+          "itemSummary": "Software Licenses",
+          "amount": 141090,
+          "costCenter": "CC-FIN",
+          "orderDate": "2027-04-11",
+          "expectedDate": "2027-07-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-101 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "eKlfrHbX4zKILu84gRFkcwyDBpxAowU7IjGYd2tjRs0"
+}

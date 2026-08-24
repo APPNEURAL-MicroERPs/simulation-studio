@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-034",
+    "month": "2027-04",
+    "companyTime": "2027-04-13T17:45:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-102 exists"
+    ],
+    "intent": "Add candidate Ritu Patel for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Ritu Patel",
+          "email": "ritu.patel@example.com",
+          "phone": "+91-9857278332",
+          "locationName": "Gurugram",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 90,
+          "skills": "Azure, GitHub Actions, Terraform, Audit",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1150000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-102"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Ritu Patel added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "da6V7ThKt7Rpa9qkY6MMdjy8cc9ooNUnkBOmiRezl4w"
+}

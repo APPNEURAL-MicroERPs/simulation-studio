@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-04-015",
+    "month": "2027-04",
+    "companyTime": "2027-04-06T15:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-101 exists"
+    ],
+    "intent": "Add candidate Ashish Verma for Sales Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Ashish Verma",
+          "email": "ashish.verma@example.com",
+          "phone": "+91-9585066438",
+          "locationName": "Udaipur",
+          "currentTitle": "Associate Engineer",
+          "totalExperienceMonths": 34,
+          "skills": "Go, Vitest, Tableau",
+          "source": "referral",
+          "noticePeriodDays": 30,
+          "expectedCtc": 650000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Sales Executive — Y2-REQ-101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Ashish Verma added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "qDwx1JNgznK0OSxZcAjDpM_ulCL__nOuA4Go-1HGjAw"
+}

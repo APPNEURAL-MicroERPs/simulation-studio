@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-04-022",
+    "month": "2027-04",
+    "companyTime": "2027-04-09T17:35:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Vikram Shah is an active employee"
+    ],
+    "intent": "Vikram Shah enrolled in \"Customer Success Methodology\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1007",
+          "title": "Customer Success Methodology",
+          "description": "Professional development: Customer Success Methodology. Aligned with role growth and company needs.",
+          "source": "manager_recommendation",
+          "startsOn": "2027-04-01",
+          "completesBy": "2027-06-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vikram Shah enrolled in Customer Success Methodology"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "rzCR2bTwyK9rgUMvylc3AZmriJe6d4slHoMemEC33OM"
+}

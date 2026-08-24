@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-029",
+      "month": "2027-04",
+      "companyTime": "2027-04-11T11:55:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "support",
+      "preconditions": [
+        "Customer ABC Manufacturing Corp has active contract"
+      ],
+      "intent": "Support ticket: Application performance degradation from ABC Manufacturing Corp.",
+      "steps": [
+        {
+          "module": "support",
+          "method": "POST",
+          "path": "/api/tickets",
+          "expectedStatus": 201,
+          "body": {
+            "ticketNo": "Y2-TKT-302",
+            "subject": "Application performance degradation",
+            "description": "Application performance degradation reported by ABC Manufacturing Corp. Priority: medium. Category: performance.",
+            "priority": "medium",
+            "category": "performance",
+            "customerName": "ABC Manufacturing Corp",
+            "raisedBy": "support.abc.manufacturing.corp@example.com",
+            "assignedTo": "sandeep.patel@nexora.example",
+            "status": "resolved"
+          },
+          "verifyListPath": "/api/tickets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Ticket Y2-TKT-302 resolved"
+      ],
+      "crossEvents": [
+        "support.ticket-resolved"
+      ],
+      "notifications": [
+        "Customer notified of resolution"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "JFcRRv8DrO8jM8smG8czoDVCYlBq3xrm8zIiUooBSO4"
+  }
+}

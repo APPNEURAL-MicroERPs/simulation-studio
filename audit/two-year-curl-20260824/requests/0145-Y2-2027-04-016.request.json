@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-016",
+      "month": "2027-04",
+      "companyTime": "2027-04-06T15:40:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "3 active customers",
+        "Sales team operational"
+      ],
+      "intent": "New lead: Aurora Infotech (Hospitality) via website — qualified to opportunity.",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/leads",
+          "expectedStatus": 201,
+          "body": {
+            "company": "Aurora Infotech",
+            "contactName": "Tarun Mishra",
+            "title": "COO",
+            "email": "tarun.mishra@example.com",
+            "phone": "+91-9854723321",
+            "source": "website",
+            "country": "India",
+            "industry": "Hospitality",
+            "companySize": "1001-5000",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": 1940000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/leads?pageSize=200"
+        },
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Aurora Infotech — ERP Implementation",
+            "code": "Y2-OPP-102",
+            "amount": 1940000,
+            "currency": "INR",
+            "stage": "qualified",
+            "probability": 20,
+            "forecastCategory": "pipeline",
+            "sourceLeadId": "$PREV.createdId",
+            "expectedCloseOn": "2027-04-26",
+            "businessNeed": "Aurora Infotech needs system modernization",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-04-17"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Lead created for Aurora Infotech",
+        "Opportunity created from lead"
+      ],
+      "crossEvents": [
+        "crm.lead-created",
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Lead owner receives follow-up reminder",
+        "Opportunity added to pipeline"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "46ZS08Qx6H7-DQGjqezfMzYQIu3xy53Wnf7EvsT5Vas"
+  }
+}

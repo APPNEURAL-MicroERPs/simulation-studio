@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-035",
+      "month": "2027-04",
+      "companyTime": "2027-04-14T09:30:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "member",
+      "module": "attendance",
+      "preconditions": [
+        "Priya Sharma is an active employee"
+      ],
+      "intent": "Priya Sharma applies for sick leave (14-17 2027-04).",
+      "steps": [
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/leave-requests",
+          "expectedStatus": 201,
+          "body": {
+            "employeeId": "EMP-1001",
+            "employeeCode": "EMP-1001",
+            "leaveTypeId": "sick",
+            "fromDate": "2027-04-14",
+            "toDate": "2027-04-17",
+            "duration": "full_day",
+            "reason": "Sick leave for personal matters."
+          },
+          "verifyListPath": "/api/leave-requests?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "sick leave approved for Priya Sharma"
+      ],
+      "crossEvents": [
+        "attendance.leave-approved"
+      ],
+      "notifications": [
+        "Manager notified of leave approval"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "1VATGHmFlOhOqFWyPyu9hXm-9LghiDwO0tx1Kv9IfGo"
+  }
+}

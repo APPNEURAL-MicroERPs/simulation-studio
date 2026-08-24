@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-025",
+      "month": "2027-04",
+      "companyTime": "2027-04-10T13:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "compliance",
+      "preconditions": [
+        "24 prior compliance findings"
+      ],
+      "intent": "Compliance finding: Access control review — user access rights validated.",
+      "steps": [
+        {
+          "module": "compliance",
+          "method": "POST",
+          "path": "/api/findings",
+          "expectedStatus": 201,
+          "body": {
+            "findingRef": "COMP-Y2-064",
+            "title": "Access control review — user access rights validated",
+            "severity": "low",
+            "ownerEmail": "priya.sharma@nexora.example",
+            "description": "Access control review — user access rights validated. Assessed during 2027-04 compliance review cycle. Status: documented and tracked for remediation.",
+            "status": "open"
+          },
+          "verifyListPath": "/api/findings?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Compliance finding documented"
+      ],
+      "crossEvents": [
+        "compliance.finding-raised"
+      ],
+      "notifications": [
+        "Finding owner notified for remediation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "u2am3pB0aumSmd3xHnOJrpLzuLHQwYkASfbgHVXQf7I"
+  }
+}

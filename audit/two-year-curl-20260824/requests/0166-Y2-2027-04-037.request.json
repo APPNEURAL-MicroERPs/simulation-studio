@@ -1,0 +1,81 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-04-037",
+      "month": "2027-04",
+      "companyTime": "2027-04-14T13:50:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "procurement",
+      "preconditions": [
+        "4 active vendors"
+      ],
+      "intent": "Purchase request: Training Materials → PO (36K).",
+      "steps": [
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/requests",
+          "expectedStatus": 201,
+          "body": {
+            "requestNo": "Y2-PO-103",
+            "title": "Training Materials",
+            "category": "Training",
+            "requesterEmail": "vikram.shah@nexora.example",
+            "department": "Finance",
+            "estimatedCost": 36045,
+            "neededBy": "2027-05-15",
+            "justification": "Operational need: Training Materials. Approved by department head.",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/requests?pageSize=200"
+        },
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/purchase-orders",
+          "expectedStatus": 201,
+          "body": {
+            "poNumber": "PO-Y2-056",
+            "vendor": "LearnPro Solutions",
+            "requestRef": "$PREV.createdId",
+            "category": "Training",
+            "itemSummary": "Training Materials",
+            "amount": 36045,
+            "costCenter": "CC-ADMIN",
+            "orderDate": "2027-04-22",
+            "expectedDate": "2027-08-15",
+            "buyerEmail": "vikram.shah@nexora.example",
+            "status": "approved"
+          },
+          "verifyListPath": "/api/purchase-orders?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Purchase request Y2-PO-103 created",
+        "PO created against request"
+      ],
+      "crossEvents": [
+        "procurement.request-created",
+        "procurement.po-created"
+      ],
+      "notifications": [
+        "Procurement team notified",
+        "Vendor notified of PO"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "BBTC1RGj-g5AiHSnQSSmH3b1PjYAfwMiDHM1QqMVZHQ"
+  }
+}
