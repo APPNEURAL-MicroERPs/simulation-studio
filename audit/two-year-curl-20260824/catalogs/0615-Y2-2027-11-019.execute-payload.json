@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-11-019",
+    "month": "2027-11",
+    "companyTime": "2027-11-08T15:00:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel applies for earned leave (7-10 2027-11).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1012",
+          "employeeCode": "EMP-1012",
+          "leaveTypeId": "earned",
+          "fromDate": "2027-11-07",
+          "toDate": "2027-11-10",
+          "duration": "full_day",
+          "reason": "Earned leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "earned leave approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "IZDLk4oSQRapDvT0hWYSHl8D8tK69ZlIZOdV7SZBHRY"
+}

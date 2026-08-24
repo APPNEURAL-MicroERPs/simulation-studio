@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-040",
+    "month": "2027-12",
+    "companyTime": "2027-12-15T17:30:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1702 exists"
+    ],
+    "intent": "Add candidate Asha Joshi for Sales Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Asha Joshi",
+          "email": "asha.joshi@example.com",
+          "phone": "+91-9525674503",
+          "locationName": "Chennai",
+          "currentTitle": "Junior Developer",
+          "totalExperienceMonths": 109,
+          "skills": "CI/CD, Terraform, Adobe XD, Rust",
+          "source": "campus",
+          "noticePeriodDays": 30,
+          "expectedCtc": 450000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Sales Executive — Y2-REQ-1702"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Asha Joshi added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "6qDXW8SSPb5AFLGwF3rYjzFexgzNmg8EKkXt2y1Uq3M"
+}

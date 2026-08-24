@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-031",
+      "month": "2028-02",
+      "companyTime": "2028-02-11T13:50:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Nexus Data — Y2-OPP-4110 (solution).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Nexus Data — ERP Implementation",
+            "code": "Y2-OPP-4110",
+            "amount": 1260000,
+            "currency": "INR",
+            "stage": "solution",
+            "probability": 40,
+            "forecastCategory": "pipeline",
+            "expectedCloseOn": "2028-02-28",
+            "businessNeed": "Nexus Data needs system modernization",
+            "nextAction": "Contract review",
+            "nextActionOn": "2028-02-17"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-4110 created at solution stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "senlA8Rlvrw0zaOW-58VQgMO_j8X-ACPJz9NBEQq0yY"
+  }
+}

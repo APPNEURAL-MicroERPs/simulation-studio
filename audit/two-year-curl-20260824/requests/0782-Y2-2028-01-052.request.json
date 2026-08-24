@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-052",
+      "month": "2028-01",
+      "companyTime": "2028-01-20T12:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1903 exists"
+      ],
+      "intent": "Add candidate Preeti Patel for Data Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Preeti Patel",
+            "email": "preeti.patel@example.com",
+            "phone": "+91-9853897852",
+            "locationName": "Chennai",
+            "currentTitle": "Senior Analyst",
+            "totalExperienceMonths": 78,
+            "skills": "AWS, Excel, GraphQL, Jenkins",
+            "source": "linkedin",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1800000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Data Engineer — Y2-REQ-1903"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Preeti Patel added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "X4gPaksBNnBVRd1EXNQwTozkpjfuBOf00iPQCVPpw38"
+  }
+}

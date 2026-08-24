@@ -102,6 +102,13 @@ export function isDuplicateConflict(payload: unknown, status: number): boolean {
     || evidence.includes("RECORD WITH THESE VALUES");
 }
 
+export function canRetryExecution(status: string, startedAt: string | null, now = Date.now()): boolean {
+  if (status === "failed") return true;
+  if (status !== "running" || !startedAt) return false;
+  const started = Date.parse(startedAt);
+  return Number.isFinite(started) && started <= now - 5 * 60 * 1_000;
+}
+
 /** Recursively replaces "$PREV.createdId" string values in an object with the actual ID. */
 export function substitutePrevRefs(body: Record<string, unknown>, prevId: string): Record<string, unknown> {
   const result: Record<string, unknown> = {};
@@ -321,15 +328,17 @@ export async function executeApiStory(env: Env, run: RunRow, storyId: string): P
 export async function retryApiStory(env: Env, run: RunRow, storyId: string): Promise<unknown> {
   const executionId = `${run.id}:${storyId}`;
   const existing = await env.DB.prepare(
-    `SELECT status FROM api_story_executions WHERE id = ? AND run_id = ?`,
-  ).bind(executionId, run.id).first<{ status: string }>();
-  if (!existing) throw new HttpError(404, "failed_api_story_not_found", "No failed execution exists for this story and run.");
-  if (existing.status !== "failed") throw new HttpError(409, "api_story_not_failed", "Only failed story executions can be retried.");
+    `SELECT status, started_at FROM api_story_executions WHERE id = ? AND run_id = ?`,
+  ).bind(executionId, run.id).first<{ status: string; started_at: string | null }>();
+  if (!existing) throw new HttpError(404, "retryable_api_story_not_found", "No retryable execution exists for this story and run.");
+  if (!canRetryExecution(existing.status, existing.started_at)) {
+    throw new HttpError(409, "api_story_not_retryable", "Only failed or stale running story executions can be retried.");
+  }
 
   await env.DB.batch([
     env.DB.prepare(`DELETE FROM api_assertions WHERE story_execution_id = ?`).bind(executionId),
     env.DB.prepare(`DELETE FROM api_operations WHERE story_execution_id = ?`).bind(executionId),
-    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status = 'failed'`).bind(executionId, run.id),
+    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status IN ('failed', 'running')`).bind(executionId, run.id),
   ]);
   return executeApiStory(env, run, storyId);
 }

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-067",
+    "month": "2027-11",
+    "companyTime": "2027-11-25T10:40:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1505 exists"
+    ],
+    "intent": "Add candidate Sakshi Joshi for Data Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Sakshi Joshi",
+          "email": "sakshi.joshi@example.com",
+          "phone": "+91-9816872865",
+          "locationName": "Chennai",
+          "currentTitle": "Engineer",
+          "totalExperienceMonths": 101,
+          "skills": "Salesforce, Confluence, Java, Compliance, Figma",
+          "source": "campus",
+          "noticePeriodDays": 60,
+          "expectedCtc": 1350000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Data Engineer — Y2-REQ-1505"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Sakshi Joshi added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "FmW9MM1qRgidkKVl8rCDTclNaq0AYB72A3Ywv6PSFSc"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-041",
+      "month": "2027-12",
+      "companyTime": "2027-12-16T15:05:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Helios Cloud — Y2-OPP-3311 (won).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Helios Cloud — Digital Transformation",
+            "code": "Y2-OPP-3311",
+            "amount": 1420000,
+            "currency": "INR",
+            "stage": "won",
+            "probability": 100,
+            "forecastCategory": "closed",
+            "expectedCloseOn": "2027-12-27",
+            "businessNeed": "Helios Cloud needs process automation",
+            "nextAction": "Proposal submission",
+            "nextActionOn": "2027-12-28"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-3311 created at won stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "wR4yfsSENBdh2Te34SKEskOCOGzXHo4ZnHM-vG88VJ4"
+  }
+}

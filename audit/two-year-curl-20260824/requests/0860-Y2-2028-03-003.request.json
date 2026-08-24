@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-003",
+      "month": "2028-03",
+      "companyTime": "2028-03-01T13:30:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Software Engineer in Engineering and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Software Engineer — Udaipur",
+            "reason": "new",
+            "departmentName": "Engineering",
+            "locationName": "Udaipur",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "sandeep.patel@nexora.example",
+            "recruiterEmail": "sandeep.patel@nexora.example",
+            "targetStartOn": "2028-04-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Engineering.",
+            "budgetMin": 1200000,
+            "budgetMax": 2000000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Software Engineer — Udaipur",
+            "summary": "Join our Engineering team as a Software Engineer.",
+            "responsibilities": "Deliver high-quality work in Engineering; collaborate with cross-functional stakeholders.",
+            "requirements": "React, TypeScript, Node.js; 7+ years relevant experience.",
+            "skills": "React, TypeScript, Node.js",
+            "locationName": "Udaipur",
+            "workMode": "remote",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "referral_only"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-2301 created for Software Engineer",
+        "Job posted for Software Engineer"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Software Engineer role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "DJ_xW0IPOiQZgDNOEYYJhOvADW0rDRJ2_UrCn7QZj40"
+  }
+}

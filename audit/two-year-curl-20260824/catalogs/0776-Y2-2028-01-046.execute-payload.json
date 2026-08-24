@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-01-046",
+    "month": "2028-01",
+    "companyTime": "2028-01-17T10:35:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Delta Technologies (Banking) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Delta Technologies",
+          "contactName": "Priya Rastogi",
+          "title": "Director",
+          "email": "priya.rastogi@example.com",
+          "phone": "+91-9789683955",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Banking",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2760000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Delta Technologies — Analytics Suite",
+          "code": "Y2-OPP-3704",
+          "amount": 2760000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2028-01-25",
+          "businessNeed": "Delta Technologies needs data analytics",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2028-01-26"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Delta Technologies",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "QjPtkPoRlEIxU1EW68VZf790iLFjVvTibf0bfPjtPNI"
+}

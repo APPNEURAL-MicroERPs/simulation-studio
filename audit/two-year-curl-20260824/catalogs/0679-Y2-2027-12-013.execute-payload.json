@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-12-013",
+    "month": "2027-12",
+    "companyTime": "2027-12-05T09:00:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma enrolled in \"Data Privacy and GDPR Compliance\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1001",
+          "title": "Data Privacy and GDPR Compliance",
+          "description": "Professional development: Data Privacy and GDPR Compliance. Aligned with role growth and company needs.",
+          "source": "compliance_required",
+          "startsOn": "2027-12-01",
+          "completesBy": "2027-14-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Priya Sharma enrolled in Data Privacy and GDPR Compliance"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "EHNbsJxnx-gHtfNefJatgliKedT6wAKvAhWt0BmjcOg"
+}

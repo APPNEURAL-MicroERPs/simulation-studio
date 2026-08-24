@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-12-030",
+    "month": "2027-12",
+    "companyTime": "2027-12-12T15:30:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma submits expense: Client site visit travel (20K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-8504",
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "category": "travel",
+          "amount": 19598,
+          "expenseDate": "2027-12-10",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-8504 approved for Priya Sharma"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_sqJOquKlx_tWZ9blz0Cj-ktUE4IRnfDUOjJ3DD3EQU"
+}

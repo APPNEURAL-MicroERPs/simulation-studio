@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-042",
+      "month": "2028-01",
+      "companyTime": "2028-01-15T17:30:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "compliance",
+      "preconditions": [
+        "33 prior compliance findings"
+      ],
+      "intent": "Compliance finding: Backup and disaster recovery verification.",
+      "steps": [
+        {
+          "module": "compliance",
+          "method": "POST",
+          "path": "/api/findings",
+          "expectedStatus": 201,
+          "body": {
+            "findingRef": "COMP-Y2-064",
+            "title": "Backup and disaster recovery verification",
+            "severity": "low",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "description": "Backup and disaster recovery verification. Assessed during 2028-01 compliance review cycle. Status: documented and tracked for remediation.",
+            "status": "open"
+          },
+          "verifyListPath": "/api/findings?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Compliance finding documented"
+      ],
+      "crossEvents": [
+        "compliance.finding-raised"
+      ],
+      "notifications": [
+        "Finding owner notified for remediation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Qgk7sOz3c_WMaQRcayTZEeqclSuBj_GeEW0fLKqj_I4"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-061",
+      "month": "2027-11",
+      "companyTime": "2027-11-22T09:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "risk",
+      "preconditions": [
+        "24 risks in register"
+      ],
+      "intent": "Risk registered: Key person dependency risk.",
+      "steps": [
+        {
+          "module": "risk",
+          "method": "POST",
+          "path": "/api/risks",
+          "expectedStatus": 201,
+          "body": {
+            "riskRef": "RISK-Y2-069",
+            "title": "Key person dependency risk",
+            "category": "operational",
+            "description": "Key person dependency risk. Identified during 2027-11 risk assessment. Likelihood: 3/5, Impact: 4/5. Treatment plan: avoid.",
+            "ownerEmail": "vikram.shah@nexora.example",
+            "likelihood": 3,
+            "impact": 4,
+            "treatment": "transfer",
+            "status": "assessed",
+            "reviewDue": "2027-11-26"
+          },
+          "verifyListPath": "/api/risks?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Risk registered: Key person dependency risk"
+      ],
+      "crossEvents": [
+        "risk.registered"
+      ],
+      "notifications": [
+        "Risk owner notified for treatment plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "CmX8UuVb2jw20cCLWJhPle25JTr6LKaAFcRKITSrx9Q"
+  }
+}

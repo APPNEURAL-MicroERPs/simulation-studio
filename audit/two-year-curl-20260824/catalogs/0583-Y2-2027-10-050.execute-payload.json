@@ -1,0 +1,50 @@
+{
+  "story": {
+    "id": "Y2-2027-10-050",
+    "month": "2027-10",
+    "companyTime": "2027-10-17T17:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "vendor",
+    "preconditions": [
+      "Vendor undefined is active"
+    ],
+    "intent": "Evaluate vendor: undefined.",
+    "steps": [
+      {
+        "module": "vendor",
+        "method": "POST",
+        "path": "/api/vendor-scorecards",
+        "expectedStatus": 201,
+        "body": {
+          "vendorId": "27d0ddb3-393a-4a55-9a0d-e579991d03db",
+          "period": "2027-10",
+          "deliveryScore": 10,
+          "qualityScore": 6,
+          "commercialScore": 10,
+          "serviceScore": 7,
+          "complianceScore": 10,
+          "overallScore": 10,
+          "band": "Preferred",
+          "modelVersion": "v2"
+        },
+        "verifyListPath": "/api/vendor-scorecards?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vendor scorecard created for undefined"
+    ],
+    "crossEvents": [
+      "vendor.evaluation-completed"
+    ],
+    "notifications": [
+      "Procurement team receives vendor evaluation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "n_pW4g4r1Hl9IF1bkNR3vPn-zOuEHlE9a7_kywMPJAg"
+}

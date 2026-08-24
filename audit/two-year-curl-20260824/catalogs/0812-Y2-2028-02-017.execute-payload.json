@@ -1,0 +1,52 @@
+{
+  "story": {
+    "id": "Y2-2028-02-017",
+    "month": "2028-02",
+    "companyTime": "2028-02-08T13:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "contract",
+    "preconditions": [
+      "Customer Prism Group exists"
+    ],
+    "intent": "Create MSA contract with Prism Group (value: 59L).",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "CTR-Y2-040",
+          "title": "MSA — Prism Group",
+          "counterpartyName": "Prism Group",
+          "counterpartyType": "customer",
+          "contractType": "msa",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "5900975",
+          "currency": "INR",
+          "startOn": "2028-02-01",
+          "endOn": "2029-07-15",
+          "status": "draft",
+          "description": "MSA for consulting services with Prism Group."
+        },
+        "verifyListPath": "/api/contracts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "MSA contract created with Prism Group"
+    ],
+    "crossEvents": [
+      "contract.created"
+    ],
+    "notifications": [
+      "Legal and finance notified for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Jv7-EcO7dNOx4AinY7hnun9SicMcGmmflOuSsV5rr14"
+}

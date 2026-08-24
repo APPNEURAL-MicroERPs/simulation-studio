@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-021",
+      "month": "2027-10",
+      "companyTime": "2027-10-09T10:55:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Product Designer in Design and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Product Designer — Udaipur",
+            "reason": "new",
+            "departmentName": "Design",
+            "locationName": "Udaipur",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "karan.malhotra@nexora.example",
+            "recruiterEmail": "karan.malhotra@nexora.example",
+            "targetStartOn": "2027-11-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Design.",
+            "budgetMin": 1200000,
+            "budgetMax": 2200000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Product Designer — Udaipur",
+            "summary": "Join our Design team as a Product Designer.",
+            "responsibilities": "Deliver high-quality work in Design; collaborate with cross-functional stakeholders.",
+            "requirements": "Figma, User Research, Prototyping; 6+ years relevant experience.",
+            "skills": "Figma, User Research, Prototyping",
+            "locationName": "Udaipur",
+            "workMode": "remote",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "campus"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-1302 created for Product Designer",
+        "Job posted for Product Designer"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Product Designer role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "ps6snSIrcmBq0UydYkXZdN1bYGqL9inGAdiJ4pIFF3w"
+  }
+}

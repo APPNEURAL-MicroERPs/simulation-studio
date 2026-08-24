@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-037",
+      "month": "2028-01",
+      "companyTime": "2028-01-15T09:30:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Summit Analytics — Y2-OPP-3706 (lost).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Summit Analytics — Digital Transformation",
+            "code": "Y2-OPP-3706",
+            "amount": 1220000,
+            "currency": "INR",
+            "stage": "lost",
+            "probability": 0,
+            "forecastCategory": "omitted",
+            "expectedCloseOn": "2028-01-26",
+            "businessNeed": "Summit Analytics needs data analytics",
+            "nextAction": "Contract review",
+            "nextActionOn": "2028-01-23"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-3706 created at lost stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "RQPv59Xlb9O9uj8vrwzmvGTwYSvblcXTW9W_w8W7PMY"
+  }
+}

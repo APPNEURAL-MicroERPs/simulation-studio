@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-03-045",
+    "month": "2028-03",
+    "companyTime": "2028-03-18T11:15:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Synergy Technologies (Aerospace) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Synergy Technologies",
+          "contactName": "Tara Menon",
+          "title": "Director",
+          "email": "tara.menon@example.com",
+          "phone": "+91-9084912859",
+          "source": "referral",
+          "country": "India",
+          "industry": "Aerospace",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1110000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Synergy Technologies — Cloud Migration",
+          "code": "Y2-OPP-4504",
+          "amount": 1110000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2028-03-27",
+          "businessNeed": "Synergy Technologies needs system modernization",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2028-03-27"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Synergy Technologies",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "rZ9LvQmLxb872y9gOFgWKD17vRmLVb5M54wyn2aaIyk"
+}

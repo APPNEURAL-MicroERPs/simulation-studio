@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-01-007",
+    "month": "2028-01",
+    "companyTime": "2028-01-04T11:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1901 exists"
+    ],
+    "intent": "Add candidate Deepak Tiwari for Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Deepak Tiwari",
+          "email": "deepak.tiwari@example.com",
+          "phone": "+91-9639665909",
+          "locationName": "Mumbai",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 104,
+          "skills": "Jest, Account Management, Terraform",
+          "source": "agency",
+          "noticePeriodDays": 15,
+          "expectedCtc": 1750000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Software Engineer — Y2-REQ-1901"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Deepak Tiwari added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "IZNbf8N04SyTNKD7TkrxWJdIh1yhDpLVcFS6vqP9GvE"
+}

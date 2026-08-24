@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-11-008",
+    "month": "2027-11",
+    "companyTime": "2027-11-04T15:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Titan Infotech (Logistics) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Titan Infotech",
+          "contactName": "Lakshmi Rastogi",
+          "title": "COO",
+          "email": "lakshmi.rastogi@example.com",
+          "phone": "+91-9817134283",
+          "source": "website",
+          "country": "India",
+          "industry": "Logistics",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3760000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Titan Infotech — Cloud Migration",
+          "code": "Y2-OPP-2902",
+          "amount": 3760000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-11-25",
+          "businessNeed": "Titan Infotech needs system modernization",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2027-11-13"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Titan Infotech",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "9ErIB_WZbfd89CPraOZUiE1mBj94k3bLjfi7rjngZmk"
+}

@@ -1,0 +1,51 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-029",
+      "month": "2028-01",
+      "companyTime": "2028-01-12T15:40:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "administration",
+      "preconditions": [
+        "Office is operational"
+      ],
+      "intent": "Administration: Facility Maintenance — HVAC Service.",
+      "steps": [
+        {
+          "module": "administration",
+          "method": "POST",
+          "path": "/api/supplies",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Facility Maintenance — HVAC Service",
+            "unit": "service",
+            "quantity": 1,
+            "status": "out_of_stock"
+          },
+          "verifyListPath": "/api/supplies?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Admin supply record created: Facility Maintenance — HVAC Service"
+      ],
+      "crossEvents": [
+        "administration.supply-recorded"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "FV6Kmw6xOt-BVMG-IToGTJSNGnCe4qynsQKWh_Bqztg"
+  }
+}

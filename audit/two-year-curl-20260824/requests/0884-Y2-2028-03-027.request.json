@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-027",
+      "month": "2028-03",
+      "companyTime": "2028-03-11T10:55:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2301 exists"
+      ],
+      "intent": "Add candidate Mohan Agarwal for Software Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Mohan Agarwal",
+            "email": "mohan.agarwal@example.com",
+            "phone": "+91-9874150071",
+            "locationName": "Udaipur",
+            "currentTitle": "Analyst",
+            "totalExperienceMonths": 38,
+            "skills": "Tax, HR Operations, CI/CD",
+            "source": "linkedin",
+            "noticePeriodDays": 60,
+            "expectedCtc": 1400000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Software Engineer — Y2-REQ-2301"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Mohan Agarwal added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "MhSuxRS36JQY-W2xs79XQslG2Bsp8_BAMiM4jifTfrQ"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2028-03-009",
+    "month": "2028-03",
+    "companyTime": "2028-03-04T17:10:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "support",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp has active contract"
+    ],
+    "intent": "Support ticket: Feature request — dashboard customization from ABC Manufacturing Corp.",
+    "steps": [
+      {
+        "module": "support",
+        "method": "POST",
+        "path": "/api/tickets",
+        "expectedStatus": 201,
+        "body": {
+          "ticketNo": "Y2-TKT-4701",
+          "subject": "Feature request — dashboard customization",
+          "description": "Feature request — dashboard customization reported by ABC Manufacturing Corp. Priority: low. Category: feature.",
+          "priority": "low",
+          "category": "feature",
+          "customerName": "ABC Manufacturing Corp",
+          "raisedBy": "support.abc.manufacturing.corp@example.com",
+          "assignedTo": "vikram.shah@nexora.example",
+          "status": "resolved"
+        },
+        "verifyListPath": "/api/tickets?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Ticket Y2-TKT-4701 resolved"
+    ],
+    "crossEvents": [
+      "support.ticket-resolved"
+    ],
+    "notifications": [
+      "Customer notified of resolution"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "eBa4_VORpsEumCPLWtK_3L8DcIZREnd-WgTx_J0C-f0"
+}

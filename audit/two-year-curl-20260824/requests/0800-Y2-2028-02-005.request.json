@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-005",
+      "month": "2028-02",
+      "companyTime": "2028-02-03T10:20:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "resource",
+      "preconditions": [
+        "Sandeep Patel is active",
+        "Project Y2-PRJ-12 is active"
+      ],
+      "intent": "Allocate Sandeep Patel to Y2-PRJ-12 at 25%.",
+      "steps": [
+        {
+          "module": "resource",
+          "method": "POST",
+          "path": "/api/allocations",
+          "expectedStatus": 201,
+          "body": {
+            "allocationNo": "Y2-ALLOC-4011",
+            "resourceId": "RES-EMP-1012",
+            "employeeCode": "EMP-1012",
+            "projectId": "Y2-PRJ-12",
+            "role": "Senior Engineer",
+            "allocationPercent": 25,
+            "startDate": "2028-02-01",
+            "endDate": "2028-04-15"
+          },
+          "verifyListPath": "/api/allocations?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Sandeep Patel allocated to Y2-PRJ-12 at 25%"
+      ],
+      "crossEvents": [
+        "resource.allocation-created"
+      ],
+      "notifications": [
+        "Employee and manager notified of allocation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "9jqN4TXmRHkFrD_PVllaL43eX48Ahwi8UdNStqDPur0"
+  }
+}

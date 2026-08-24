@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-054",
+      "month": "2027-12",
+      "companyTime": "2027-12-21T15:40:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "audit",
+      "preconditions": [
+        "0 prior audit campaigns"
+      ],
+      "intent": "Collect audit evidence for quarterly review.",
+      "steps": [
+        {
+          "module": "audit",
+          "method": "POST",
+          "path": "/api/evidence",
+          "expectedStatus": 201,
+          "body": {
+            "auditRef": "AUD-Y2-Q4",
+            "name": "Quarterly Audit Evidence Collection — 2027-12. Scope: Finance, HR, Procurement, Security, Projects. Samples reviewed: 19 transactions.",
+            "obtainedOn": "2027-12-16",
+            "obtainedBy": "vikram.shah@nexora.example",
+            "source": "Internal audit fieldwork — cross-ERP evidence collection",
+            "status": "accepted"
+          },
+          "verifyListPath": "/api/evidence?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Audit evidence collected and accepted"
+      ],
+      "crossEvents": [
+        "audit.evidence-collected"
+      ],
+      "notifications": [
+        "Audit findings shared with management"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "ocUSVIz0Y3oA1C3BYDAq1_BlJaSDVxtbSSiS_wR0GnE"
+  }
+}

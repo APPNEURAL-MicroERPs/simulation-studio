@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-10-020",
+    "month": "2027-10",
+    "companyTime": "2027-10-09T10:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1301 exists"
+    ],
+    "intent": "Add candidate Tanvi Iyer for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Tanvi Iyer",
+          "email": "tanvi.iyer@example.com",
+          "phone": "+91-9877090699",
+          "locationName": "Hyderabad",
+          "currentTitle": "Consultant",
+          "totalExperienceMonths": 67,
+          "skills": "Adobe XD, Tableau, Vitest, Power BI, Sketch",
+          "source": "linkedin",
+          "noticePeriodDays": 60,
+          "expectedCtc": 1800000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-1301"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Tanvi Iyer added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "cLteiYBEF6fmgKdAJT5DahTOaeTYpI0lqJOPAzW4IW0"
+}

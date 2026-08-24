@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-060",
+      "month": "2028-02",
+      "companyTime": "2028-02-26T17:20:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2105 exists"
+      ],
+      "intent": "Add candidate Dev Bhat for Business Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Dev Bhat",
+            "email": "dev.bhat@example.com",
+            "phone": "+91-9839626540",
+            "locationName": "Gurugram",
+            "currentTitle": "Senior Consultant",
+            "totalExperienceMonths": 112,
+            "skills": "GitHub Actions, Jira, Customer Success, Power BI",
+            "source": "careers_site",
+            "noticePeriodDays": 90,
+            "expectedCtc": 1450000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Business Analyst — Y2-REQ-2105"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Dev Bhat added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "04JaTtFK111aZw5ic9DpXjYlegUuIAVclY7ZryEtT3g"
+  }
+}

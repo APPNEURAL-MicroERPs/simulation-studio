@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2028-03-051",
+    "month": "2028-03",
+    "companyTime": "2028-03-20T11:35:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "legal",
+    "preconditions": [
+      "Legal department operational"
+    ],
+    "intent": "Legal matter: Employee dispute mediation.",
+    "steps": [
+      {
+        "module": "legal",
+        "method": "POST",
+        "path": "/api/settlements",
+        "expectedStatus": 201,
+        "body": {
+          "matterRef": "MAT-Y2-064",
+          "amount": 55612,
+          "currency": "INR",
+          "nonMonetaryTerms": "Employee dispute mediation. Managed by legal team. Phase: IMPLEMENTATION.",
+          "phase": "IMPLEMENTATION",
+          "status": "APPROVED"
+        },
+        "verifyListPath": "/api/settlements?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Legal matter documented: Employee dispute mediation"
+    ],
+    "crossEvents": [
+      "legal.matter-recorded"
+    ],
+    "notifications": [
+      "Legal team and management notified"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "FhJ3sWKoeL8C3UQh7_f3nNg9t5p-UtW5YFlDaVZKWRY"
+}

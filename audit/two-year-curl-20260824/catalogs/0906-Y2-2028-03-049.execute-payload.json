@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2028-03-049",
+    "month": "2028-03",
+    "companyTime": "2028-03-19T11:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "compliance",
+    "preconditions": [
+      "33 prior compliance findings"
+    ],
+    "intent": "Compliance finding: Incident response plan drill — quarterly.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "COMP-Y2-061",
+          "title": "Incident response plan drill — quarterly",
+          "severity": "low",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "description": "Incident response plan drill — quarterly. Assessed during 2028-03 compliance review cycle. Status: documented and tracked for remediation.",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Compliance finding documented"
+    ],
+    "crossEvents": [
+      "compliance.finding-raised"
+    ],
+    "notifications": [
+      "Finding owner notified for remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "iuCmiyz1GfrAes7my2CSBTO_BPLKqoMwET0WgebRIe0"
+}

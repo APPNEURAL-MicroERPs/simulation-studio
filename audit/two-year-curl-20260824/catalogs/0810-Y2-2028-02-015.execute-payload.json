@@ -1,0 +1,71 @@
+{
+  "story": {
+    "id": "Y2-2028-02-015",
+    "month": "2028-02",
+    "companyTime": "2028-02-07T17:20:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "4 employees",
+      "27 prior security reviews"
+    ],
+    "intent": "Security review: Code Security Audit. 3 findings raised and documented.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/reviews",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Code Security Audit — 2028-02",
+          "kind": "code_review",
+          "scope": "4 employees, 14 active projects, cloud infrastructure",
+          "performedOn": "2028-02-13",
+          "reviewerEmail": "sandeep.patel@nexora.example",
+          "findingsRaised": 3,
+          "status": "completed"
+        },
+        "verifyListPath": "/api/reviews?pageSize=200"
+      },
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/security-findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingCode": "SF-Y2-060",
+          "title": "Code Security Audit: Missing MFA on admin accounts",
+          "source": "SECURITY_ASSESSMENT",
+          "reviewId": "$PREV.createdId",
+          "severity": "LOW",
+          "priority": "P2",
+          "status": "NEW",
+          "description": "Finding from Code Security Audit. Requires remediation within SLA.",
+          "ownerEmail": "sandeep.patel@nexora.example",
+          "team": "Engineering",
+          "detectedOn": "2028-02-05",
+          "slaDays": 30
+        },
+        "verifyListPath": "/api/security-findings?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Security review completed: Code Security Audit",
+      "Security finding documented"
+    ],
+    "crossEvents": [
+      "security.review-completed",
+      "security.finding-raised"
+    ],
+    "notifications": [
+      "3 security findings require remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "nTqZTA9FQsZRP-Csq9eCDyKNkZsOwxV-aoNsn-ZPGQg"
+}

@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-03-023",
+    "month": "2028-03",
+    "companyTime": "2028-03-10T10:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel submits expense: Phone / internet reimbursement (2K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-11503",
+          "employeeCode": "EMP-1012",
+          "employeeEmail": "sandeep.patel@nexora.example",
+          "category": "other",
+          "amount": 2230,
+          "expenseDate": "2028-03-09",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-11503 approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "g2RV61CCB-ydx1ccY8UtWvz1piSu0aFbQWy167xgr2w"
+}

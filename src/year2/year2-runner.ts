@@ -10,7 +10,7 @@ import type { ApiStory } from "../api-stories";
 import type { RunRow } from "../db";
 import {
   callPortal, verifyEntity, addAssertion, issueActorToken,
-  observableKinds, type OperationResult,
+  canRetryExecution, observableKinds, type OperationResult,
 } from "../api-runner";
 import { HttpError } from "../http";
 import { composeMonthStories, composeQuarterStories, composeYear2Stories } from "./composer";
@@ -237,14 +237,16 @@ export async function retrySignedYear2Story(
 
   const executionId = `${run.id}:${storyValue.id}`;
   const existing = await env.DB.prepare(
-    `SELECT status FROM api_story_executions WHERE id = ? AND run_id = ?`,
-  ).bind(executionId, run.id).first<{ status: string }>();
-  if (!existing) throw new HttpError(404, "failed_api_story_not_found", "No failed execution exists for this story and run.");
-  if (existing.status !== "failed") throw new HttpError(409, "api_story_not_failed", "Only failed story executions can be retried.");
+    `SELECT status, started_at FROM api_story_executions WHERE id = ? AND run_id = ?`,
+  ).bind(executionId, run.id).first<{ status: string; started_at: string | null }>();
+  if (!existing) throw new HttpError(404, "retryable_api_story_not_found", "No retryable execution exists for this story and run.");
+  if (!canRetryExecution(existing.status, existing.started_at)) {
+    throw new HttpError(409, "api_story_not_retryable", "Only failed or stale running story executions can be retried.");
+  }
   await env.DB.batch([
     env.DB.prepare(`DELETE FROM api_assertions WHERE story_execution_id = ?`).bind(executionId),
     env.DB.prepare(`DELETE FROM api_operations WHERE story_execution_id = ?`).bind(executionId),
-    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status = 'failed'`).bind(executionId, run.id),
+    env.DB.prepare(`DELETE FROM api_story_executions WHERE id = ? AND run_id = ? AND status IN ('failed', 'running')`).bind(executionId, run.id),
   ]);
   await executeGeneratedStory(env, run, storyValue);
   return executionDetail(env, executionId);

@@ -1,0 +1,9 @@
+{
+  "method": "GET",
+  "url": "https://simulation.erp.appneural.com/api/api-operations",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json"
+  },
+  "body": null
+}

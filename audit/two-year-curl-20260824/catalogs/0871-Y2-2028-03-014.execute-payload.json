@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-03-014",
+    "month": "2028-03",
+    "companyTime": "2028-03-06T12:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for Support Engineer in Support and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Support Engineer — Hyderabad",
+          "reason": "new",
+          "departmentName": "Support",
+          "locationName": "Hyderabad",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "karan.malhotra@nexora.example",
+          "recruiterEmail": "karan.malhotra@nexora.example",
+          "targetStartOn": "2028-04-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Support.",
+          "budgetMin": 600000,
+          "budgetMax": 1200000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "Support Engineer — Hyderabad",
+          "summary": "Join our Support team as a Support Engineer.",
+          "responsibilities": "Deliver high-quality work in Support; collaborate with cross-functional stakeholders.",
+          "requirements": "Technical Support, Customer Communication, Troubleshooting; 2+ years relevant experience.",
+          "skills": "Technical Support, Customer Communication, Troubleshooting",
+          "locationName": "Hyderabad",
+          "workMode": "onsite",
+          "experienceMinYears": 1,
+          "experienceMaxYears": 4,
+          "channel": "agency"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-2302 created for Support Engineer",
+      "Job posted for Support Engineer"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for Support Engineer role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "GYwufZIw910NqnwPKggd0twHPXYsOdNmDUcU1U3qmeg"
+}

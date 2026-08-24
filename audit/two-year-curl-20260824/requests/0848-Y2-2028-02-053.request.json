@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-053",
+      "month": "2028-02",
+      "companyTime": "2028-02-21T10:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2105 exists"
+      ],
+      "intent": "Add candidate Dev Chauhan for Business Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Dev Chauhan",
+            "email": "dev.chauhan@example.com",
+            "phone": "+91-9539310204",
+            "locationName": "Gurugram",
+            "currentTitle": "Senior Engineer",
+            "totalExperienceMonths": 97,
+            "skills": "Selenium, Figma, GCP",
+            "source": "campus",
+            "noticePeriodDays": 90,
+            "expectedCtc": 900000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Business Analyst — Y2-REQ-2105"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Dev Chauhan added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "8kFavqROp0pHPQPfWfMcWv_1rnr084ywzrNE1JP0pgY"
+  }
+}

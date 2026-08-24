@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-01-033",
+    "month": "2028-01",
+    "companyTime": "2028-01-13T14:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Phoenix Ventures (Manufacturing) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Phoenix Ventures",
+          "contactName": "Amit Pandey",
+          "title": "Head of IT",
+          "email": "amit.pandey@example.com",
+          "phone": "+91-9728133017",
+          "source": "referral",
+          "country": "India",
+          "industry": "Manufacturing",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 850000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Phoenix Ventures — Analytics Suite",
+          "code": "Y2-OPP-3703",
+          "amount": 850000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2028-01-27",
+          "businessNeed": "Phoenix Ventures needs data analytics",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2028-01-19"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Phoenix Ventures",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "V2FR92eKx9HYDbW6B5AwpHfNZQvOBGK-4IqO9uSGAkc"
+}

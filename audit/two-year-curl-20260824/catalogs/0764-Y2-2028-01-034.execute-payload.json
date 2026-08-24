@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-01-034",
+    "month": "2028-01",
+    "companyTime": "2028-01-13T17:10:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1902 exists"
+    ],
+    "intent": "Add candidate Swati Desai for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Swati Desai",
+          "email": "swati.desai@example.com",
+          "phone": "+91-9826105769",
+          "locationName": "Gurugram",
+          "currentTitle": "Junior Analyst",
+          "totalExperienceMonths": 48,
+          "skills": "TypeScript, Recruitment, GitHub Actions, Power BI, Rust, Technical Support",
+          "source": "inbound",
+          "noticePeriodDays": 30,
+          "expectedCtc": 500000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-1902"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Swati Desai added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LZrIyBOryggYpR0BssC5DTuZKi_J5SKO-lFgvZfNxo4"
+}

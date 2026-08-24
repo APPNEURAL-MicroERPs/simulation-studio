@@ -1,0 +1,71 @@
+{
+  "story": {
+    "id": "Y2-2027-11-025",
+    "month": "2027-11",
+    "companyTime": "2027-11-10T14:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "4 employees",
+      "24 prior security reviews"
+    ],
+    "intent": "Security review: Third-Party Security Assessment. 2 findings raised and documented.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/reviews",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Third-Party Security Assessment — 2027-11",
+          "kind": "third_party",
+          "scope": "4 employees, 14 active projects, cloud infrastructure",
+          "performedOn": "2027-11-10",
+          "reviewerEmail": "sandeep.patel@nexora.example",
+          "findingsRaised": 2,
+          "status": "completed"
+        },
+        "verifyListPath": "/api/reviews?pageSize=200"
+      },
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/security-findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingCode": "SF-Y2-067",
+          "title": "Third-Party Security Assessment: Open port found on staging",
+          "source": "SECURITY_ASSESSMENT",
+          "reviewId": "$PREV.createdId",
+          "severity": "MEDIUM",
+          "priority": "P1",
+          "status": "NEW",
+          "description": "Finding from Third-Party Security Assessment. Requires remediation within SLA.",
+          "ownerEmail": "sandeep.patel@nexora.example",
+          "team": "Infrastructure",
+          "detectedOn": "2027-11-10",
+          "slaDays": 30
+        },
+        "verifyListPath": "/api/security-findings?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Security review completed: Third-Party Security Assessment",
+      "Security finding documented"
+    ],
+    "crossEvents": [
+      "security.review-completed",
+      "security.finding-raised"
+    ],
+    "notifications": [
+      "2 security findings require remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "xPP4QehIlfwW8jK4N0j_k1yRtFHNTttncjmNevs1P_A"
+}

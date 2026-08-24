@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-053",
+    "month": "2028-03",
+    "companyTime": "2028-03-20T16:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Amit Patel",
+      "Senior Software Engineer requisition filled"
+    ],
+    "intent": "Register new employee Amit Patel joining as Tech Lead.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-009",
+          "fullName": "Amit Patel",
+          "email": "amit.patel@example.com",
+          "designation": "Tech Lead",
+          "department": "Engineering",
+          "location": "Gurugram",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2028-03-20"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Amit Patel registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "JiFitd70P5kdKuDGGRluzAqSsz5DJWHuP_Tb8zQwkKo"
+}

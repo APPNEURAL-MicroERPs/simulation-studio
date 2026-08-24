@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-022",
+    "month": "2028-03",
+    "companyTime": "2028-03-09T11:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2302 exists"
+    ],
+    "intent": "Add candidate Asha Agarwal for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Asha Agarwal",
+          "email": "asha.agarwal@example.com",
+          "phone": "+91-9091176054",
+          "locationName": "Hyderabad",
+          "currentTitle": "Junior Developer",
+          "totalExperienceMonths": 28,
+          "skills": "GCP, Node.js, Vitest, GitHub Actions",
+          "source": "careers_site",
+          "noticePeriodDays": 0,
+          "expectedCtc": 550000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-2302"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Asha Agarwal added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "sd9qfquBfG2zPY1fk628UyjGqbAseJqenojnBr6WiNY"
+}

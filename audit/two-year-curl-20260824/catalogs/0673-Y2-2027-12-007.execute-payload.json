@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-12-007",
+    "month": "2027-12",
+    "companyTime": "2027-12-03T13:30:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma applies for earned leave (2-3 2027-12).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1001",
+          "employeeCode": "EMP-1001",
+          "leaveTypeId": "earned",
+          "fromDate": "2027-12-02",
+          "toDate": "2027-12-03",
+          "duration": "full_day",
+          "reason": "Earned leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "earned leave approved for Priya Sharma"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_9q7-hhV3fn4H4FVgr9eLZXAeoDN4d5rbXJjuDckNgo"
+}

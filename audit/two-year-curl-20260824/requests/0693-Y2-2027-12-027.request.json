@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-027",
+      "month": "2027-12",
+      "companyTime": "2027-12-11T09:30:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1702 exists"
+      ],
+      "intent": "Add candidate Mohan Rao for Sales Executive role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Mohan Rao",
+            "email": "mohan.rao@example.com",
+            "phone": "+91-9683359792",
+            "locationName": "Chennai",
+            "currentTitle": "Junior Engineer",
+            "totalExperienceMonths": 39,
+            "skills": "Kubernetes, Python, Go, Cypress, TypeScript",
+            "source": "agency",
+            "noticePeriodDays": 30,
+            "expectedCtc": 650000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Sales Executive — Y2-REQ-1702"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Mohan Rao added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "ldd7MRp93X8ZhrIYrrdILVZYPdZbfqS2VCXtrtoIk5M"
+  }
+}

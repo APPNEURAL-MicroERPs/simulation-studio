@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-02-008",
+    "month": "2028-02",
+    "companyTime": "2028-02-03T13:15:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for Sales Executive in Sales and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Sales Executive — Noida",
+          "reason": "new",
+          "departmentName": "Sales",
+          "locationName": "Noida",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "sandeep.patel@nexora.example",
+          "recruiterEmail": "sandeep.patel@nexora.example",
+          "targetStartOn": "2028-03-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Sales.",
+          "budgetMin": 800000,
+          "budgetMax": 1400000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "Sales Executive — Noida",
+          "summary": "Join our Sales team as a Sales Executive.",
+          "responsibilities": "Deliver high-quality work in Sales; collaborate with cross-functional stakeholders.",
+          "requirements": "CRM, Negotiation, Pipeline Management; 4+ years relevant experience.",
+          "skills": "CRM, Negotiation, Pipeline Management",
+          "locationName": "Noida",
+          "workMode": "remote",
+          "experienceMinYears": 1,
+          "experienceMaxYears": 4,
+          "channel": "referral_only"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-2101 created for Sales Executive",
+      "Job posted for Sales Executive"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for Sales Executive role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "44GUDdxjdM5zt2CpzF08UmgfEMLAdwZ6JWIC_GOI6-s"
+}

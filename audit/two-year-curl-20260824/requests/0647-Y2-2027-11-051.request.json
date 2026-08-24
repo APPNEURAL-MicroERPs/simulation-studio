@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-051",
+      "month": "2027-11",
+      "companyTime": "2027-11-18T11:15:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "legal",
+      "preconditions": [
+        "Legal department operational"
+      ],
+      "intent": "Legal matter: IP protection filing.",
+      "steps": [
+        {
+          "module": "legal",
+          "method": "POST",
+          "path": "/api/settlements",
+          "expectedStatus": 201,
+          "body": {
+            "matterRef": "MAT-Y2-070",
+            "amount": 348604,
+            "currency": "INR",
+            "nonMonetaryTerms": "IP protection filing. Managed by legal team. Phase: COMPLETED.",
+            "phase": "COMPLETED",
+            "status": "COMPLETED"
+          },
+          "verifyListPath": "/api/settlements?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Legal matter documented: IP protection filing"
+      ],
+      "crossEvents": [
+        "legal.matter-recorded"
+      ],
+      "notifications": [
+        "Legal team and management notified"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "25OKn4kjmQsgHCa7k-XXVDzd_H-VpT4sdAppfC36Zew"
+  }
+}

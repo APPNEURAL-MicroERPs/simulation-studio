@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2028-01-020",
+    "month": "2028-01",
+    "companyTime": "2028-01-08T10:50:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Vikram Shah is an active employee"
+    ],
+    "intent": "Vikram Shah enrolled in \"Microservices Architecture\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1007",
+          "title": "Microservices Architecture",
+          "description": "Professional development: Microservices Architecture. Aligned with role growth and company needs.",
+          "source": "compliance_required",
+          "startsOn": "2028-01-01",
+          "completesBy": "2028-03-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vikram Shah enrolled in Microservices Architecture"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Xgfnbzn0Iz5SQwBVZnsbww3JkNOmiuPiSw8WC3exKgQ"
+}

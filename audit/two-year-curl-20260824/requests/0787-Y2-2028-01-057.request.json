@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-057",
+      "month": "2028-01",
+      "companyTime": "2028-01-21T12:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "member",
+      "module": "attendance",
+      "preconditions": [
+        "Karan Malhotra is an active employee"
+      ],
+      "intent": "Karan Malhotra applies for personal leave (20-20 2028-01).",
+      "steps": [
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/leave-requests",
+          "expectedStatus": 201,
+          "body": {
+            "employeeId": "EMP-1008",
+            "employeeCode": "EMP-1008",
+            "leaveTypeId": "personal",
+            "fromDate": "2028-01-20",
+            "toDate": "2028-01-20",
+            "duration": "full_day",
+            "reason": "Personal leave for personal matters."
+          },
+          "verifyListPath": "/api/leave-requests?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "personal leave approved for Karan Malhotra"
+      ],
+      "crossEvents": [
+        "attendance.leave-approved"
+      ],
+      "notifications": [
+        "Manager notified of leave approval"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "DMBzdGteF_8rNoCmHLTD22wwO0yAIhF4-qBBGspgdho"
+  }
+}

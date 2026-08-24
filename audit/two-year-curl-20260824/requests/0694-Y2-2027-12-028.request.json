@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-028",
+      "month": "2027-12",
+      "companyTime": "2027-12-11T11:15:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Account Manager in Sales and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Account Manager — Pune",
+            "reason": "new",
+            "departmentName": "Sales",
+            "locationName": "Pune",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "karan.malhotra@nexora.example",
+            "recruiterEmail": "karan.malhotra@nexora.example",
+            "targetStartOn": "2028-01-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Sales.",
+            "budgetMin": 1400000,
+            "budgetMax": 2400000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Account Manager — Pune",
+            "summary": "Join our Sales team as a Account Manager.",
+            "responsibilities": "Deliver high-quality work in Sales; collaborate with cross-functional stakeholders.",
+            "requirements": "Customer Success, Upselling, Relationship Management; 2+ years relevant experience.",
+            "skills": "Customer Success, Upselling, Relationship Management",
+            "locationName": "Pune",
+            "workMode": "hybrid",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "referral_only"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-1703 created for Account Manager",
+        "Job posted for Account Manager"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Account Manager role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "afqEJyBOMNxSQDH-5tfIwrOe_1_bLPTF2ILtxHUUc1Q"
+  }
+}

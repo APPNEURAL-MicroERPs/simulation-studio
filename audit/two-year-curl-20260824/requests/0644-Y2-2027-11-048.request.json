@@ -1,0 +1,90 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-048",
+      "month": "2027-11",
+      "companyTime": "2027-11-16T15:35:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "attendance",
+      "preconditions": [
+        "3 employees active",
+        "Week 4 of 2027-11"
+      ],
+      "intent": "Record weekly attendance for 3 employees (Week 4).",
+      "steps": [
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1007",
+            "employeeEmail": "vikram.shah@nexora.example",
+            "workDate": "2027-11-16",
+            "shift": "General",
+            "checkIn": "09:15",
+            "checkOut": "17:15",
+            "location": "Udaipur",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        },
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1008",
+            "employeeEmail": "karan.malhotra@nexora.example",
+            "workDate": "2027-11-17",
+            "shift": "General",
+            "checkIn": "09:25",
+            "checkOut": "19:45",
+            "location": "Gurugram",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        },
+        {
+          "module": "attendance",
+          "method": "POST",
+          "path": "/api/attendance",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-1012",
+            "employeeEmail": "sandeep.patel@nexora.example",
+            "workDate": "2027-11-18",
+            "shift": "General",
+            "checkIn": "08:30",
+            "checkOut": "19:15",
+            "location": "Bengaluru",
+            "status": "present"
+          },
+          "verifyListPath": "/api/attendance?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "3 attendance records for week 4"
+      ],
+      "crossEvents": [
+        "attendance.recorded"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Rc2wlnb1_ufZOl834znS6y1j8Y2sms6QymYGoTQp-Vo"
+  }
+}

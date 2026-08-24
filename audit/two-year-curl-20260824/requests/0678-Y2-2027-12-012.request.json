@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-012",
+      "month": "2027-12",
+      "companyTime": "2027-12-04T16:55:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "project",
+      "preconditions": [
+        "14 active projects",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "New project: Y2-PRJ-1611 — Analytics Dashboard for Aurora Services with kickoff milestone.",
+      "steps": [
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/projects",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Aurora Services — ERP Implementation",
+            "code": "Y2-PRJ-1611",
+            "client": "Aurora Services",
+            "managerEmail": "sandeep.patel@nexora.example",
+            "startDate": "2027-12-02",
+            "endDate": "2028-03-15",
+            "budget": 1097988,
+            "status": "planning"
+          },
+          "verifyListPath": "/api/projects?pageSize=200"
+        },
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/milestones",
+          "expectedStatus": 201,
+          "body": {
+            "projectId": "$PREV.createdId",
+            "name": "Kickoff — Initial planning",
+            "baselineDate": "2027-12-13",
+            "forecastDate": "2027-12-13",
+            "isBillingTrigger": false
+          },
+          "verifyListPath": "/api/milestones?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Project Y2-PRJ-1611 created for Aurora Services",
+        "Kickoff milestone created"
+      ],
+      "crossEvents": [
+        "project.created",
+        "project.milestone-created"
+      ],
+      "notifications": [
+        "Project manager receives kickoff task",
+        "Milestone added to project plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "VXvLlWBBGZBeJNbyfA1PW-4dIsDdZR2Glr5s00nZ1HY"
+  }
+}

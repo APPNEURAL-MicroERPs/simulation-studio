@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-044",
+    "month": "2028-03",
+    "companyTime": "2028-03-17T17:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2303 exists"
+    ],
+    "intent": "Add candidate Uma Nair for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Uma Nair",
+          "email": "uma.nair@example.com",
+          "phone": "+91-9626567224",
+          "locationName": "Gurugram",
+          "currentTitle": "Tech Lead",
+          "totalExperienceMonths": 62,
+          "skills": "Accounting, Recruitment, PostgreSQL, Confluence, Power BI, Vitest",
+          "source": "campus",
+          "noticePeriodDays": 0,
+          "expectedCtc": 3450000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-2303"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Uma Nair added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LwqBGKe6ykyp88XUxd-a5_Gpj3z2ej4l_EqV73Ayj5M"
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-061",
+    "month": "2028-03",
+    "companyTime": "2028-03-26T10:15:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2305 exists"
+    ],
+    "intent": "Add candidate Naveen Malhotra for HR Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Naveen Malhotra",
+          "email": "naveen.malhotra@example.com",
+          "phone": "+91-9853751185",
+          "locationName": "Hyderabad",
+          "currentTitle": "Junior Engineer",
+          "totalExperienceMonths": 87,
+          "skills": "Compliance, Azure, Tableau, SAP",
+          "source": "inbound",
+          "noticePeriodDays": 15,
+          "expectedCtc": 700000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for HR Executive — Y2-REQ-2305"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Naveen Malhotra added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "JK8yW9rDPrJtoxuyPoYFnriqlSAB23DF3q9K7n2a1Wg"
+}

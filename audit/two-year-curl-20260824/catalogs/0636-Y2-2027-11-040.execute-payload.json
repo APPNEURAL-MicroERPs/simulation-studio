@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-040",
+    "month": "2027-11",
+    "companyTime": "2027-11-14T11:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1503 exists"
+    ],
+    "intent": "Add candidate Varun Agarwal for Senior Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Varun Agarwal",
+          "email": "varun.agarwal@example.com",
+          "phone": "+91-9863427657",
+          "locationName": "Gurugram",
+          "currentTitle": "Principal Engineer",
+          "totalExperienceMonths": 108,
+          "skills": "Accounting, Terraform, Jenkins, Salesforce",
+          "source": "agency",
+          "noticePeriodDays": 90,
+          "expectedCtc": 2700000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior Software Engineer — Y2-REQ-1503"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Varun Agarwal added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "pDJ3jboULAvXUYm-P6yB1BOG3uh_ojD5JvZTg58hgQg"
+}

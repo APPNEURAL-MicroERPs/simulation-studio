@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-012",
+    "month": "2028-02",
+    "companyTime": "2028-02-05T12:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2101 exists"
+    ],
+    "intent": "Add candidate Sanjay Dubey for Sales Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Sanjay Dubey",
+          "email": "sanjay.dubey@example.com",
+          "phone": "+91-9780731209",
+          "locationName": "Noida",
+          "currentTitle": "Junior Developer",
+          "totalExperienceMonths": 13,
+          "skills": "Cypress, Oracle, Tableau, HR Operations",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 450000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Sales Executive — Y2-REQ-2101"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Sanjay Dubey added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "nruHLwuALn6XG2Y7ZAkw2-hHlab-lUgPTHUhu8zTNhk"
+}

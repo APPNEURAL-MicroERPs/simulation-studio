@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-041",
+      "month": "2028-03",
+      "companyTime": "2028-03-17T12:55:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2304 exists"
+      ],
+      "intent": "Add candidate Vandana Sinha for Sales Executive role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Vandana Sinha",
+            "email": "vandana.sinha@example.com",
+            "phone": "+91-9527314544",
+            "locationName": "Chennai",
+            "currentTitle": "Junior Developer",
+            "totalExperienceMonths": 44,
+            "skills": "Financial Modeling, Technical Support, Azure",
+            "source": "agency",
+            "noticePeriodDays": 0,
+            "expectedCtc": 500000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Sales Executive — Y2-REQ-2304"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Vandana Sinha added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "xY9NkI-93mdtDZ9mumzNgB0A5W-VH3yQ18g5Mvp_GDw"
+  }
+}

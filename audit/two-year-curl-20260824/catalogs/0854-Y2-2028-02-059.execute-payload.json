@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-059",
+    "month": "2028-02",
+    "companyTime": "2028-02-26T15:55:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Tarun Sharma",
+      "Software Engineer requisition filled"
+    ],
+    "intent": "Register new employee Tarun Sharma joining as Senior Consultant.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-009",
+          "fullName": "Tarun Sharma",
+          "email": "tarun.sharma@example.com",
+          "designation": "Senior Consultant",
+          "department": "Engineering",
+          "location": "Noida",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2028-02-26"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Tarun Sharma registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "8YNItvD_MU8tRz4YdQEeALQ-eAMMMPpRBEbQj3p-D7I"
+}

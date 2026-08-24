@@ -1,0 +1,75 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-023",
+      "month": "2027-10",
+      "companyTime": "2027-10-10T10:00:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "project",
+      "preconditions": [
+        "14 active projects",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "New project: Y2-PRJ-1212 — Analytics Dashboard for Stellar Software with kickoff milestone.",
+      "steps": [
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/projects",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Stellar Software — Security Assessment",
+            "code": "Y2-PRJ-1212",
+            "client": "Stellar Software",
+            "managerEmail": "sandeep.patel@nexora.example",
+            "startDate": "2027-10-12",
+            "endDate": "2028-01-15",
+            "budget": 6993635,
+            "status": "planning"
+          },
+          "verifyListPath": "/api/projects?pageSize=200"
+        },
+        {
+          "module": "project",
+          "method": "POST",
+          "path": "/api/milestones",
+          "expectedStatus": 201,
+          "body": {
+            "projectId": "$PREV.createdId",
+            "name": "Kickoff — Discovery phase",
+            "baselineDate": "2027-10-24",
+            "forecastDate": "2027-10-23",
+            "isBillingTrigger": false
+          },
+          "verifyListPath": "/api/milestones?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Project Y2-PRJ-1212 created for Stellar Software",
+        "Kickoff milestone created"
+      ],
+      "crossEvents": [
+        "project.created",
+        "project.milestone-created"
+      ],
+      "notifications": [
+        "Project manager receives kickoff task",
+        "Milestone added to project plan"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "MGfb9G8L8R_W8iQ-zhnBRLtp7J8lNQdHZgvbpyjTgUY"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-02-007",
+    "month": "2028-02",
+    "companyTime": "2028-02-03T12:35:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma submits expense: Software subscription (4K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-10501",
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "category": "software",
+          "amount": 4012,
+          "expenseDate": "2028-02-01",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-10501 approved for Priya Sharma"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "b1Se5h8YB8vg4MsUT_GH8INUTCNcHUarKz-Gk-eYwSo"
+}

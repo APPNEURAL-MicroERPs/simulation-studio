@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-040",
+      "month": "2028-03",
+      "companyTime": "2028-03-16T14:25:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Sales Executive in Sales and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Sales Executive — Chennai",
+            "reason": "new",
+            "departmentName": "Sales",
+            "locationName": "Chennai",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "priya.sharma@nexora.example",
+            "recruiterEmail": "priya.sharma@nexora.example",
+            "targetStartOn": "2028-04-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Sales.",
+            "budgetMin": 800000,
+            "budgetMax": 1400000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Sales Executive — Chennai",
+            "summary": "Join our Sales team as a Sales Executive.",
+            "responsibilities": "Deliver high-quality work in Sales; collaborate with cross-functional stakeholders.",
+            "requirements": "CRM, Negotiation, Pipeline Management; 6+ years relevant experience.",
+            "skills": "CRM, Negotiation, Pipeline Management",
+            "locationName": "Chennai",
+            "workMode": "onsite",
+            "experienceMinYears": 1,
+            "experienceMaxYears": 4,
+            "channel": "agency"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-2304 created for Sales Executive",
+        "Job posted for Sales Executive"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Sales Executive role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "GJ5Mae5VGc0xPFGjnMgYvhBNZuO4SaUooD81GHbFQFg"
+  }
+}

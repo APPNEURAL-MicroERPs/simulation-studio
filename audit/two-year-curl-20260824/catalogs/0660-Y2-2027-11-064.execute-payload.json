@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-064",
+    "month": "2027-11",
+    "companyTime": "2027-11-23T13:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1504 exists"
+    ],
+    "intent": "Add candidate Sneha Patel for QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Sneha Patel",
+          "email": "sneha.patel@example.com",
+          "phone": "+91-9812450092",
+          "locationName": "Noida",
+          "currentTitle": "Senior Analyst",
+          "totalExperienceMonths": 28,
+          "skills": "MongoDB, Go, Compliance, Tableau",
+          "source": "campus",
+          "noticePeriodDays": 0,
+          "expectedCtc": 850000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for QA Engineer — Y2-REQ-1504"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Sneha Patel added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "tMwh2jeCOig8gGX7HLLS3j4NfmuuLO-1W2qMkg-BmWg"
+}

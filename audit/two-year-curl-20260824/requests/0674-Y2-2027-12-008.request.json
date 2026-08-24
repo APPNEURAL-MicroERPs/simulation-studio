@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-008",
+      "month": "2027-12",
+      "companyTime": "2027-12-04T10:25:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1701 exists"
+      ],
+      "intent": "Add candidate Naveen Kumar for Financial Analyst role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Naveen Kumar",
+            "email": "naveen.kumar@example.com",
+            "phone": "+91-9863568343",
+            "locationName": "Pune",
+            "currentTitle": "Senior Engineer",
+            "totalExperienceMonths": 87,
+            "skills": "Tax, Jenkins, Redis, Node.js, Next.js",
+            "source": "inbound",
+            "noticePeriodDays": 0,
+            "expectedCtc": 850000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Financial Analyst — Y2-REQ-1701"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Naveen Kumar added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "cmF4xU8zqvo7m29n64xxSfPShgMro6Cc_cYWkwDSpeU"
+  }
+}

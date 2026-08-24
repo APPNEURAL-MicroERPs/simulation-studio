@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-039",
+    "month": "2027-12",
+    "companyTime": "2027-12-15T17:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1703 exists"
+    ],
+    "intent": "Add candidate Siddharth Gupta for Account Manager role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Siddharth Gupta",
+          "email": "siddharth.gupta@example.com",
+          "phone": "+91-9540533085",
+          "locationName": "Pune",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 112,
+          "skills": "Power BI, Go, Accounting, Customer Success",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1600000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Account Manager — Y2-REQ-1703"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Siddharth Gupta added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Sugsy_qHwpQYDDnH4L7rFDGfvsRPO7hn5sg6mfaZ7ck"
+}

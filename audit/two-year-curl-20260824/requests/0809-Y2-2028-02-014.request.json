@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-014",
+      "month": "2028-02",
+      "companyTime": "2028-02-06T13:55:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2101 exists"
+      ],
+      "intent": "Add candidate Manish Rao for Sales Executive role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Manish Rao",
+            "email": "manish.rao@example.com",
+            "phone": "+91-9649949826",
+            "locationName": "Noida",
+            "currentTitle": "Junior Analyst",
+            "totalExperienceMonths": 41,
+            "skills": "Python, Playwright, Tableau, Jest",
+            "source": "referral",
+            "noticePeriodDays": 30,
+            "expectedCtc": 650000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Sales Executive — Y2-REQ-2101"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Manish Rao added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "AbVxJ2LfV_JWOFvY1Jfbzd_GLCdg6L2NPMCMAl_wwEo"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-016",
+    "month": "2027-12",
+    "companyTime": "2027-12-05T15:45:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Stellar Infotech — Y2-OPP-3309 (solution).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Stellar Infotech — Custom Software",
+          "code": "Y2-OPP-3309",
+          "amount": 3710000,
+          "currency": "INR",
+          "stage": "solution",
+          "probability": 40,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2027-12-25",
+          "businessNeed": "Stellar Infotech needs scalable platform",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2027-12-13"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-3309 created at solution stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_kAvFyKEUofJ8iRFLKxXSFWEM9rUb_-F6AsColZY2EA"
+}

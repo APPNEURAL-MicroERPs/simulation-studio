@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-063",
+      "month": "2027-12",
+      "companyTime": "2027-12-28T14:10:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Suresh Saxena",
+        "Sales Executive requisition filled"
+      ],
+      "intent": "Register new employee Suresh Saxena joining as Junior Engineer.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-008",
+            "fullName": "Suresh Saxena",
+            "email": "suresh.saxena@example.com",
+            "designation": "Junior Engineer",
+            "department": "Sales",
+            "location": "Chennai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-12-28"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Suresh Saxena registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "2Wg4CDdC8RJsLQ8PqtwxKZRJpKoPM-qx5sh67XBOyOQ"
+  }
+}

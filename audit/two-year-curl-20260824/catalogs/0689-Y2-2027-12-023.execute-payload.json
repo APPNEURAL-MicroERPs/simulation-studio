@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-12-023",
+    "month": "2027-12",
+    "companyTime": "2027-12-09T17:45:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel submits expense: Hotel stay for client engagement (10K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-8503",
+          "employeeCode": "EMP-1012",
+          "employeeEmail": "sandeep.patel@nexora.example",
+          "category": "lodging",
+          "amount": 9710,
+          "expenseDate": "2027-12-08",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-8503 approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_r4-EeKwc0029mfTc2pvtecB5s3keOlti7Ojps8IBMA"
+}

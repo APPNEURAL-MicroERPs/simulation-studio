@@ -300,7 +300,7 @@ jq -s '.' "$RESULTS_FILE" > "$AUDIT_DIR/results.json"
 jq -n --arg runId "$run_id" --arg completedAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
   --argjson storyTotal "$story_total" --argjson storyPassed "$story_passed" --argjson storyFailed "$story_failed" \
   --argjson year1Passed "$year1_passed" --argjson year2Passed "$year2_passed" --argjson operations "$operations" \
-  --argjson duplicateOperations "$duplicates" --argjson skippedAssertions "$skipped" \
+  --argjson duplicateOperations "$duplicates" --argjson skipped "$skipped" \
   --argjson workflowPassed "$workflow_passed" --argjson workflowFailed "$workflow_failures" \
   '{runId:$runId,completedAt:$completedAt,transport:"curl/http-only",directDatabaseAccess:false,stories:{total:$storyTotal,passed:$storyPassed,failed:$storyFailed,year1Passed:$year1Passed,year2Passed:$year2Passed},operations:$operations,idempotentDuplicateOperations:$duplicateOperations,skippedNonObservableAssertions:$skipped,workflows:{passed:$workflowPassed,failed:$workflowFailed}}' > "$AUDIT_DIR/summary.json"
 

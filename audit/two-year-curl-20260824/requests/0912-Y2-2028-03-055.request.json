@@ -1,0 +1,54 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-055",
+      "month": "2028-03",
+      "companyTime": "2028-03-22T13:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "customer",
+      "preconditions": [
+        "Deal won in CRM",
+        "Customer ready for onboarding"
+      ],
+      "intent": "New customer onboarded: Phoenix Services.",
+      "steps": [
+        {
+          "module": "customer",
+          "method": "POST",
+          "path": "/api/customers",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Phoenix Services",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "tier": "enterprise",
+            "description": "New customer acquired through marketing campaign. Contract signed for ERP implementation."
+          },
+          "verifyListPath": "/api/customers?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Customer Phoenix Services onboarded"
+      ],
+      "crossEvents": [
+        "customer.onboarded"
+      ],
+      "notifications": [
+        "Customer success manager assigned"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "oWo9Xt05VZVxCkzvPen3mmjRXK7QDjQRF-8nGNewVh8"
+  }
+}

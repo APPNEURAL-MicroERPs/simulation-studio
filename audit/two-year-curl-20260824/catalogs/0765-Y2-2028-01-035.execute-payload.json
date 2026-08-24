@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-01-035",
+    "month": "2028-01",
+    "companyTime": "2028-01-14T12:45:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for Data Engineer in Data and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Data Engineer — Chennai",
+          "reason": "new",
+          "departmentName": "Data",
+          "locationName": "Chennai",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "karan.malhotra@nexora.example",
+          "recruiterEmail": "karan.malhotra@nexora.example",
+          "targetStartOn": "2028-02-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Data.",
+          "budgetMin": 1500000,
+          "budgetMax": 2500000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "Data Engineer — Chennai",
+          "summary": "Join our Data team as a Data Engineer.",
+          "responsibilities": "Deliver high-quality work in Data; collaborate with cross-functional stakeholders.",
+          "requirements": "Python, SQL, ETL, Spark; 4+ years relevant experience.",
+          "skills": "Python, SQL, ETL, Spark",
+          "locationName": "Chennai",
+          "workMode": "hybrid",
+          "experienceMinYears": 3,
+          "experienceMaxYears": 8,
+          "channel": "referral_only"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-1903 created for Data Engineer",
+      "Job posted for Data Engineer"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for Data Engineer role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "xNcp21cVRBNsF8CUmPVYnMnQbjQi4jZBljhXu9s6X-s"
+}

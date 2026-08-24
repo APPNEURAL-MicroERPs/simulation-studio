@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-01-021",
+    "month": "2028-01",
+    "companyTime": "2028-01-08T17:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Vertex Ventures (Mining) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Vertex Ventures",
+          "contactName": "Sanjay Reddy",
+          "title": "VP Engineering",
+          "email": "sanjay.reddy@example.com",
+          "phone": "+91-9637924432",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Mining",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 590000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Vertex Ventures — ERP Implementation",
+          "code": "Y2-OPP-3702",
+          "amount": 590000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2028-01-27",
+          "businessNeed": "Vertex Ventures needs process automation",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2028-01-20"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Vertex Ventures",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Sxm4dilHEFkAW9dau9tl8srZl32nvd8PVFc_k5v7Rk8"
+}

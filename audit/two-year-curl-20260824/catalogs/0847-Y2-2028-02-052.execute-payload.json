@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-052",
+    "month": "2028-02",
+    "companyTime": "2028-02-21T09:45:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Nova Labs — Y2-OPP-4111 (solution).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Nova Labs — Platform Development",
+          "code": "Y2-OPP-4111",
+          "amount": 740000,
+          "currency": "INR",
+          "stage": "solution",
+          "probability": 40,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2028-02-26",
+          "businessNeed": "Nova Labs needs system modernization",
+          "nextAction": "Pricing discussion",
+          "nextActionOn": "2028-02-26"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-4111 created at solution stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "yRBaHlQvh849qODliWqAyOb1wiFnZo2AuMl23q44zrQ"
+}

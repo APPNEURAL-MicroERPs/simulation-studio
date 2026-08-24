@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-01-053",
+    "month": "2028-01",
+    "companyTime": "2028-01-20T14:15:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1904 exists"
+    ],
+    "intent": "Add candidate Sachin Desai for Senior QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Sachin Desai",
+          "email": "sachin.desai@example.com",
+          "phone": "+91-9795554508",
+          "locationName": "Chennai",
+          "currentTitle": "Manager",
+          "totalExperienceMonths": 66,
+          "skills": "Financial Modeling, Next.js, GCP, Accounting, Jest",
+          "source": "agency",
+          "noticePeriodDays": 60,
+          "expectedCtc": 2650000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Senior QA Engineer — Y2-REQ-1904"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Sachin Desai added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "TzvqHGVlp93b0DS4R1SKsf9vMgEIIj-FqRgim1JBLpo"
+}

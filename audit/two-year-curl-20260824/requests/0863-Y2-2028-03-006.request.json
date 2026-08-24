@@ -1,0 +1,79 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-006",
+      "month": "2028-03",
+      "companyTime": "2028-03-02T14:00:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "performance",
+      "preconditions": [
+        "4 employees active",
+        "Q1 review due"
+      ],
+      "intent": "Q1 performance cycle opened with first goal.",
+      "steps": [
+        {
+          "module": "performance",
+          "method": "POST",
+          "path": "/api/cycles",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Q1 Review 2028",
+            "cycleType": "annual",
+            "startsOn": "2028-03-01",
+            "endsOn": "2028-03-28",
+            "ownerEmail": "priya.sharma@nexora.example",
+            "minimumServiceDays": 90
+          },
+          "verifyListPath": "/api/cycles?pageSize=200"
+        },
+        {
+          "module": "performance",
+          "method": "POST",
+          "path": "/api/goals",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Q1 Improve code quality metrics",
+            "description": "Performance goal for Q1 aligned with department objectives.",
+            "goalType": "individual",
+            "level": "department",
+            "ownerCode": "EMP-1008",
+            "cycle": "$PREV.createdId",
+            "weightPercent": 28,
+            "progressPercent": 0,
+            "startsOn": "2028-03-01",
+            "dueDate": "2028-03-28",
+            "status": "active"
+          },
+          "verifyListPath": "/api/goals?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Q1 performance cycle opened",
+        "Goal created for Karan Malhotra"
+      ],
+      "crossEvents": [
+        "performance.cycle-opened",
+        "performance.goal-created"
+      ],
+      "notifications": [
+        "All managers notified to begin reviews",
+        "Karan Malhotra notified of new goal"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "dqlu3w2Ws45JLwgaQSy3DkK2Ygcg9r5jPgekihqW3Sk"
+  }
+}

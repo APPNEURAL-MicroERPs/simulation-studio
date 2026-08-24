@@ -1,0 +1,50 @@
+{
+  "story": {
+    "id": "Y2-2027-10-061",
+    "month": "2027-10",
+    "companyTime": "2027-10-23T11:25:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "risk",
+    "preconditions": [
+      "24 risks in register"
+    ],
+    "intent": "Risk registered: Talent attrition risk.",
+    "steps": [
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-Y2-063",
+          "title": "Talent attrition risk",
+          "category": "people",
+          "description": "Talent attrition risk. Identified during 2027-10 risk assessment. Likelihood: 3/5, Impact: 3/5. Treatment plan: transfer.",
+          "ownerEmail": "vikram.shah@nexora.example",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "avoid",
+          "status": "assessed",
+          "reviewDue": "2027-10-28"
+        },
+        "verifyListPath": "/api/risks?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Risk registered: Talent attrition risk"
+    ],
+    "crossEvents": [
+      "risk.registered"
+    ],
+    "notifications": [
+      "Risk owner notified for treatment plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "mavSWeGBslYPFfSDPsk3QK086Z8xI9NbGddJvyju1Pw"
+}

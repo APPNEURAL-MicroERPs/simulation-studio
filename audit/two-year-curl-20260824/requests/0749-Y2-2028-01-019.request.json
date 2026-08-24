@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-019",
+      "month": "2028-01",
+      "companyTime": "2028-01-07T17:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Pinnacle Networks — Y2-OPP-3705 (proposal).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Pinnacle Networks — Digital Transformation",
+            "code": "Y2-OPP-3705",
+            "amount": 1200000,
+            "currency": "INR",
+            "stage": "proposal",
+            "probability": 55,
+            "forecastCategory": "best_case",
+            "expectedCloseOn": "2028-01-26",
+            "businessNeed": "Pinnacle Networks needs process automation",
+            "nextAction": "Pricing discussion",
+            "nextActionOn": "2028-01-11"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-3705 created at proposal stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "XtSNgW90v-D9cNPGAfKU99eNbIeb3kX7viyz0jAXY_E"
+  }
+}

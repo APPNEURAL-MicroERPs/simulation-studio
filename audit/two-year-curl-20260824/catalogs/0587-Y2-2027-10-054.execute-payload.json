@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-10-054",
+    "month": "2027-10",
+    "companyTime": "2027-10-19T15:05:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Pradeep Sharma",
+      "Business Analyst requisition filled"
+    ],
+    "intent": "Register new employee Pradeep Sharma joining as Consultant.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-004",
+          "fullName": "Pradeep Sharma",
+          "email": "pradeep.sharma@example.com",
+          "designation": "Consultant",
+          "department": "Product",
+          "location": "Hyderabad",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-10-19"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Pradeep Sharma registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "LjbdNE1mWEjQ7gLeoLfb9070pwfAdXm0yPl2gxK78t4"
+}

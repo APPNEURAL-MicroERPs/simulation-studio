@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2027-11-011",
+    "month": "2027-11",
+    "companyTime": "2027-11-05T11:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Sandeep Patel is active",
+      "Project Y2-PRJ-1011 is active"
+    ],
+    "intent": "Allocate Sandeep Patel to Y2-PRJ-1011 at 100%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-2811",
+          "resourceId": "RES-EMP-1012",
+          "employeeCode": "EMP-1012",
+          "projectId": "Y2-PRJ-1011",
+          "role": "Product Designer",
+          "allocationPercent": 100,
+          "startDate": "2027-11-01",
+          "endDate": "2028-02-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Sandeep Patel allocated to Y2-PRJ-1011 at 100%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "-lOj-fY51mGGNXIW_kCfHZ_EBOrcgBgzKoprfYQyopo"
+}

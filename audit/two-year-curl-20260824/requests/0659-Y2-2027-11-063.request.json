@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-063",
+      "month": "2027-11",
+      "companyTime": "2027-11-23T09:15:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Tanvi Patel",
+        "Data Engineer requisition filled"
+      ],
+      "intent": "Register new employee Tanvi Patel joining as Senior Engineer.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-018",
+            "fullName": "Tanvi Patel",
+            "email": "tanvi.patel@example.com",
+            "designation": "Senior Engineer",
+            "department": "Data",
+            "location": "Chennai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2027-11-23"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Tanvi Patel registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "tRgm5Z4yi-3M4ypLaT3GWMK3x7uWPP7XacAX1ATkHww"
+  }
+}

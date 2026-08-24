@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-10-059",
+    "month": "2027-10",
+    "companyTime": "2027-10-21T15:30:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Synergy Networks (Energy) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Synergy Networks",
+          "contactName": "Kavya Reddy",
+          "title": "Director",
+          "email": "kavya.reddy@example.com",
+          "phone": "+91-9642162111",
+          "source": "website",
+          "country": "India",
+          "industry": "Energy",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 1060000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Synergy Networks — Cloud Migration",
+          "code": "Y2-OPP-2508",
+          "amount": 1060000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-10-25",
+          "businessNeed": "Synergy Networks needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2027-10-27"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Synergy Networks",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "2zRR9XMTdOdU5S9ZnMDYB34igfCCUB6mWafbH0yLXjc"
+}

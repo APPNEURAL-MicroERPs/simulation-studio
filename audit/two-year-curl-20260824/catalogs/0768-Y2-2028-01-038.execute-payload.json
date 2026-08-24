@@ -1,0 +1,67 @@
+{
+  "story": {
+    "id": "Y2-2028-01-038",
+    "month": "2028-01",
+    "companyTime": "2028-01-15T12:25:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "billing",
+    "preconditions": [
+      "Customer Aurora Services has active contract"
+    ],
+    "intent": "Generate invoice for Aurora Services (10L) and record payment.",
+    "steps": [
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/invoices",
+        "expectedStatus": 201,
+        "body": {
+          "invoiceNo": "INV-Y2-5432",
+          "billingAccount": "BA-AUR-052",
+          "customer": "Aurora Services",
+          "amount": 956532,
+          "currency": "inr",
+          "issueDate": "2028-01-16",
+          "dueDate": "2028-01-27",
+          "status": "draft",
+          "description": "Professional services for 2028-01. Milestone-based billing."
+        },
+        "verifyListPath": "/api/invoices?pageSize=200"
+      },
+      {
+        "module": "billing",
+        "method": "POST",
+        "path": "/api/receipts",
+        "expectedStatus": 201,
+        "body": {
+          "customerId": "$PREV.createdId",
+          "amount": 707834,
+          "currency": "INR",
+          "receivedDate": "2028-01-27",
+          "externalReference": "REC-Y2-052",
+          "method": "bank_transfer"
+        },
+        "verifyListPath": "/api/receipts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Invoice generated for Aurora Services",
+      "Payment recorded against invoice"
+    ],
+    "crossEvents": [
+      "billing.invoice-generated",
+      "billing.payment-recorded"
+    ],
+    "notifications": [
+      "Invoice sent to customer",
+      "Finance team notified of payment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "HJEt6lJyHUs8Y5f7H_f3CS0ztoIWqMxsBDfxJuJp7sU"
+}

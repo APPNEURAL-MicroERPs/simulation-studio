@@ -1,0 +1,11 @@
+{
+  "data": {
+    "token": "<REDACTED>",
+    "actor": {
+      "employee_id": "EMP-1001",
+      "name": "Priya Sharma",
+      "role_key": "engineering"
+    },
+    "expiresIn": 900
+  }
+}

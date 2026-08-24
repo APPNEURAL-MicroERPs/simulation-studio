@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-030",
+      "month": "2027-11",
+      "companyTime": "2027-11-11T14:50:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1501 exists"
+      ],
+      "intent": "Add candidate Ashish Kapoor for Sales Executive role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Ashish Kapoor",
+            "email": "ashish.kapoor@example.com",
+            "phone": "+91-9841588388",
+            "locationName": "Hyderabad",
+            "currentTitle": "Trainee Engineer",
+            "totalExperienceMonths": 81,
+            "skills": "Vitest, Docker, Power BI, Adobe XD, Oracle",
+            "source": "referral",
+            "noticePeriodDays": 60,
+            "expectedCtc": 600000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Sales Executive — Y2-REQ-1501"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Ashish Kapoor added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "fT6wYflgWq7ngVuN3yZu3S0hHkm15tR2MM_k5EUAVwI"
+  }
+}

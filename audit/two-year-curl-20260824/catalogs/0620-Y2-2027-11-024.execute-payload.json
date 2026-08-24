@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-11-024",
+    "month": "2027-11",
+    "companyTime": "2027-11-10T14:15:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Atlas Networks (Technology) via campaign — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Atlas Networks",
+          "contactName": "Suresh Reddy",
+          "title": "VP Engineering",
+          "email": "suresh.reddy@example.com",
+          "phone": "+91-9748471800",
+          "source": "campaign",
+          "country": "India",
+          "industry": "Technology",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2470000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Atlas Networks — Cloud Migration",
+          "code": "Y2-OPP-2903",
+          "amount": 2470000,
+          "currency": "INR",
+          "stage": "qualified",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-11-27",
+          "businessNeed": "Atlas Networks needs process automation",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-11-19"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Atlas Networks",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "KroJV8YJIpEl3e0jHjIKsOmZLrQvwDcwU_UPPexaBkc"
+}

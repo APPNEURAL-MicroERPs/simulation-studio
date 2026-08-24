@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-062",
+      "month": "2028-01",
+      "companyTime": "2028-01-24T15:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Tarun Joshi",
+        "Senior QA Engineer requisition filled"
+      ],
+      "intent": "Register new employee Tarun Joshi joining as Lead Engineer.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-016",
+            "fullName": "Tarun Joshi",
+            "email": "tarun.joshi@example.com",
+            "designation": "Lead Engineer",
+            "department": "QA",
+            "location": "Chennai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2028-01-24"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Tarun Joshi registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "OFIq2xyVOjsohBjFhgd7WWHoofWIB5kKa9jNkoheM7M"
+  }
+}

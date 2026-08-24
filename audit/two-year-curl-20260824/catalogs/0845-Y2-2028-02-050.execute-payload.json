@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-02-050",
+    "month": "2028-02",
+    "companyTime": "2028-02-20T11:10:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel applies for personal leave (20-23 2028-02).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1012",
+          "employeeCode": "EMP-1012",
+          "leaveTypeId": "personal",
+          "fromDate": "2028-02-20",
+          "toDate": "2028-02-23",
+          "duration": "full_day",
+          "reason": "Personal leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "personal leave approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "md4-tW63ZtcG1mrcq1t4lBCsYKIWPSQmBnlt4zCEYe4"
+}

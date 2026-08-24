@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-022",
+      "month": "2028-01",
+      "companyTime": "2028-01-09T10:00:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Support Engineer in Support and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Support Engineer — Gurugram",
+            "reason": "new",
+            "departmentName": "Support",
+            "locationName": "Gurugram",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "sandeep.patel@nexora.example",
+            "recruiterEmail": "sandeep.patel@nexora.example",
+            "targetStartOn": "2028-02-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Support.",
+            "budgetMin": 600000,
+            "budgetMax": 1200000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Support Engineer — Gurugram",
+            "summary": "Join our Support team as a Support Engineer.",
+            "responsibilities": "Deliver high-quality work in Support; collaborate with cross-functional stakeholders.",
+            "requirements": "Technical Support, Customer Communication, Troubleshooting; 4+ years relevant experience.",
+            "skills": "Technical Support, Customer Communication, Troubleshooting",
+            "locationName": "Gurugram",
+            "workMode": "hybrid",
+            "experienceMinYears": 1,
+            "experienceMaxYears": 4,
+            "channel": "campus"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-1902 created for Support Engineer",
+        "Job posted for Support Engineer"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Support Engineer role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "RPAa0nSSUVJZH5sx4A-6uKzgxctb6HNw0ce276kibJY"
+  }
+}

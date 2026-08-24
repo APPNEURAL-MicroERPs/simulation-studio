@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-040",
+      "month": "2027-10",
+      "companyTime": "2027-10-14T15:50:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1302 exists"
+      ],
+      "intent": "Add candidate Rajesh Mishra for Product Designer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Rajesh Mishra",
+            "email": "rajesh.mishra@example.com",
+            "phone": "+91-9757902905",
+            "locationName": "Udaipur",
+            "currentTitle": "Consultant",
+            "totalExperienceMonths": 45,
+            "skills": "Go, Confluence, Recruitment",
+            "source": "careers_site",
+            "noticePeriodDays": 15,
+            "expectedCtc": 1450000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Product Designer — Y2-REQ-1302"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Rajesh Mishra added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "XhYzLQ3gKD7mKZ5w0aIYTQ8Jo5SsvRC-hAEyBFrxXxA"
+  }
+}

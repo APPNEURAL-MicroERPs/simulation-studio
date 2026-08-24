@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-11-010",
+    "month": "2027-11",
+    "companyTime": "2027-11-05T10:40:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Company has 4 employees",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "Open requisition for DevOps Engineer in DevOps and post job.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/requisitions",
+        "expectedStatus": 201,
+        "body": {
+          "title": "DevOps Engineer — Chennai",
+          "reason": "new",
+          "departmentName": "DevOps",
+          "locationName": "Chennai",
+          "employmentType": "full_time",
+          "openings": 1,
+          "hiringManagerEmail": "priya.sharma@nexora.example",
+          "recruiterEmail": "priya.sharma@nexora.example",
+          "targetStartOn": "2027-12-01",
+          "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: DevOps.",
+          "budgetMin": 1500000,
+          "budgetMax": 2500000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/requisitions?pageSize=200"
+      },
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/jobs",
+        "expectedStatus": 201,
+        "body": {
+          "requisitionId": "$PREV.createdId",
+          "title": "DevOps Engineer — Chennai",
+          "summary": "Join our DevOps team as a DevOps Engineer.",
+          "responsibilities": "Deliver high-quality work in DevOps; collaborate with cross-functional stakeholders.",
+          "requirements": "Kubernetes, Terraform, AWS; 4+ years relevant experience.",
+          "skills": "Kubernetes, Terraform, AWS",
+          "locationName": "Chennai",
+          "workMode": "remote",
+          "experienceMinYears": 3,
+          "experienceMaxYears": 8,
+          "channel": "careers_site"
+        },
+        "verifyListPath": "/api/jobs?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Requisition Y2-REQ-1502 created for DevOps Engineer",
+      "Job posted for DevOps Engineer"
+    ],
+    "crossEvents": [
+      "recruitment.requisition-created",
+      "recruitment.job-posted"
+    ],
+    "notifications": [
+      "Hiring manager notified for DevOps Engineer role",
+      "Job posted on recruitment channel"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "7nCt0tKs-WjU9fbA859cQQ6Qkzio8aP9yILZXP0jhys"
+}

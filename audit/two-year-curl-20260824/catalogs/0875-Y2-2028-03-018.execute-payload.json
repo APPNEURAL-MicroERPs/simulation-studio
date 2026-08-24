@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-018",
+    "month": "2028-03",
+    "companyTime": "2028-03-07T10:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "Pipeline has 100 opportunities"
+    ],
+    "intent": "Create opportunity: Synergy Services — Y2-OPP-4505 (new).",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Synergy Services — Cloud Migration",
+          "code": "Y2-OPP-4505",
+          "amount": 4630000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 10,
+          "forecastCategory": "pipeline",
+          "expectedCloseOn": "2028-03-28",
+          "businessNeed": "Synergy Services needs system modernization",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2028-03-11"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Opportunity Y2-OPP-4505 created at new stage"
+    ],
+    "crossEvents": [
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Opportunity owner receives pipeline task"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "_3zMxsKcco2763P3lh05kCKUSNWl1PA28Gf4mFqS9eU"
+}

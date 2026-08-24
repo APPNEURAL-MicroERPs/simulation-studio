@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-028",
+    "month": "2028-02",
+    "companyTime": "2028-02-10T13:45:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2102 exists"
+    ],
+    "intent": "Add candidate Pradeep Bose for Financial Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Pradeep Bose",
+          "email": "pradeep.bose@example.com",
+          "phone": "+91-9747244178",
+          "locationName": "Chennai",
+          "currentTitle": "Consultant",
+          "totalExperienceMonths": 42,
+          "skills": "SAP, Salesforce, Oracle, Azure",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1100000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Financial Analyst — Y2-REQ-2102"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Pradeep Bose added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "dTLhZkQ_XVWovmhfyPuOU8WDgwF31zB-uC0d_5sVmqg"
+}

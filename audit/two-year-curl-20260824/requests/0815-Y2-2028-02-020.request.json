@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-020",
+      "month": "2028-02",
+      "companyTime": "2028-02-08T16:00:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign Dell UltraSharp 27\" to Sandeep Patel.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-MONITOR-Y2-AST-2201",
+            "name": "Dell UltraSharp 27\"",
+            "serialNumber": "SN-MONITOR-Y2-0057",
+            "category": "monitor",
+            "model": "Dell UltraSharp 27\"",
+            "status": "assigned",
+            "assignedTo": "sandeep.patel@nexora.example",
+            "location": "Bengaluru",
+            "purchaseDate": "2028-02-02",
+            "purchaseCost": 46051
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-MONITOR-Y2-AST-2201 assigned to Sandeep Patel"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "5VeYC4GqnrDEsC4g4EDu4tQtcB3KCHUncmPQs53fx9o"
+  }
+}

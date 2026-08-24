@@ -1,0 +1,42 @@
+{
+  "story": {
+    "id": "Y2-2028-02-034",
+    "month": "2028-02",
+    "companyTime": "2028-02-13T09:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "administration",
+    "preconditions": [
+      "Office is operational"
+    ],
+    "intent": "Administration: Pantry Restock.",
+    "steps": [
+      {
+        "module": "administration",
+        "method": "POST",
+        "path": "/api/supplies",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Pantry Restock",
+          "unit": "batch",
+          "quantity": 42,
+          "status": "in_stock"
+        },
+        "verifyListPath": "/api/supplies?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Admin supply record created: Pantry Restock"
+    ],
+    "crossEvents": [
+      "administration.supply-recorded"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "WttXkUoR8-lH3Pv5OatQkcRI767Tm9_WiAtQkKN2Fyw"
+}

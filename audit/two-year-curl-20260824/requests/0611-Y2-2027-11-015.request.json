@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-015",
+      "month": "2027-11",
+      "companyTime": "2027-11-07T12:25:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "contract",
+      "preconditions": [
+        "Customer ABC Manufacturing Corp exists"
+      ],
+      "intent": "Create MSA contract with ABC Manufacturing Corp (value: 90L).",
+      "steps": [
+        {
+          "module": "contract",
+          "method": "POST",
+          "path": "/api/contracts",
+          "expectedStatus": 201,
+          "body": {
+            "contractNo": "CTR-Y2-042",
+            "title": "MSA — ABC Manufacturing Corp",
+            "counterpartyName": "ABC Manufacturing Corp",
+            "counterpartyType": "customer",
+            "contractType": "msa",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": "8996727",
+            "currency": "INR",
+            "startOn": "2027-11-01",
+            "endOn": "2029-02-15",
+            "status": "draft",
+            "description": "MSA for implementation project with ABC Manufacturing Corp."
+          },
+          "verifyListPath": "/api/contracts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "MSA contract created with ABC Manufacturing Corp"
+      ],
+      "crossEvents": [
+        "contract.created"
+      ],
+      "notifications": [
+        "Legal and finance notified for review"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "0jyw9SoQeluYDsxwJuViEfqQxqJcDnqQkGbQb8710iM"
+  }
+}

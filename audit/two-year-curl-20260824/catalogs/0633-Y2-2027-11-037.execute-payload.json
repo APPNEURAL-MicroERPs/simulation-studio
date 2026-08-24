@@ -1,0 +1,66 @@
+{
+  "story": {
+    "id": "Y2-2027-11-037",
+    "month": "2027-11",
+    "companyTime": "2027-11-13T15:45:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "project",
+    "preconditions": [
+      "14 active projects",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "New project: Y2-PRJ-1412 — Mobile Application for Pinnacle Solutions with kickoff milestone.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/projects",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Pinnacle Solutions — Mobile Application",
+          "code": "Y2-PRJ-1412",
+          "client": "Pinnacle Solutions",
+          "managerEmail": "sandeep.patel@nexora.example",
+          "startDate": "2027-11-16",
+          "endDate": "2028-03-15",
+          "budget": 3233602,
+          "status": "planning"
+        },
+        "verifyListPath": "/api/projects?pageSize=200"
+      },
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/milestones",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "$PREV.createdId",
+          "name": "Kickoff — Architecture design",
+          "baselineDate": "2027-11-23",
+          "forecastDate": "2027-11-20",
+          "isBillingTrigger": false
+        },
+        "verifyListPath": "/api/milestones?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Project Y2-PRJ-1412 created for Pinnacle Solutions",
+      "Kickoff milestone created"
+    ],
+    "crossEvents": [
+      "project.created",
+      "project.milestone-created"
+    ],
+    "notifications": [
+      "Project manager receives kickoff task",
+      "Milestone added to project plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "iZJS3kkj1U0eAZbYy6jrCPLTyEmhftFdaNE7E1TuJ24"
+}

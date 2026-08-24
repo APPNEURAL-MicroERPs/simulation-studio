@@ -1,0 +1,66 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-062",
+      "month": "2027-12",
+      "companyTime": "2027-12-28T13:15:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "payroll",
+      "preconditions": [
+        "Monthly payroll batch created"
+      ],
+      "intent": "Variable pay / bonus for 2 employees.",
+      "steps": [
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2027-12",
+            "employeeCode": "EMP-1007",
+            "kind": "bonus",
+            "amount": 42898,
+            "remarks": "Performance bonus for 2027-12",
+            "status": "draft"
+          }
+        },
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2027-12",
+            "employeeCode": "EMP-1012",
+            "kind": "bonus",
+            "amount": 63375,
+            "remarks": "Performance bonus for 2027-12",
+            "status": "draft"
+          }
+        }
+      ],
+      "expectedState": [
+        "2 bonus inputs created"
+      ],
+      "crossEvents": [
+        "payroll.bonus-input-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Z0xX7IVAZlPUpQyDTJQD-0NPQkxWqSxg4L43pgzmCAU"
+  }
+}

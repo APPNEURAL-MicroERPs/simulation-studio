@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-045",
+    "month": "2027-12",
+    "companyTime": "2027-12-17T10:20:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1703 exists"
+    ],
+    "intent": "Add candidate Pallavi Dubey for Account Manager role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Pallavi Dubey",
+          "email": "pallavi.dubey@example.com",
+          "phone": "+91-9046218417",
+          "locationName": "Pune",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 30,
+          "skills": "Customer Success, Docker, Terraform, Next.js",
+          "source": "careers_site",
+          "noticePeriodDays": 15,
+          "expectedCtc": 1000000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Account Manager — Y2-REQ-1703"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Pallavi Dubey added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "l1fCpRfKczon0mFz50hXEeMLUH7sqNwdtRb5_xlG0-c"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-043",
+      "month": "2028-02",
+      "companyTime": "2028-02-18T09:15:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2104 exists"
+      ],
+      "intent": "Add candidate Harsh Desai for Support Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Harsh Desai",
+            "email": "harsh.desai@example.com",
+            "phone": "+91-9754206784",
+            "locationName": "Mumbai",
+            "currentTitle": "Junior Engineer",
+            "totalExperienceMonths": 33,
+            "skills": "Java, Go, Azure, Technical Support, CI/CD, GCP",
+            "source": "campus",
+            "noticePeriodDays": 30,
+            "expectedCtc": 550000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Support Engineer — Y2-REQ-2104"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Harsh Desai added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "AA6EVSyvSvSSl_Bc14FFa69k-GwsDd2q2I-c5erip_0"
+  }
+}

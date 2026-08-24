@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2028-01-032",
+    "month": "2028-01",
+    "companyTime": "2028-01-13T13:25:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma enrolled in \"Cloud Architecture Fundamentals\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1001",
+          "title": "Cloud Architecture Fundamentals",
+          "description": "Professional development: Cloud Architecture Fundamentals. Aligned with role growth and company needs.",
+          "source": "self_nominated",
+          "startsOn": "2028-01-01",
+          "completesBy": "2028-03-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Priya Sharma enrolled in Cloud Architecture Fundamentals"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "6XwuomtcKmdXARF0JSblkueuwOGb9LSR-jWkn4kpHd4"
+}

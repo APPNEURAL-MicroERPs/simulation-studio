@@ -1,0 +1,49 @@
+{
+  "story": {
+    "id": "Y2-2028-03-010",
+    "month": "2028-03",
+    "companyTime": "2028-03-04T17:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "resource",
+    "preconditions": [
+      "Vikram Shah is active",
+      "Project Y2-PRJ-11 is active"
+    ],
+    "intent": "Allocate Vikram Shah to Y2-PRJ-11 at 60%.",
+    "steps": [
+      {
+        "module": "resource",
+        "method": "POST",
+        "path": "/api/allocations",
+        "expectedStatus": 201,
+        "body": {
+          "allocationNo": "Y2-ALLOC-4411",
+          "resourceId": "RES-EMP-1007",
+          "employeeCode": "EMP-1007",
+          "projectId": "Y2-PRJ-11",
+          "role": "QA Engineer",
+          "allocationPercent": 60,
+          "startDate": "2028-03-01",
+          "endDate": "2028-07-15"
+        },
+        "verifyListPath": "/api/allocations?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Vikram Shah allocated to Y2-PRJ-11 at 60%"
+    ],
+    "crossEvents": [
+      "resource.allocation-created"
+    ],
+    "notifications": [
+      "Employee and manager notified of allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "KuNrfeSVpRkQGhIZ1QGYvRhPJBw4TObqUb8qbz45_I0"
+}

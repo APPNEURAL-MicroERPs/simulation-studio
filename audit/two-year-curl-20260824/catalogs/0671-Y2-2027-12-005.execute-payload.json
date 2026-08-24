@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-12-005",
+    "month": "2027-12",
+    "companyTime": "2027-12-03T10:40:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Priya Sharma is an active employee"
+    ],
+    "intent": "Priya Sharma submits expense: Team lunch / client meeting (3K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-8501",
+          "employeeCode": "EMP-1001",
+          "employeeEmail": "priya.sharma@nexora.example",
+          "category": "meals",
+          "amount": 3333,
+          "expenseDate": "2027-12-03",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-8501 approved for Priya Sharma"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "8Px0cvrp0BZL9Hdag-iBO1oKE8pWzf5WNm_9OO4OSy0"
+}

@@ -1,0 +1,81 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-013",
+      "month": "2028-03",
+      "companyTime": "2028-03-06T09:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "procurement",
+      "preconditions": [
+        "4 active vendors"
+      ],
+      "intent": "Purchase request: Office Supplies Restock → PO (25K).",
+      "steps": [
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/requests",
+          "expectedStatus": 201,
+          "body": {
+            "requestNo": "Y2-PO-2301",
+            "title": "Office Supplies Restock",
+            "category": "Office Supplies",
+            "requesterEmail": "vikram.shah@nexora.example",
+            "department": "Finance",
+            "estimatedCost": 25118,
+            "neededBy": "2028-04-15",
+            "justification": "Operational need: Office Supplies Restock. Approved by department head.",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/requests?pageSize=200"
+        },
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/purchase-orders",
+          "expectedStatus": 201,
+          "body": {
+            "poNumber": "PO-Y2-053",
+            "vendor": "TechEquip India Pvt Ltd",
+            "requestRef": "$PREV.createdId",
+            "category": "Office Supplies",
+            "itemSummary": "Office Supplies Restock",
+            "amount": 25118,
+            "costCenter": "CC-ADMIN",
+            "orderDate": "2028-03-10",
+            "expectedDate": "2028-07-15",
+            "buyerEmail": "vikram.shah@nexora.example",
+            "status": "approved"
+          },
+          "verifyListPath": "/api/purchase-orders?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Purchase request Y2-PO-2301 created",
+        "PO created against request"
+      ],
+      "crossEvents": [
+        "procurement.request-created",
+        "procurement.po-created"
+      ],
+      "notifications": [
+        "Procurement team notified",
+        "Vendor notified of PO"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "lZXOh2NBGGHw9b4762I4hrlYT5Xy7iJlmUBCiYPUqGY"
+  }
+}

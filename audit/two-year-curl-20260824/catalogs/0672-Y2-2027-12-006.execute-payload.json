@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-12-006",
+    "month": "2027-12",
+    "companyTime": "2027-12-03T12:35:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "finance",
+    "preconditions": [
+      "Quarterly budget planning cycle"
+    ],
+    "intent": "Set quarterly department budget.",
+    "steps": [
+      {
+        "module": "finance",
+        "method": "POST",
+        "path": "/api/budgets",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Department Budget 2027-12",
+          "amount": 2580650,
+          "currency": "INR",
+          "period": "2027-Q4",
+          "costCenter": "CC-SALES",
+          "status": "approved",
+          "description": "Quarterly budget allocation for 2027-12. Approved by Finance Controller."
+        },
+        "verifyListPath": "/api/budgets?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Quarterly budget set and approved"
+    ],
+    "crossEvents": [
+      "finance.budget-set"
+    ],
+    "notifications": [
+      "Department heads notified of budget allocation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "IKy0AU0vBTFxvZDY2KPfkvdrj0VvazrUp-SHLRVv_kE"
+}

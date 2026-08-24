@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-10-024",
+    "month": "2027-10",
+    "companyTime": "2027-10-10T11:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "learning",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra enrolled in \"DevOps CI/CD Pipeline Mastery\".",
+    "steps": [
+      {
+        "module": "learning",
+        "method": "POST",
+        "path": "/api/development-plans",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-1008",
+          "title": "DevOps CI/CD Pipeline Mastery",
+          "description": "Professional development: DevOps CI/CD Pipeline Mastery. Aligned with role growth and company needs.",
+          "source": "compliance_required",
+          "startsOn": "2027-10-01",
+          "completesBy": "2027-12-28"
+        },
+        "verifyListPath": "/api/development-plans?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Karan Malhotra enrolled in DevOps CI/CD Pipeline Mastery"
+    ],
+    "crossEvents": [
+      "learning.enrollment-created"
+    ],
+    "notifications": [
+      "Manager notified of learning assignment"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "5CIJiDO_0Mz5aNyiXjiC9RcymO2WHRGrI2oKw_deNHw"
+}

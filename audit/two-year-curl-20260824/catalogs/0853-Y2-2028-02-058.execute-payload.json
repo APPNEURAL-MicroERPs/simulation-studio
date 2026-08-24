@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-058",
+    "month": "2028-02",
+    "companyTime": "2028-02-25T11:35:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2105 exists"
+    ],
+    "intent": "Add candidate Shreya Agarwal for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Shreya Agarwal",
+          "email": "shreya.agarwal@example.com",
+          "phone": "+91-9754927259",
+          "locationName": "Gurugram",
+          "currentTitle": "Engineer",
+          "totalExperienceMonths": 44,
+          "skills": "Figma, Adobe XD, GraphQL, SAP",
+          "source": "agency",
+          "noticePeriodDays": 60,
+          "expectedCtc": 900000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-2105"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Shreya Agarwal added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "1pAHulD0izU7B7Xbk2b-CUHt1hvNGadSFnw66TomP9M"
+}

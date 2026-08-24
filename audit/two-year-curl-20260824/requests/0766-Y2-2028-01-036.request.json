@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-036",
+      "month": "2028-01",
+      "companyTime": "2028-01-14T14:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1903 exists"
+      ],
+      "intent": "Add candidate Anjali Reddy for Data Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Anjali Reddy",
+            "email": "anjali.reddy@example.com",
+            "phone": "+91-9514628072",
+            "locationName": "Chennai",
+            "currentTitle": "Analyst",
+            "totalExperienceMonths": 34,
+            "skills": "Accounting, Audit, Redis, Compliance, Account Management, Oracle",
+            "source": "agency",
+            "noticePeriodDays": 15,
+            "expectedCtc": 1550000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Data Engineer — Y2-REQ-1903"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Anjali Reddy added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "u063Qa1m5cDU_KI0njHVzY77n3MET-LcrRQpOuUxlfk"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "story": {
+    "id": "Y2-2027-11-069",
+    "month": "2027-11",
+    "companyTime": "2027-11-26T17:25:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "payroll",
+    "preconditions": [
+      "4 employees active",
+      "Month 2027-11 end"
+    ],
+    "intent": "Monthly payroll batch for 4 employees.",
+    "steps": [
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-11",
+          "employeeCode": "EMP-1001",
+          "kind": "bonus",
+          "amount": 100645,
+          "remarks": "Monthly payroll input for 2027-11",
+          "status": "draft"
+        }
+      },
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-11",
+          "employeeCode": "EMP-1012",
+          "kind": "bonus",
+          "amount": 195910,
+          "remarks": "Monthly payroll input for 2027-11",
+          "status": "draft"
+        }
+      },
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-11",
+          "employeeCode": "EMP-1007",
+          "kind": "bonus",
+          "amount": 86894,
+          "remarks": "Monthly payroll input for 2027-11",
+          "status": "draft"
+        }
+      },
+      {
+        "module": "payroll",
+        "method": "POST",
+        "path": "/api/inputs",
+        "expectedStatus": 201,
+        "body": {
+          "period": "2027-11",
+          "employeeCode": "EMP-1008",
+          "kind": "bonus",
+          "amount": 133528,
+          "remarks": "Monthly payroll input for 2027-11",
+          "status": "draft"
+        }
+      }
+    ],
+    "expectedState": [
+      "4 payroll inputs created for 2027-11"
+    ],
+    "crossEvents": [
+      "payroll.monthly-batch-created"
+    ],
+    "notifications": [
+      "Finance controller reviews payroll batch"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "SyzlK16s4GTs1iZssWX3GvcHgRI9vq5zMkDiRDQ0rz8"
+}

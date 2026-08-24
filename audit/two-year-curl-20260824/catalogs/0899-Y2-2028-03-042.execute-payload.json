@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-03-042",
+    "month": "2028-03",
+    "companyTime": "2028-03-17T15:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra applies for sick leave (17-17 2028-03).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1008",
+          "employeeCode": "EMP-1008",
+          "leaveTypeId": "sick",
+          "fromDate": "2028-03-17",
+          "toDate": "2028-03-17",
+          "duration": "full_day",
+          "reason": "Sick leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "sick leave approved for Karan Malhotra"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "F5VQmYdsus_SCObCdH2l8og3HAYwEhH_WwgcMVTYfN8"
+}

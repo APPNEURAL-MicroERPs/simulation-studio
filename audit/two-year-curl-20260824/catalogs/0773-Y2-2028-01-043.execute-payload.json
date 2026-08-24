@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-01-043",
+    "month": "2028-01",
+    "companyTime": "2028-01-16T09:20:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Vikram Shah is an active employee"
+    ],
+    "intent": "Vikram Shah applies for sick leave (15-19 2028-01).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1007",
+          "employeeCode": "EMP-1007",
+          "leaveTypeId": "sick",
+          "fromDate": "2028-01-15",
+          "toDate": "2028-01-19",
+          "duration": "full_day",
+          "reason": "Sick leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "sick leave approved for Vikram Shah"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "joGU87pr5IVxKwmewprykEwRwPhUq-Vw-iC4TjavBos"
+}

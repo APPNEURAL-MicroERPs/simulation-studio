@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-029",
+      "month": "2027-12",
+      "companyTime": "2027-12-12T11:45:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "crm",
+      "preconditions": [
+        "Pipeline has 100 opportunities"
+      ],
+      "intent": "Create opportunity: Quantum Data — Y2-OPP-3310 (discovery).",
+      "steps": [
+        {
+          "module": "crm",
+          "method": "POST",
+          "path": "/api/opportunities",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Quantum Data — Analytics Suite",
+            "code": "Y2-OPP-3310",
+            "amount": 3870000,
+            "currency": "INR",
+            "stage": "discovery",
+            "probability": 30,
+            "forecastCategory": "pipeline",
+            "expectedCloseOn": "2027-12-27",
+            "businessNeed": "Quantum Data needs process automation",
+            "nextAction": "Pricing discussion",
+            "nextActionOn": "2027-12-18"
+          },
+          "verifyListPath": "/api/opportunities?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Opportunity Y2-OPP-3310 created at discovery stage"
+      ],
+      "crossEvents": [
+        "crm.opportunity-created"
+      ],
+      "notifications": [
+        "Opportunity owner receives pipeline task"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "eTbwm05SQ-QwADGYwtR8F7GGvNcX8sXC9O4O59id_BQ"
+  }
+}

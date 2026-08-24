@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-019",
+      "month": "2027-12",
+      "companyTime": "2027-12-07T15:00:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign Dell UltraSharp 27\" to Karan Malhotra.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-MONITOR-Y2-AST-1801",
+            "name": "Dell UltraSharp 27\"",
+            "serialNumber": "SN-MONITOR-Y2-0058",
+            "category": "monitor",
+            "model": "Dell UltraSharp 27\"",
+            "status": "assigned",
+            "assignedTo": "karan.malhotra@nexora.example",
+            "location": "Gurugram",
+            "purchaseDate": "2027-12-03",
+            "purchaseCost": 37409
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-MONITOR-Y2-AST-1801 assigned to Karan Malhotra"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "dvK-HfkFPp5hwa8YRRcDgCdzplO4vXlJdt3UkfeB1SM"
+  }
+}

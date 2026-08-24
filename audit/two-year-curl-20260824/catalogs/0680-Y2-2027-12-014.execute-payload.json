@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-12-014",
+    "month": "2027-12",
+    "companyTime": "2027-12-05T12:10:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Atlas Labs (Technology) via website — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Atlas Labs",
+          "contactName": "Vandana Singh",
+          "title": "VP Operations",
+          "email": "vandana.singh@example.com",
+          "phone": "+91-9084049051",
+          "source": "website",
+          "country": "India",
+          "industry": "Technology",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3580000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Atlas Labs — Platform Development",
+          "code": "Y2-OPP-3302",
+          "amount": 3580000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-12-27",
+          "businessNeed": "Atlas Labs needs data analytics",
+          "nextAction": "Proposal submission",
+          "nextActionOn": "2027-12-14"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Atlas Labs",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "oqV8WV3fWWFZ22oxr86k-OHE4YHhasaaitgMZZHdigY"
+}

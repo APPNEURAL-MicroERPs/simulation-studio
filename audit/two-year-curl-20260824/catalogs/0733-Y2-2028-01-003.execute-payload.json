@@ -1,0 +1,66 @@
+{
+  "story": {
+    "id": "Y2-2028-01-003",
+    "month": "2028-01",
+    "companyTime": "2028-01-02T17:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "project",
+    "preconditions": [
+      "14 active projects",
+      "Startup (38-50 employees) phase"
+    ],
+    "intent": "New project: Y2-PRJ-1811 — Analytics Dashboard for Atlas Infotech with kickoff milestone.",
+    "steps": [
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/projects",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Atlas Infotech — Digital Transformation",
+          "code": "Y2-PRJ-1811",
+          "client": "Atlas Infotech",
+          "managerEmail": "sandeep.patel@nexora.example",
+          "startDate": "2028-01-02",
+          "endDate": "2028-06-15",
+          "budget": 4212598,
+          "status": "active"
+        },
+        "verifyListPath": "/api/projects?pageSize=200"
+      },
+      {
+        "module": "project",
+        "method": "POST",
+        "path": "/api/milestones",
+        "expectedStatus": 201,
+        "body": {
+          "projectId": "$PREV.createdId",
+          "name": "Kickoff — Sprint 0 setup",
+          "baselineDate": "2028-01-12",
+          "forecastDate": "2028-01-11",
+          "isBillingTrigger": false
+        },
+        "verifyListPath": "/api/milestones?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Project Y2-PRJ-1811 created for Atlas Infotech",
+      "Kickoff milestone created"
+    ],
+    "crossEvents": [
+      "project.created",
+      "project.milestone-created"
+    ],
+    "notifications": [
+      "Project manager receives kickoff task",
+      "Milestone added to project plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "MDwWx1BvauZD2tiXlJ1uAV7k483RFn5-WZJPUPhJIpI"
+}

@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-037",
+    "month": "2028-03",
+    "companyTime": "2028-03-15T12:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Sachin Rastogi",
+      "Software Engineer requisition filled"
+    ],
+    "intent": "Register new employee Sachin Rastogi joining as Engineer.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-003",
+          "fullName": "Sachin Rastogi",
+          "email": "sachin.rastogi@example.com",
+          "designation": "Engineer",
+          "department": "Engineering",
+          "location": "Udaipur",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2028-03-15"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Sachin Rastogi registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "Z9RjA9owGUAGlZLBqxXRoov4MGx9j3yMih8RKPa96lA"
+}

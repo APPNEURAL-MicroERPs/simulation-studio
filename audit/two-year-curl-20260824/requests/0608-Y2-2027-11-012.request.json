@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-012",
+      "month": "2027-11",
+      "companyTime": "2027-11-05T14:00:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "support",
+      "preconditions": [
+        "Customer ABC Manufacturing Corp has active contract"
+      ],
+      "intent": "Support ticket: Login authentication failure from ABC Manufacturing Corp.",
+      "steps": [
+        {
+          "module": "support",
+          "method": "POST",
+          "path": "/api/tickets",
+          "expectedStatus": 201,
+          "body": {
+            "ticketNo": "Y2-TKT-3101",
+            "subject": "Login authentication failure",
+            "description": "Login authentication failure reported by ABC Manufacturing Corp. Priority: high. Category: access.",
+            "priority": "high",
+            "category": "access",
+            "customerName": "ABC Manufacturing Corp",
+            "raisedBy": "support.abc.manufacturing.corp@example.com",
+            "assignedTo": "karan.malhotra@nexora.example",
+            "status": "resolved"
+          },
+          "verifyListPath": "/api/tickets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Ticket Y2-TKT-3101 resolved"
+      ],
+      "crossEvents": [
+        "support.ticket-resolved"
+      ],
+      "notifications": [
+        "Customer notified of resolution"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "nK16aG5LAvpz6xDbEDWPWW2aWBHepl0lPtEwoaxZbag"
+  }
+}

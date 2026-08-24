@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-016",
+      "month": "2028-03",
+      "companyTime": "2028-03-07T09:25:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "contract",
+      "preconditions": [
+        "Customer Aurora Services exists"
+      ],
+      "intent": "Create Amendment contract with Aurora Services (value: 79L).",
+      "steps": [
+        {
+          "module": "contract",
+          "method": "POST",
+          "path": "/api/contracts",
+          "expectedStatus": 201,
+          "body": {
+            "contractNo": "CTR-Y2-037",
+            "title": "Amendment — Aurora Services",
+            "counterpartyName": "Aurora Services",
+            "counterpartyType": "customer",
+            "contractType": "amendment",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": "7911321",
+            "currency": "INR",
+            "startOn": "2028-03-01",
+            "endOn": "2029-06-15",
+            "status": "draft",
+            "description": "Amendment for software development with Aurora Services."
+          },
+          "verifyListPath": "/api/contracts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Amendment contract created with Aurora Services"
+      ],
+      "crossEvents": [
+        "contract.created"
+      ],
+      "notifications": [
+        "Legal and finance notified for review"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "uft36q0xk2roCDrvA2oqw3Wg0HR9dVXTlCCTe6eje8U"
+  }
+}

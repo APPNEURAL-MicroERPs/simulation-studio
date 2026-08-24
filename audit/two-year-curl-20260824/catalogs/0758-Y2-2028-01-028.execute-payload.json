@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-01-028",
+    "month": "2028-01",
+    "companyTime": "2028-01-12T12:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1902 exists"
+    ],
+    "intent": "Add candidate Amit Tiwari for Support Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Amit Tiwari",
+          "email": "amit.tiwari@example.com",
+          "phone": "+91-9876350148",
+          "locationName": "Gurugram",
+          "currentTitle": "Junior Analyst",
+          "totalExperienceMonths": 37,
+          "skills": "CI/CD, Tableau, Oracle, Next.js, Training",
+          "source": "careers_site",
+          "noticePeriodDays": 0,
+          "expectedCtc": 750000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Support Engineer — Y2-REQ-1902"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Amit Tiwari added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4dox2uWLaO8713LlHC-eP-HV-zC9CRwaM0oqNq5uKDk"
+}

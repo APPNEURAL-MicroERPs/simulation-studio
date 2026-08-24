@@ -1,0 +1,97 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-062",
+      "month": "2028-02",
+      "companyTime": "2028-02-28T12:05:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "payroll",
+      "preconditions": [
+        "4 employees active",
+        "Month 2028-02 end"
+      ],
+      "intent": "Monthly payroll batch for 4 employees.",
+      "steps": [
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2028-02",
+            "employeeCode": "EMP-1007",
+            "kind": "bonus",
+            "amount": 208371,
+            "remarks": "Monthly payroll input for 2028-02",
+            "status": "draft"
+          }
+        },
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2028-02",
+            "employeeCode": "EMP-1001",
+            "kind": "bonus",
+            "amount": 89509,
+            "remarks": "Monthly payroll input for 2028-02",
+            "status": "draft"
+          }
+        },
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2028-02",
+            "employeeCode": "EMP-1012",
+            "kind": "bonus",
+            "amount": 79946,
+            "remarks": "Monthly payroll input for 2028-02",
+            "status": "draft"
+          }
+        },
+        {
+          "module": "payroll",
+          "method": "POST",
+          "path": "/api/inputs",
+          "expectedStatus": 201,
+          "body": {
+            "period": "2028-02",
+            "employeeCode": "EMP-1008",
+            "kind": "bonus",
+            "amount": 242830,
+            "remarks": "Monthly payroll input for 2028-02",
+            "status": "draft"
+          }
+        }
+      ],
+      "expectedState": [
+        "4 payroll inputs created for 2028-02"
+      ],
+      "crossEvents": [
+        "payroll.monthly-batch-created"
+      ],
+      "notifications": [
+        "Finance controller reviews payroll batch"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "1sB2XBYmlCHnVpVMniKFhm1MJBVo4lW0zV825A3E2Ok"
+  }
+}

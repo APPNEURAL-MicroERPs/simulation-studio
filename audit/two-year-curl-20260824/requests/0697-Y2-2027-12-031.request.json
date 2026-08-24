@@ -1,0 +1,80 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-031",
+      "month": "2027-12",
+      "companyTime": "2027-12-13T10:30:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "security",
+      "preconditions": [
+        "4 employees",
+        "24 prior security reviews"
+      ],
+      "intent": "Security review: Monthly Access Review. 2 findings raised and documented.",
+      "steps": [
+        {
+          "module": "security",
+          "method": "POST",
+          "path": "/api/reviews",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Monthly Access Review — 2027-12",
+            "kind": "access_review",
+            "scope": "4 employees, 14 active projects, cloud infrastructure",
+            "performedOn": "2027-12-09",
+            "reviewerEmail": "sandeep.patel@nexora.example",
+            "findingsRaised": 2,
+            "status": "completed"
+          },
+          "verifyListPath": "/api/reviews?pageSize=200"
+        },
+        {
+          "module": "security",
+          "method": "POST",
+          "path": "/api/security-findings",
+          "expectedStatus": 201,
+          "body": {
+            "findingCode": "SF-Y2-061",
+            "title": "Monthly Access Review: Open port found on staging",
+            "source": "SECURITY_ASSESSMENT",
+            "reviewId": "$PREV.createdId",
+            "severity": "LOW",
+            "priority": "P1",
+            "status": "NEW",
+            "description": "Finding from Monthly Access Review. Requires remediation within SLA.",
+            "ownerEmail": "sandeep.patel@nexora.example",
+            "team": "IT",
+            "detectedOn": "2027-12-15",
+            "slaDays": 30
+          },
+          "verifyListPath": "/api/security-findings?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Security review completed: Monthly Access Review",
+        "Security finding documented"
+      ],
+      "crossEvents": [
+        "security.review-completed",
+        "security.finding-raised"
+      ],
+      "notifications": [
+        "2 security findings require remediation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "E4QKFuFG4vHcYdFdFHsqHGgnVpPzvidBKtowMZR6mao"
+  }
+}

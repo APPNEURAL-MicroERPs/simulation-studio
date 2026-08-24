@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2027-11-052",
+    "month": "2027-11",
+    "companyTime": "2027-11-19T11:30:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "member",
+    "module": "attendance",
+    "preconditions": [
+      "Sandeep Patel is an active employee"
+    ],
+    "intent": "Sandeep Patel applies for casual leave (19-21 2027-11).",
+    "steps": [
+      {
+        "module": "attendance",
+        "method": "POST",
+        "path": "/api/leave-requests",
+        "expectedStatus": 201,
+        "body": {
+          "employeeId": "EMP-1012",
+          "employeeCode": "EMP-1012",
+          "leaveTypeId": "casual",
+          "fromDate": "2027-11-19",
+          "toDate": "2027-11-21",
+          "duration": "full_day",
+          "reason": "Casual leave for personal matters."
+        },
+        "verifyListPath": "/api/leave-requests?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "casual leave approved for Sandeep Patel"
+    ],
+    "crossEvents": [
+      "attendance.leave-approved"
+    ],
+    "notifications": [
+      "Manager notified of leave approval"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "3HquPoFLwe5PZJa0P-TMV2-Zef-mzI2GpGiyd3QK4Nc"
+}

@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-063",
+      "month": "2028-03",
+      "companyTime": "2028-03-26T15:30:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-2305 exists"
+      ],
+      "intent": "Add candidate Deepak Singh for HR Executive role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Deepak Singh",
+            "email": "deepak.singh@example.com",
+            "phone": "+91-9691917561",
+            "locationName": "Hyderabad",
+            "currentTitle": "Trainee Engineer",
+            "totalExperienceMonths": 103,
+            "skills": "Customer Success, Node.js, GraphQL",
+            "source": "campus",
+            "noticePeriodDays": 15,
+            "expectedCtc": 450000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for HR Executive — Y2-REQ-2305"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Deepak Singh added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "x3yZk2ZWtFe4YS2Y6uJKgbJQuXu8k9UNsmkibxKNmaw"
+  }
+}

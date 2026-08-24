@@ -1,0 +1,13 @@
+HTTP/2 200 
+date: Mon, 24 Aug 2026 02:50:50 GMT
+content-type: application/json
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-opennext: 1
+strict-transport-security: max-age=31536000; includeSubDomains
+x-content-type-options: nosniff
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=f4jNX70aVmFQm2XnTVSzkSzcxBRDTprOWgFc0E3fXF45apIFcAPEhJv0dtm8lTpFn6QWWwh%2F4saD5pX7rfhkeWgXxQRUyqvTvTvQuZruihVSQDcBo7e05YOi2%2FW9ey6jH%2FZV%2BPeHMM4%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a2ff0d3ed81db21e-DEL
+alt-svc: h3=":443"; ma=86400
+

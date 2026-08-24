@@ -1,0 +1,55 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-049",
+      "month": "2028-02",
+      "companyTime": "2028-02-19T16:20:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "compliance",
+      "preconditions": [
+        "33 prior compliance findings"
+      ],
+      "intent": "Compliance finding: Data retention policy compliance check.",
+      "steps": [
+        {
+          "module": "compliance",
+          "method": "POST",
+          "path": "/api/findings",
+          "expectedStatus": 201,
+          "body": {
+            "findingRef": "COMP-Y2-061",
+            "title": "Data retention policy compliance check",
+            "severity": "medium",
+            "ownerEmail": "priya.sharma@nexora.example",
+            "description": "Data retention policy compliance check. Assessed during 2028-02 compliance review cycle. Status: documented and tracked for remediation.",
+            "status": "open"
+          },
+          "verifyListPath": "/api/findings?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Compliance finding documented"
+      ],
+      "crossEvents": [
+        "compliance.finding-raised"
+      ],
+      "notifications": [
+        "Finding owner notified for remediation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "voFGZlq5Ovzw3otvSllbIUB0p6VGlVYlifKdnyfNM98"
+  }
+}

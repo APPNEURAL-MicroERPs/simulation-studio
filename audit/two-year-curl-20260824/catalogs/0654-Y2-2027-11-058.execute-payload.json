@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-058",
+    "month": "2027-11",
+    "companyTime": "2027-11-21T15:05:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1505 exists"
+    ],
+    "intent": "Add candidate Karan Rao for Data Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Karan Rao",
+          "email": "karan.rao@example.com",
+          "phone": "+91-9817018474",
+          "locationName": "Chennai",
+          "currentTitle": "Senior Analyst",
+          "totalExperienceMonths": 46,
+          "skills": "Excel, Technical Support, Oracle",
+          "source": "inbound",
+          "noticePeriodDays": 15,
+          "expectedCtc": 1050000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Data Engineer — Y2-REQ-1505"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Karan Rao added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "lxZYKy2K4JiowVxQheCqk5tPYjWfwPxi8HrQY_OHlJU"
+}

@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-023",
+      "month": "2028-01",
+      "companyTime": "2028-01-09T12:30:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "contract",
+      "preconditions": [
+        "Customer Aurora Services exists"
+      ],
+      "intent": "Create SOW contract with Aurora Services (value: 65L).",
+      "steps": [
+        {
+          "module": "contract",
+          "method": "POST",
+          "path": "/api/contracts",
+          "expectedStatus": 201,
+          "body": {
+            "contractNo": "CTR-Y2-038",
+            "title": "SOW — Aurora Services",
+            "counterpartyName": "Aurora Services",
+            "counterpartyType": "customer",
+            "contractType": "sow",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": "6526434",
+            "currency": "INR",
+            "startOn": "2028-01-01",
+            "endOn": "2028-08-15",
+            "status": "draft",
+            "description": "SOW for software development with Aurora Services."
+          },
+          "verifyListPath": "/api/contracts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "SOW contract created with Aurora Services"
+      ],
+      "crossEvents": [
+        "contract.created"
+      ],
+      "notifications": [
+        "Legal and finance notified for review"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "elpjfoZ0SR-ywxd4Wp1xD2mfK6jBWXJLs2jF3ENJ4h0"
+  }
+}

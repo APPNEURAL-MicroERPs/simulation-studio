@@ -1,0 +1,46 @@
+{
+  "story": {
+    "id": "Y2-2027-12-051",
+    "month": "2027-12",
+    "companyTime": "2027-12-20T09:45:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "compliance",
+    "preconditions": [
+      "30 prior compliance findings"
+    ],
+    "intent": "Compliance finding: Employee onboarding compliance checklist.",
+    "steps": [
+      {
+        "module": "compliance",
+        "method": "POST",
+        "path": "/api/findings",
+        "expectedStatus": 201,
+        "body": {
+          "findingRef": "COMP-Y2-062",
+          "title": "Employee onboarding compliance checklist",
+          "severity": "low",
+          "ownerEmail": "sandeep.patel@nexora.example",
+          "description": "Employee onboarding compliance checklist. Assessed during 2027-12 compliance review cycle. Status: documented and tracked for remediation.",
+          "status": "open"
+        },
+        "verifyListPath": "/api/findings?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Compliance finding documented"
+    ],
+    "crossEvents": [
+      "compliance.finding-raised"
+    ],
+    "notifications": [
+      "Finding owner notified for remediation"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "-GlZdPcKwF9KByokgXCbJ1MEhSnN8Vbmn_tYChLlx7o"
+}

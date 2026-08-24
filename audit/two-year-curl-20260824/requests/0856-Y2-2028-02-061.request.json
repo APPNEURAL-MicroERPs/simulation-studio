@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-061",
+      "month": "2028-02",
+      "companyTime": "2028-02-27T17:20:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Asha Patel",
+        "Support Engineer requisition filled"
+      ],
+      "intent": "Register new employee Asha Patel joining as Trainee Engineer.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-012",
+            "fullName": "Asha Patel",
+            "email": "asha.patel@example.com",
+            "designation": "Trainee Engineer",
+            "department": "Support",
+            "location": "Mumbai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2028-02-27"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Asha Patel registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "Ep1tCnwyf6W0nwTrXXxaHzPG2a_CX57BDEjIDW3lweI"
+  }
+}

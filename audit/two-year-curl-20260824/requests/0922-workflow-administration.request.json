@@ -1,0 +1,13 @@
+{
+  "method": "GET",
+  "url": "https://api.erp.appneural.com/administration/api/workflow-runs",
+  "headers": {
+    "authorization": "Bearer <REDACTED-SIMULATION-TOKEN>",
+    "accept": "application/json",
+    "x-simulation-run": "SIM-20260201-A546A6DC",
+    "x-simulation-time": "2028-03-31T17:00:00+05:30",
+    "x-correlation-id": "curl-audit-SIM-20260201-A546A6DC-administration",
+    "x-idempotency-key": "curl-audit-SIM-20260201-A546A6DC-administration"
+  },
+  "body": null
+}

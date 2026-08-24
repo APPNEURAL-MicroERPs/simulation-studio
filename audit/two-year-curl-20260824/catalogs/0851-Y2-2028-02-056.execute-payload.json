@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2028-02-056",
+    "month": "2028-02",
+    "companyTime": "2028-02-22T13:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Orbit Cloud (Retail) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Orbit Cloud",
+          "contactName": "Amit Jain",
+          "title": "CTO",
+          "email": "amit.jain@example.com",
+          "phone": "+91-9743057506",
+          "source": "referral",
+          "country": "India",
+          "industry": "Retail",
+          "companySize": "1001-5000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 3080000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Orbit Cloud — Digital Transformation",
+          "code": "Y2-OPP-4108",
+          "amount": 3080000,
+          "currency": "INR",
+          "stage": "discovery",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2028-02-26",
+          "businessNeed": "Orbit Cloud needs data analytics",
+          "nextAction": "Discovery call",
+          "nextActionOn": "2028-02-27"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Orbit Cloud",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "pNWytYn2I3ELMgUndHF77Viwgo6BTZMIKMpfax4SSpQ"
+}

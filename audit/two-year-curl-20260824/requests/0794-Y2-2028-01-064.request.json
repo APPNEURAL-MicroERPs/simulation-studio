@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-064",
+      "month": "2028-01",
+      "companyTime": "2028-01-26T17:35:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1904 exists"
+      ],
+      "intent": "Add candidate Vivek Mishra for Senior QA Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Vivek Mishra",
+            "email": "vivek.mishra@example.com",
+            "phone": "+91-9838125362",
+            "locationName": "Chennai",
+            "currentTitle": "Principal Engineer",
+            "totalExperienceMonths": 89,
+            "skills": "Terraform, Tax, Audit",
+            "source": "linkedin",
+            "noticePeriodDays": 90,
+            "expectedCtc": 2550000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Senior QA Engineer — Y2-REQ-1904"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Vivek Mishra added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "HRS63bnjCL-Oezt5W6XSrlTKsKxsCaycchMYYHMD5xM"
+  }
+}

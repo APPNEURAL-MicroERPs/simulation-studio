@@ -1,0 +1,72 @@
+{
+  "story": {
+    "id": "Y2-2028-01-006",
+    "month": "2028-01",
+    "companyTime": "2028-01-03T16:05:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "procurement",
+    "preconditions": [
+      "4 active vendors"
+    ],
+    "intent": "Purchase request: Training Materials → PO (46K).",
+    "steps": [
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/requests",
+        "expectedStatus": 201,
+        "body": {
+          "requestNo": "Y2-PO-1901",
+          "title": "Training Materials",
+          "category": "Training",
+          "requesterEmail": "vikram.shah@nexora.example",
+          "department": "Operations",
+          "estimatedCost": 46445,
+          "neededBy": "2028-02-15",
+          "justification": "Operational need: Training Materials. Approved by department head.",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/requests?pageSize=200"
+      },
+      {
+        "module": "procurement",
+        "method": "POST",
+        "path": "/api/purchase-orders",
+        "expectedStatus": 201,
+        "body": {
+          "poNumber": "PO-Y2-054",
+          "vendor": "TechSupply Co",
+          "requestRef": "$PREV.createdId",
+          "category": "Training",
+          "itemSummary": "Training Materials",
+          "amount": 46445,
+          "costCenter": "CC-ENG",
+          "orderDate": "2028-01-12",
+          "expectedDate": "2028-04-15",
+          "buyerEmail": "vikram.shah@nexora.example",
+          "status": "approved"
+        },
+        "verifyListPath": "/api/purchase-orders?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Purchase request Y2-PO-1901 created",
+      "PO created against request"
+    ],
+    "crossEvents": [
+      "procurement.request-created",
+      "procurement.po-created"
+    ],
+    "notifications": [
+      "Procurement team notified",
+      "Vendor notified of PO"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "MzyEhplBVa_Pb62gfR5ltOGQBfoPWSurKD5eqKbT0FQ"
+}

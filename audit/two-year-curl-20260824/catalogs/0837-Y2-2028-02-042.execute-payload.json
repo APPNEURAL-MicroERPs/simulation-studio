@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-042",
+    "month": "2028-02",
+    "companyTime": "2028-02-17T09:55:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-2103 exists"
+    ],
+    "intent": "Add candidate Varun Rao for Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Varun Rao",
+          "email": "varun.rao@example.com",
+          "phone": "+91-9072752772",
+          "locationName": "Noida",
+          "currentTitle": "Senior Consultant",
+          "totalExperienceMonths": 32,
+          "skills": "Python, Payroll, GraphQL",
+          "source": "campus",
+          "noticePeriodDays": 0,
+          "expectedCtc": 950000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Software Engineer — Y2-REQ-2103"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Varun Rao added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "qZWlcvIalYauc0D30pswg_rH2W4FUToCx9qW_-Eizco"
+}

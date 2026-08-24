@@ -1,0 +1,42 @@
+{
+  "story": {
+    "id": "Y2-2027-11-021",
+    "month": "2027-11",
+    "companyTime": "2027-11-09T10:50:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "administration",
+    "preconditions": [
+      "Office is operational"
+    ],
+    "intent": "Administration: Visitor Management — Client Visit.",
+    "steps": [
+      {
+        "module": "administration",
+        "method": "POST",
+        "path": "/api/supplies",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Visitor Management — Client Visit",
+          "unit": "visit",
+          "quantity": 4,
+          "status": "low"
+        },
+        "verifyListPath": "/api/supplies?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Admin supply record created: Visitor Management — Client Visit"
+    ],
+    "crossEvents": [
+      "administration.supply-recorded"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4P6Qh_pmAR6WCY_fGpsWLv_mMmD4dJQoPjplI50pjUQ"
+}

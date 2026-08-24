@@ -1,0 +1,47 @@
+{
+  "story": {
+    "id": "Y2-2028-02-022",
+    "month": "2028-02",
+    "companyTime": "2028-02-08T17:15:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "member",
+    "module": "expense",
+    "preconditions": [
+      "Karan Malhotra is an active employee"
+    ],
+    "intent": "Karan Malhotra submits expense: Phone / internet reimbursement (3K).",
+    "steps": [
+      {
+        "module": "expense",
+        "method": "POST",
+        "path": "/api/claims",
+        "expectedStatus": 201,
+        "body": {
+          "claimNo": "Y2-EXP-10502",
+          "employeeCode": "EMP-1008",
+          "employeeEmail": "karan.malhotra@nexora.example",
+          "category": "other",
+          "amount": 2610,
+          "expenseDate": "2028-02-06",
+          "status": "draft"
+        },
+        "verifyListPath": "/api/claims?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Expense Y2-EXP-10502 approved for Karan Malhotra"
+    ],
+    "crossEvents": [
+      "expense.approved"
+    ],
+    "notifications": [
+      "Finance notified for reimbursement"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "8BAeR4-Vwu11BFgih72t8yZ-um8fVTSzO-6FxAflcQI"
+}

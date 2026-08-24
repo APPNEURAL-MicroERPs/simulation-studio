@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-056",
+    "month": "2027-11",
+    "companyTime": "2027-11-21T10:05:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1504 exists"
+    ],
+    "intent": "Add candidate Deepak Nair for QA Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Deepak Nair",
+          "email": "deepak.nair@example.com",
+          "phone": "+91-9883041218",
+          "locationName": "Noida",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 91,
+          "skills": "React, Selenium, Redis",
+          "source": "inbound",
+          "noticePeriodDays": 0,
+          "expectedCtc": 1650000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for QA Engineer — Y2-REQ-1504"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Deepak Nair added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "4g-K9jO5gOgr6uIwOnR6MVrYtqHE1Cq3DYUXeiV-ufI"
+}

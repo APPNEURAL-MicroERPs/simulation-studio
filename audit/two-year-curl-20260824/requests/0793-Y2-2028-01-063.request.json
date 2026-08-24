@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-063",
+      "month": "2028-01",
+      "companyTime": "2028-01-26T16:05:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Sanjay Bose",
+        "Software Engineer requisition filled"
+      ],
+      "intent": "Register new employee Sanjay Bose joining as Consultant.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-004",
+            "fullName": "Sanjay Bose",
+            "email": "sanjay.bose@example.com",
+            "designation": "Consultant",
+            "department": "Engineering",
+            "location": "Mumbai",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2028-01-26"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Sanjay Bose registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "AvtTXJvCj9cZr_KSWFsNPGcS0vmEDOCypEmwlsX7QFw"
+  }
+}

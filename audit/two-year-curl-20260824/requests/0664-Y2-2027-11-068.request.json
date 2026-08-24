@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-068",
+      "month": "2027-11",
+      "companyTime": "2027-11-26T09:35:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1505 exists"
+      ],
+      "intent": "Add candidate Nikhil Rao for Data Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Nikhil Rao",
+            "email": "nikhil.rao@example.com",
+            "phone": "+91-9759957370",
+            "locationName": "Chennai",
+            "currentTitle": "Consultant",
+            "totalExperienceMonths": 28,
+            "skills": "Kubernetes, Jira, Azure, REST",
+            "source": "inbound",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1200000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Data Engineer — Y2-REQ-1505"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Nikhil Rao added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "QQz9AQmdiMWJqgVr4VkUwze2aDpW0dSiM5UfLhuE388"
+  }
+}

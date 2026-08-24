@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-056",
+      "month": "2028-03",
+      "companyTime": "2028-03-23T16:00:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "hr",
+      "preconditions": [
+        "Offer accepted by Arjun Shah",
+        "HR Executive requisition filled"
+      ],
+      "intent": "Register new employee Arjun Shah joining as Junior Developer.",
+      "steps": [
+        {
+          "module": "hr",
+          "method": "POST",
+          "path": "/api/employees",
+          "expectedStatus": 201,
+          "body": {
+            "employeeCode": "EMP-Y2-015",
+            "fullName": "Arjun Shah",
+            "email": "arjun.shah@example.com",
+            "designation": "Junior Developer",
+            "department": "People",
+            "location": "Hyderabad",
+            "employmentType": "full_time",
+            "employmentStatus": "active",
+            "dateOfJoining": "2028-03-23"
+          },
+          "verifyListPath": "/api/employees?pageSize=500"
+        }
+      ],
+      "expectedState": [
+        "Arjun Shah registered as active employee"
+      ],
+      "crossEvents": [
+        "hr.employee-created",
+        "hr.employee-joined"
+      ],
+      "notifications": [
+        "Attendance, Payroll, Asset, Security receive employee.joined"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "GJKdq20lQOYNwbCSgysJ7g4fXi6QMBA83C0_hFjfXWE"
+  }
+}

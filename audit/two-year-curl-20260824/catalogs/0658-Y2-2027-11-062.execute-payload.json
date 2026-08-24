@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-11-062",
+    "month": "2027-11",
+    "companyTime": "2027-11-22T13:05:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Aditya Mehta",
+      "Sales Executive requisition filled"
+    ],
+    "intent": "Register new employee Aditya Mehta joining as Trainee Engineer.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-003",
+          "fullName": "Aditya Mehta",
+          "email": "aditya.mehta@example.com",
+          "designation": "Trainee Engineer",
+          "department": "Sales",
+          "location": "Hyderabad",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2027-11-22"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Aditya Mehta registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "HqI5nzM8crKFd6TzxV8Rb85MYtRS2SO7lKKPefISnSU"
+}

@@ -1,0 +1,81 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-02-009",
+      "month": "2028-02",
+      "companyTime": "2028-02-04T15:20:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "procurement",
+      "preconditions": [
+        "4 active vendors"
+      ],
+      "intent": "Purchase request: Furniture — New Hires → PO (62K).",
+      "steps": [
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/requests",
+          "expectedStatus": 201,
+          "body": {
+            "requestNo": "Y2-PO-2101",
+            "title": "Furniture — New Hires",
+            "category": "Furniture",
+            "requesterEmail": "vikram.shah@nexora.example",
+            "department": "Operations",
+            "estimatedCost": 62319,
+            "neededBy": "2028-03-15",
+            "justification": "Operational need: Furniture — New Hires. Approved by department head.",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/requests?pageSize=200"
+        },
+        {
+          "module": "procurement",
+          "method": "POST",
+          "path": "/api/purchase-orders",
+          "expectedStatus": 201,
+          "body": {
+            "poNumber": "PO-Y2-054",
+            "vendor": "OfficeMart India",
+            "requestRef": "$PREV.createdId",
+            "category": "Furniture",
+            "itemSummary": "Furniture — New Hires",
+            "amount": 62319,
+            "costCenter": "CC-ENG",
+            "orderDate": "2028-02-12",
+            "expectedDate": "2028-04-15",
+            "buyerEmail": "vikram.shah@nexora.example",
+            "status": "approved"
+          },
+          "verifyListPath": "/api/purchase-orders?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Purchase request Y2-PO-2101 created",
+        "PO created against request"
+      ],
+      "crossEvents": [
+        "procurement.request-created",
+        "procurement.po-created"
+      ],
+      "notifications": [
+        "Procurement team notified",
+        "Vendor notified of PO"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "HpSdvKFP0gKoDXb6uQMgYAx3pdQBuvIQd5yRPzM_leg"
+  }
+}

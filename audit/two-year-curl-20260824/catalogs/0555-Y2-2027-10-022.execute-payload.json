@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-10-022",
+    "month": "2027-10",
+    "companyTime": "2027-10-09T17:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1301 exists"
+    ],
+    "intent": "Add candidate Aditya Bhat for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Aditya Bhat",
+          "email": "aditya.bhat@example.com",
+          "phone": "+91-9043996668",
+          "locationName": "Hyderabad",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 73,
+          "skills": "Go, Customer Success, Adobe XD, Accounting, GitHub Actions",
+          "source": "referral",
+          "noticePeriodDays": 30,
+          "expectedCtc": 1350000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-1301"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Aditya Bhat added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "EpPdMsyZsZwtolZmzx_XPp6PSX1QjDaUgTxcr_G8_A8"
+}

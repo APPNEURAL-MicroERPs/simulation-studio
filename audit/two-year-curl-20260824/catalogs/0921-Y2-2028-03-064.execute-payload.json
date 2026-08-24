@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-03-064",
+    "month": "2028-03",
+    "companyTime": "2028-03-27T15:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Gaurav Kumar",
+      "Support Engineer requisition filled"
+    ],
+    "intent": "Register new employee Gaurav Kumar joining as Trainee Engineer.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-006",
+          "fullName": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "designation": "Trainee Engineer",
+          "department": "Support",
+          "location": "Hyderabad",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2028-03-27"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Gaurav Kumar registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "iCbfLUwgCwQ2H0R8urxk8tM-5tkNqtpJ3gRzc3un82Y"
+}

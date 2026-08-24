@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-036",
+    "month": "2027-12",
+    "companyTime": "2027-12-15T12:55:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1702 exists"
+    ],
+    "intent": "Add candidate Harsh Shah for Sales Executive role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Harsh Shah",
+          "email": "harsh.shah@example.com",
+          "phone": "+91-9031217987",
+          "locationName": "Chennai",
+          "currentTitle": "Associate Engineer",
+          "totalExperienceMonths": 85,
+          "skills": "Jest, Recruitment, Figma",
+          "source": "careers_site",
+          "noticePeriodDays": 30,
+          "expectedCtc": 550000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Sales Executive — Y2-REQ-1702"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Harsh Shah added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "J2vhni8D94GJBjcOOQLZbsMEf2ozojzA7_aPXS7E7AY"
+}

@@ -1,0 +1,77 @@
+{
+  "story": {
+    "id": "Y2-2027-12-026",
+    "month": "2027-12",
+    "companyTime": "2027-12-11T09:00:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "crm",
+    "preconditions": [
+      "4 active customers",
+      "Sales team operational"
+    ],
+    "intent": "New lead: Atlas Group (Healthcare) via referral — qualified to opportunity.",
+    "steps": [
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/leads",
+        "expectedStatus": 201,
+        "body": {
+          "company": "Atlas Group",
+          "contactName": "Pooja Saxena",
+          "title": "COO",
+          "email": "pooja.saxena@example.com",
+          "phone": "+91-9855537793",
+          "source": "referral",
+          "country": "India",
+          "industry": "Healthcare",
+          "companySize": "201-1000",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": 2640000,
+          "currency": "INR"
+        },
+        "verifyListPath": "/api/leads?pageSize=200"
+      },
+      {
+        "module": "crm",
+        "method": "POST",
+        "path": "/api/opportunities",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Atlas Group — ERP Implementation",
+          "code": "Y2-OPP-3304",
+          "amount": 2640000,
+          "currency": "INR",
+          "stage": "new",
+          "probability": 20,
+          "forecastCategory": "pipeline",
+          "sourceLeadId": "$PREV.createdId",
+          "expectedCloseOn": "2027-12-26",
+          "businessNeed": "Atlas Group needs scalable platform",
+          "nextAction": "Technical demo",
+          "nextActionOn": "2027-12-22"
+        },
+        "verifyListPath": "/api/opportunities?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Lead created for Atlas Group",
+      "Opportunity created from lead"
+    ],
+    "crossEvents": [
+      "crm.lead-created",
+      "crm.opportunity-created"
+    ],
+    "notifications": [
+      "Lead owner receives follow-up reminder",
+      "Opportunity added to pipeline"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "A42fTqFb_NPFXjPmNqC2S4DocUrETUFwzmLwwbVQFtQ"
+}

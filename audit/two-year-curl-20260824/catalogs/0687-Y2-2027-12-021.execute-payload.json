@@ -1,0 +1,52 @@
+{
+  "story": {
+    "id": "Y2-2027-12-021",
+    "month": "2027-12",
+    "companyTime": "2027-12-07T17:25:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "contract",
+    "preconditions": [
+      "Customer ABC Manufacturing Corp exists"
+    ],
+    "intent": "Create MSA contract with ABC Manufacturing Corp (value: 37L).",
+    "steps": [
+      {
+        "module": "contract",
+        "method": "POST",
+        "path": "/api/contracts",
+        "expectedStatus": 201,
+        "body": {
+          "contractNo": "CTR-Y2-045",
+          "title": "MSA — ABC Manufacturing Corp",
+          "counterpartyName": "ABC Manufacturing Corp",
+          "counterpartyType": "customer",
+          "contractType": "msa",
+          "ownerEmail": "karan.malhotra@nexora.example",
+          "value": "3726836",
+          "currency": "INR",
+          "startOn": "2027-12-01",
+          "endOn": "2028-07-15",
+          "status": "draft",
+          "description": "MSA for managed support with ABC Manufacturing Corp."
+        },
+        "verifyListPath": "/api/contracts?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "MSA contract created with ABC Manufacturing Corp"
+    ],
+    "crossEvents": [
+      "contract.created"
+    ],
+    "notifications": [
+      "Legal and finance notified for review"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "9JDJMmFX3-HO1lAaRiPSXVruc15ziJEspGgBDDKRnMg"
+}

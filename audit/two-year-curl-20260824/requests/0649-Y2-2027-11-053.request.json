@@ -1,0 +1,86 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-053",
+      "month": "2027-11",
+      "companyTime": "2027-11-19T11:50:00+05:30",
+      "actorId": "EMP-1001",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Company has 4 employees",
+        "Startup (38-50 employees) phase"
+      ],
+      "intent": "Open requisition for Data Engineer in Data and post job.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/requisitions",
+          "expectedStatus": 201,
+          "body": {
+            "title": "Data Engineer — Chennai",
+            "reason": "new",
+            "departmentName": "Data",
+            "locationName": "Chennai",
+            "employmentType": "full_time",
+            "openings": 1,
+            "hiringManagerEmail": "priya.sharma@nexora.example",
+            "recruiterEmail": "priya.sharma@nexora.example",
+            "targetStartOn": "2027-12-01",
+            "justification": "Hiring need driven by Startup (38-50 employees) growth phase. Department: Data.",
+            "budgetMin": 1500000,
+            "budgetMax": 2500000,
+            "currency": "INR"
+          },
+          "verifyListPath": "/api/requisitions?pageSize=200"
+        },
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/jobs",
+          "expectedStatus": 201,
+          "body": {
+            "requisitionId": "$PREV.createdId",
+            "title": "Data Engineer — Chennai",
+            "summary": "Join our Data team as a Data Engineer.",
+            "responsibilities": "Deliver high-quality work in Data; collaborate with cross-functional stakeholders.",
+            "requirements": "Python, SQL, ETL, Spark; 2+ years relevant experience.",
+            "skills": "Python, SQL, ETL, Spark",
+            "locationName": "Chennai",
+            "workMode": "hybrid",
+            "experienceMinYears": 3,
+            "experienceMaxYears": 8,
+            "channel": "agency"
+          },
+          "verifyListPath": "/api/jobs?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Requisition Y2-REQ-1505 created for Data Engineer",
+        "Job posted for Data Engineer"
+      ],
+      "crossEvents": [
+        "recruitment.requisition-created",
+        "recruitment.job-posted"
+      ],
+      "notifications": [
+        "Hiring manager notified for Data Engineer role",
+        "Job posted on recruitment channel"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "MbeMUoG_OAgWdZsXjulyJ-4FTmUzBYaEEKww0nsYTx4"
+  }
+}

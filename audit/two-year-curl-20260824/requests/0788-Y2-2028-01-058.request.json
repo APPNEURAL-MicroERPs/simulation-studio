@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-01-058",
+      "month": "2028-01",
+      "companyTime": "2028-01-21T13:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1903 exists"
+      ],
+      "intent": "Add candidate Swati Rastogi for Data Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Swati Rastogi",
+            "email": "swati.rastogi@example.com",
+            "phone": "+91-9640459126",
+            "locationName": "Chennai",
+            "currentTitle": "Consultant",
+            "totalExperienceMonths": 90,
+            "skills": "Power BI, CI/CD, MongoDB, Java, Sketch",
+            "source": "referral",
+            "noticePeriodDays": 30,
+            "expectedCtc": 900000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Data Engineer — Y2-REQ-1903"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Swati Rastogi added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "HhEXPd6gei92KnKue0DVFNHFP38lUP87L4S04zXtVCQ"
+  }
+}

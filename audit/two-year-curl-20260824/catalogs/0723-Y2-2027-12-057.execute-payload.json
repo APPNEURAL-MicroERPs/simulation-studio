@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-057",
+    "month": "2027-12",
+    "companyTime": "2027-12-22T14:05:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1705 exists"
+    ],
+    "intent": "Add candidate Pallavi Gupta for DevOps Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Pallavi Gupta",
+          "email": "pallavi.gupta@example.com",
+          "phone": "+91-9026570824",
+          "locationName": "Gurugram",
+          "currentTitle": "Senior Engineer",
+          "totalExperienceMonths": 36,
+          "skills": "Redis, Node.js, Go",
+          "source": "referral",
+          "noticePeriodDays": 15,
+          "expectedCtc": 800000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for DevOps Engineer — Y2-REQ-1705"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Pallavi Gupta added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "pg3kuvEzT3yeikRdZfC8VaIwPcv50_do03DKOCphuX0"
+}

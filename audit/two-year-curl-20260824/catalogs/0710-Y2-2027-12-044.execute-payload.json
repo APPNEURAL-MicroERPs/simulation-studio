@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2027-12-044",
+    "month": "2027-12",
+    "companyTime": "2027-12-17T10:05:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1704 exists"
+    ],
+    "intent": "Add candidate Ashish Kumar for Business Analyst role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Ashish Kumar",
+          "email": "ashish.kumar@example.com",
+          "phone": "+91-9020755604",
+          "locationName": "Noida",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 33,
+          "skills": "Go, GitHub Actions, Adobe XD, Docker, Training, HR Operations",
+          "source": "linkedin",
+          "noticePeriodDays": 30,
+          "expectedCtc": 950000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Business Analyst — Y2-REQ-1704"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Ashish Kumar added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "mfc2AbSitXS763zTg57iBOBn857BrOKiMT4m7_iBOtg"
+}

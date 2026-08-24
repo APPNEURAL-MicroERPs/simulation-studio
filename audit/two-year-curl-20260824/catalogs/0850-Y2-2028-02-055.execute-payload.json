@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-02-055",
+    "month": "2028-02",
+    "companyTime": "2028-02-21T17:50:00+05:30",
+    "actorId": "EMP-1008",
+    "actorRole": "owner",
+    "module": "hr",
+    "preconditions": [
+      "Offer accepted by Pankaj Reddy",
+      "Financial Analyst requisition filled"
+    ],
+    "intent": "Register new employee Pankaj Reddy joining as Analyst.",
+    "steps": [
+      {
+        "module": "hr",
+        "method": "POST",
+        "path": "/api/employees",
+        "expectedStatus": 201,
+        "body": {
+          "employeeCode": "EMP-Y2-006",
+          "fullName": "Pankaj Reddy",
+          "email": "pankaj.reddy@example.com",
+          "designation": "Analyst",
+          "department": "Finance",
+          "location": "Chennai",
+          "employmentType": "full_time",
+          "employmentStatus": "active",
+          "dateOfJoining": "2028-02-21"
+        },
+        "verifyListPath": "/api/employees?pageSize=500"
+      }
+    ],
+    "expectedState": [
+      "Pankaj Reddy registered as active employee"
+    ],
+    "crossEvents": [
+      "hr.employee-created",
+      "hr.employee-joined"
+    ],
+    "notifications": [
+      "Attendance, Payroll, Asset, Security receive employee.joined"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "fm3iLq-tkL4eG_JSwzneE4U2xa_1j3O5zeAsTaBcuuI"
+}

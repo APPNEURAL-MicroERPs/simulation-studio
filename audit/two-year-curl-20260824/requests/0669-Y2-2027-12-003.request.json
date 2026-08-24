@@ -1,0 +1,58 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-003",
+      "month": "2027-12",
+      "companyTime": "2027-12-02T14:30:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "resource",
+      "preconditions": [
+        "Karan Malhotra is active",
+        "Project INTERNAL-PRJ-001 is active"
+      ],
+      "intent": "Allocate Karan Malhotra to INTERNAL-PRJ-001 at 50%.",
+      "steps": [
+        {
+          "module": "resource",
+          "method": "POST",
+          "path": "/api/allocations",
+          "expectedStatus": 201,
+          "body": {
+            "allocationNo": "Y2-ALLOC-3211",
+            "resourceId": "RES-EMP-1008",
+            "employeeCode": "EMP-1008",
+            "projectId": "INTERNAL-PRJ-001",
+            "role": "Business Analyst",
+            "allocationPercent": 50,
+            "startDate": "2027-12-01",
+            "endDate": "2028-04-15"
+          },
+          "verifyListPath": "/api/allocations?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Karan Malhotra allocated to INTERNAL-PRJ-001 at 50%"
+      ],
+      "crossEvents": [
+        "resource.allocation-created"
+      ],
+      "notifications": [
+        "Employee and manager notified of allocation"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "pBC8-qjnbAkkBzLvEmQXCkQBcUOoUUqyH8XuMuucrg4"
+  }
+}

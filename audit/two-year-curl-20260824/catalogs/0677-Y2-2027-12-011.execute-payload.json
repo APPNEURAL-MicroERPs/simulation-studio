@@ -1,0 +1,70 @@
+{
+  "story": {
+    "id": "Y2-2027-12-011",
+    "month": "2027-12",
+    "companyTime": "2027-12-04T16:45:00+05:30",
+    "actorId": "EMP-1001",
+    "actorRole": "owner",
+    "module": "performance",
+    "preconditions": [
+      "4 employees active",
+      "Q4 review due"
+    ],
+    "intent": "Q4 performance cycle opened with first goal.",
+    "steps": [
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/cycles",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Q4 Review 2027",
+          "cycleType": "custom",
+          "startsOn": "2027-12-01",
+          "endsOn": "2027-12-28",
+          "ownerEmail": "priya.sharma@nexora.example",
+          "minimumServiceDays": 90
+        },
+        "verifyListPath": "/api/cycles?pageSize=200"
+      },
+      {
+        "module": "performance",
+        "method": "POST",
+        "path": "/api/goals",
+        "expectedStatus": 201,
+        "body": {
+          "title": "Q4 Reduce incident response time",
+          "description": "Performance goal for Q4 aligned with department objectives.",
+          "goalType": "individual",
+          "level": "department",
+          "ownerCode": "EMP-1007",
+          "cycle": "$PREV.createdId",
+          "weightPercent": 34,
+          "progressPercent": 0,
+          "startsOn": "2027-12-01",
+          "dueDate": "2027-12-28",
+          "status": "active"
+        },
+        "verifyListPath": "/api/goals?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Q4 performance cycle opened",
+      "Goal created for Vikram Shah"
+    ],
+    "crossEvents": [
+      "performance.cycle-opened",
+      "performance.goal-created"
+    ],
+    "notifications": [
+      "All managers notified to begin reviews",
+      "Vikram Shah notified of new goal"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "FJaQkClJGFau3yOQqf5oImMM-Gnbv1gWqvc8yE4zJwg"
+}

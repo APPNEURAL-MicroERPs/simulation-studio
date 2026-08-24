@@ -1,0 +1,59 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-027",
+      "month": "2027-10",
+      "companyTime": "2027-10-10T13:45:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "asset",
+      "preconditions": [
+        "New hire needs equipment"
+      ],
+      "intent": "Assign Company Mobile Device to Karan Malhotra.",
+      "steps": [
+        {
+          "module": "asset",
+          "method": "POST",
+          "path": "/api/assets",
+          "expectedStatus": 201,
+          "body": {
+            "assetTag": "AST-PHONE-Y2-AST-1402",
+            "name": "Company Mobile Device",
+            "serialNumber": "SN-PHONE-Y2-0056",
+            "category": "phone",
+            "model": "Company Mobile Device",
+            "status": "assigned",
+            "assignedTo": "karan.malhotra@nexora.example",
+            "location": "Gurugram",
+            "purchaseDate": "2027-10-05",
+            "purchaseCost": 41323
+          },
+          "verifyListPath": "/api/assets?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Asset AST-PHONE-Y2-AST-1402 assigned to Karan Malhotra"
+      ],
+      "crossEvents": [
+        "asset.assigned"
+      ],
+      "notifications": [
+        "Employee notified of asset assignment"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "O97OGsPgUsWSXMFidMm0mBxho8gYJXUU98UV4Rxgq6s"
+  }
+}

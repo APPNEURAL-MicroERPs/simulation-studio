@@ -1,0 +1,51 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-12-025",
+      "month": "2027-12",
+      "companyTime": "2027-12-10T13:10:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "administration",
+      "preconditions": [
+        "Office is operational"
+      ],
+      "intent": "Administration: Visitor Management — Client Visit.",
+      "steps": [
+        {
+          "module": "administration",
+          "method": "POST",
+          "path": "/api/supplies",
+          "expectedStatus": 201,
+          "body": {
+            "name": "Visitor Management — Client Visit",
+            "unit": "visit",
+            "quantity": 3,
+            "status": "low"
+          },
+          "verifyListPath": "/api/supplies?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Admin supply record created: Visitor Management — Client Visit"
+      ],
+      "crossEvents": [
+        "administration.supply-recorded"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "-k2ioQjAs-FzSg_k9qrE7Nxnjg3XHrJK5NxEqj-Qg58"
+  }
+}

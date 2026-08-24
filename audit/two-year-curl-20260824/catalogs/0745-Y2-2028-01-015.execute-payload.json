@@ -1,0 +1,48 @@
+{
+  "story": {
+    "id": "Y2-2028-01-015",
+    "month": "2028-01",
+    "companyTime": "2028-01-06T11:30:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "security",
+    "preconditions": [
+      "4 employees",
+      "27 prior security reviews"
+    ],
+    "intent": "Security review: Code Security Audit. 0 findings raised and documented.",
+    "steps": [
+      {
+        "module": "security",
+        "method": "POST",
+        "path": "/api/reviews",
+        "expectedStatus": 201,
+        "body": {
+          "name": "Code Security Audit — 2028-01",
+          "kind": "code_review",
+          "scope": "4 employees, 14 active projects, cloud infrastructure",
+          "performedOn": "2028-01-11",
+          "reviewerEmail": "sandeep.patel@nexora.example",
+          "findingsRaised": 0,
+          "status": "completed"
+        },
+        "verifyListPath": "/api/reviews?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Security review completed: Code Security Audit"
+    ],
+    "crossEvents": [
+      "security.review-completed"
+    ],
+    "notifications": [
+      "No critical findings"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "orH_ivLJD67ntt3fcsrJBCMBc6z8liD_4vRmTi1qqtE"
+}

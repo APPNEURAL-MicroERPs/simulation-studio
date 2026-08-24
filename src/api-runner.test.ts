@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { substitutePrevRefs, entityId, isDuplicateConflict } from "./api-runner";
+import { substitutePrevRefs, entityId, isDuplicateConflict, canRetryExecution } from "./api-runner";
 
 // ─── substitutePrevRefs ──────────────────────────────────────────────────────
 
@@ -142,6 +142,15 @@ test("isDuplicateConflict recognizes deterministic code_taken replays", () => {
 test("isDuplicateConflict rejects validation errors and non-conflict statuses", () => {
   assert.equal(isDuplicateConflict({ error: { code: "VALIDATION_ERROR", message: "A field is required" } }, 422), false);
   assert.equal(isDuplicateConflict({ error: { code: "DUPLICATE_EMPLOYEE" } }, 500), false);
+});
+
+test("canRetryExecution permits failed and stale running executions only", () => {
+  const now = Date.parse("2028-01-01T00:10:00.000Z");
+  assert.equal(canRetryExecution("failed", null, now), true);
+  assert.equal(canRetryExecution("running", "2028-01-01T00:00:00.000Z", now), true);
+  assert.equal(canRetryExecution("running", "2028-01-01T00:09:00.000Z", now), false);
+  assert.equal(canRetryExecution("running", null, now), false);
+  assert.equal(canRetryExecution("passed", "2028-01-01T00:00:00.000Z", now), false);
 });
 
 // ─── Execution Order Invariants ──────────────────────────────────────────────

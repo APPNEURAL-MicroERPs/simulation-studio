@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-041",
+      "month": "2027-10",
+      "companyTime": "2027-10-14T16:35:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1302 exists"
+      ],
+      "intent": "Add candidate Suresh Mehta for Product Designer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Suresh Mehta",
+            "email": "suresh.mehta@example.com",
+            "phone": "+91-9581715179",
+            "locationName": "Udaipur",
+            "currentTitle": "Engineer",
+            "totalExperienceMonths": 83,
+            "skills": "AWS, Payroll, Go, Customer Success, Training",
+            "source": "linkedin",
+            "noticePeriodDays": 0,
+            "expectedCtc": 1400000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Product Designer — Y2-REQ-1302"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Suresh Mehta added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "SwjKD8N-FEVw_GW9J7Wh9zxyd0FI6mK7GMc6bfHgODc"
+  }
+}

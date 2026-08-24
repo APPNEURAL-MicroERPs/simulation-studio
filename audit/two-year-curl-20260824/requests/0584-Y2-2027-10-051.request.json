@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-10-051",
+      "month": "2027-10",
+      "companyTime": "2027-10-18T10:10:00+05:30",
+      "actorId": "EMP-1012",
+      "actorRole": "manager",
+      "module": "recruitment",
+      "preconditions": [
+        "Requisition Y2-REQ-1303 exists"
+      ],
+      "intent": "Add candidate Pradeep Desai for Software Engineer role.",
+      "steps": [
+        {
+          "module": "recruitment",
+          "method": "POST",
+          "path": "/api/candidates",
+          "expectedStatus": 201,
+          "body": {
+            "fullName": "Pradeep Desai",
+            "email": "pradeep.desai@example.com",
+            "phone": "+91-9739901509",
+            "locationName": "Mumbai",
+            "currentTitle": "Senior Engineer",
+            "totalExperienceMonths": 35,
+            "skills": "Vitest, Redis, Jest, GraphQL, Training, GitHub Actions",
+            "source": "referral",
+            "noticePeriodDays": 30,
+            "expectedCtc": 1450000,
+            "currency": "INR",
+            "status": "active",
+            "notes": "Candidate for Software Engineer — Y2-REQ-1303"
+          },
+          "verifyListPath": "/api/candidates?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Candidate Pradeep Desai added to pipeline"
+      ],
+      "crossEvents": [
+        "recruitment.candidate-created"
+      ],
+      "notifications": [],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "8LlXFP8i2KosJjFdaWrTM6bd6tCCBXmKY5qqgcLyz7I"
+  }
+}

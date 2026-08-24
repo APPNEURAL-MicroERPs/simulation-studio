@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2027-11-045",
+      "month": "2027-11",
+      "companyTime": "2027-11-15T16:20:00+05:30",
+      "actorId": "EMP-1008",
+      "actorRole": "owner",
+      "module": "contract",
+      "preconditions": [
+        "Customer Prism Group exists"
+      ],
+      "intent": "Create SOW contract with Prism Group (value: 29L).",
+      "steps": [
+        {
+          "module": "contract",
+          "method": "POST",
+          "path": "/api/contracts",
+          "expectedStatus": 201,
+          "body": {
+            "contractNo": "CTR-Y2-043",
+            "title": "SOW — Prism Group",
+            "counterpartyName": "Prism Group",
+            "counterpartyType": "customer",
+            "contractType": "sow",
+            "ownerEmail": "karan.malhotra@nexora.example",
+            "value": "2879732",
+            "currency": "INR",
+            "startOn": "2027-11-01",
+            "endOn": "2028-06-15",
+            "status": "draft",
+            "description": "SOW for managed support with Prism Group."
+          },
+          "verifyListPath": "/api/contracts?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "SOW contract created with Prism Group"
+      ],
+      "crossEvents": [
+        "contract.created"
+      ],
+      "notifications": [
+        "Legal and finance notified for review"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "qjw8oD4o_1L0RnGITHA6e31Zo6f4LP9oGN4TvKHpgJ8"
+  }
+}

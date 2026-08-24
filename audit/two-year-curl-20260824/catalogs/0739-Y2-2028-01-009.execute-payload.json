@@ -1,0 +1,51 @@
+{
+  "story": {
+    "id": "Y2-2028-01-009",
+    "month": "2028-01",
+    "companyTime": "2028-01-05T12:35:00+05:30",
+    "actorId": "EMP-1012",
+    "actorRole": "manager",
+    "module": "recruitment",
+    "preconditions": [
+      "Requisition Y2-REQ-1901 exists"
+    ],
+    "intent": "Add candidate Shreya Tiwari for Software Engineer role.",
+    "steps": [
+      {
+        "module": "recruitment",
+        "method": "POST",
+        "path": "/api/candidates",
+        "expectedStatus": 201,
+        "body": {
+          "fullName": "Shreya Tiwari",
+          "email": "shreya.tiwari@example.com",
+          "phone": "+91-9562985966",
+          "locationName": "Mumbai",
+          "currentTitle": "Analyst",
+          "totalExperienceMonths": 102,
+          "skills": "Compliance, Terraform, Technical Support, Account Management, Excel",
+          "source": "agency",
+          "noticePeriodDays": 60,
+          "expectedCtc": 1600000,
+          "currency": "INR",
+          "status": "active",
+          "notes": "Candidate for Software Engineer — Y2-REQ-1901"
+        },
+        "verifyListPath": "/api/candidates?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Candidate Shreya Tiwari added to pipeline"
+    ],
+    "crossEvents": [
+      "recruitment.candidate-created"
+    ],
+    "notifications": [],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "-In1Uxg9fMLfP4TGYSNebbqlwAO_skRN1upKymYsn3Q"
+}

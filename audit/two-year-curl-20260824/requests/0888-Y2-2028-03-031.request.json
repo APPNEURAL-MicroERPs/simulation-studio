@@ -1,0 +1,56 @@
+{
+  "method": "POST",
+  "url": "https://simulation.erp.appneural.com/api/api-stories/year2-execute-one",
+  "headers": {
+    "authorization": "Bearer <REDACTED>",
+    "accept": "application/json",
+    "content-type": "application/json"
+  },
+  "body": {
+    "story": {
+      "id": "Y2-2028-03-031",
+      "month": "2028-03",
+      "companyTime": "2028-03-13T17:30:00+05:30",
+      "actorId": "EMP-1007",
+      "actorRole": "member",
+      "module": "expense",
+      "preconditions": [
+        "Vikram Shah is an active employee"
+      ],
+      "intent": "Vikram Shah submits expense: Phone / internet reimbursement (3K).",
+      "steps": [
+        {
+          "module": "expense",
+          "method": "POST",
+          "path": "/api/claims",
+          "expectedStatus": 201,
+          "body": {
+            "claimNo": "Y2-EXP-11504",
+            "employeeCode": "EMP-1007",
+            "employeeEmail": "vikram.shah@nexora.example",
+            "category": "other",
+            "amount": 2584,
+            "expenseDate": "2028-03-10",
+            "status": "draft"
+          },
+          "verifyListPath": "/api/claims?pageSize=200"
+        }
+      ],
+      "expectedState": [
+        "Expense Y2-EXP-11504 approved for Vikram Shah"
+      ],
+      "crossEvents": [
+        "expense.approved"
+      ],
+      "notifications": [
+        "Finance notified for reimbursement"
+      ],
+      "edgeCases": [],
+      "assertions": [
+        "api_response",
+        "entity_state"
+      ]
+    },
+    "signature": "8DBGyyFY6vusnEWPneet42JJ12ChpkCtIhHqvicW1NU"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "story": {
+    "id": "Y2-2027-12-059",
+    "month": "2027-12",
+    "companyTime": "2027-12-23T15:10:00+05:30",
+    "actorId": "EMP-1007",
+    "actorRole": "member",
+    "module": "risk",
+    "preconditions": [
+      "24 risks in register"
+    ],
+    "intent": "Risk registered: Technology stack obsolescence.",
+    "steps": [
+      {
+        "module": "risk",
+        "method": "POST",
+        "path": "/api/risks",
+        "expectedStatus": 201,
+        "body": {
+          "riskRef": "RISK-Y2-064",
+          "title": "Technology stack obsolescence",
+          "category": "technical",
+          "description": "Technology stack obsolescence. Identified during 2027-12 risk assessment. Likelihood: 2/5, Impact: 3/5. Treatment plan: transfer.",
+          "ownerEmail": "vikram.shah@nexora.example",
+          "likelihood": 2,
+          "impact": 3,
+          "treatment": "transfer",
+          "status": "assessed",
+          "reviewDue": "2027-12-26"
+        },
+        "verifyListPath": "/api/risks?pageSize=200"
+      }
+    ],
+    "expectedState": [
+      "Risk registered: Technology stack obsolescence"
+    ],
+    "crossEvents": [
+      "risk.registered"
+    ],
+    "notifications": [
+      "Risk owner notified for treatment plan"
+    ],
+    "edgeCases": [],
+    "assertions": [
+      "api_response",
+      "entity_state"
+    ]
+  },
+  "signature": "6e0IFnEBPyoNo5drwx34-iEWF54yDsFRcxBgVhJo6ME"
+}
