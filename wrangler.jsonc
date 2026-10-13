@@ -37,6 +37,7 @@
     {
       "binding": "DB",
       "database_name": "simulation-studio",
+      "database_id": "83b6003b-2fdf-485c-b1f4-ddc4b234c14d",
       "migrations_dir": "migrations"
     }
   ],
